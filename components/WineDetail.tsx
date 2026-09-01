@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import {
@@ -64,10 +64,6 @@ export default function WineDetail({
 
   /* Escape closes, and the panel takes focus on open so a keyboard user
      lands inside it rather than back at the top of the grid. */
-  /* document.body does not exist while rendering on the server. */
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-
   useEffect(() => {
     /* preventScroll, because focusing an element scrolls it into view and
        this one is a tall panel in a fixed overlay - the browser was
@@ -98,8 +94,6 @@ export default function WineDetail({
      translate on <main>, and the overlay stopped being 100vh and started
      being the full height of the page, 8000px down. Portalling to body
      means no ancestor can do that again, whatever gets styled later. */
-  if (!mounted) return null;
-
   return createPortal(
     <div
       className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-6"
