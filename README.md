@@ -90,4 +90,36 @@ reading times and part order are all derived rather than typed: see
 `scripts/renumber-chapters.mjs` and `scripts/reading-times.mjs`, which read
 the order out of `lib/content/course.ts` and `lib/content/parts.ts`.
 
+## Deploying
+
+The build is a static export - no server, no API routes, nothing rendered
+per request - so `npm run build` writes a plain `out/` that any host will
+serve.
+
+It goes to Cloudflare Pages at <https://cellar.pi.co.nz>. Connect the repo
+in the Cloudflare dashboard and it builds on push:
+
+| | |
+|---|---|
+| Build command | `npm run build` |
+| Output directory | `out` |
+| Node version | 20 or newer |
+
+Building from the repo rather than from a working copy is deliberate: two
+design previews in `public/` are git-ignored, so a repo build leaves them
+out and a local one would ship them.
+
+To push a build by hand instead:
+
+```bash
+npx wrangler login
+```
+
+```bash
+npm run deploy
+```
+
+`public/_redirects` maps the chapter slugs that changed when the chapters
+were merged onto their current addresses.
+
 What is still to do is in [ROADMAP.md](ROADMAP.md).
