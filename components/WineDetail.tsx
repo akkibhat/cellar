@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import {
   LEVEL_NOTE,
@@ -63,8 +64,16 @@ export default function WineDetail({
 
   /* Escape closes, and the panel takes focus on open so a keyboard user
      lands inside it rather than back at the top of the grid. */
+  /* document.body does not exist while rendering on the server. */
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   useEffect(() => {
-    panel.current?.focus();
+    /* preventScroll, because focusing an element scrolls it into view and
+       this one is a tall panel in a fixed overlay - the browser was
+       scrolling the page behind it to reach something already on screen,
+       so opening the first card jumped the grid to the middle. */
+    panel.current?.focus({ preventScroll: true });
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
@@ -82,7 +91,16 @@ export default function WineDetail({
     };
   }, []);
 
-  return (
+  /* Rendered into <body> rather than where it sits in the tree.
+     A `fixed` element resolves against the viewport only while no ancestor
+     has a transform, filter, contain or translate - any of which silently
+     makes itself the containing block. The page-arrival animation put a
+     translate on <main>, and the overlay stopped being 100vh and started
+     being the full height of the page, 8000px down. Portalling to body
+     means no ancestor can do that again, whatever gets styled later. */
+  if (!mounted) return null;
+
+  return createPortal(
     <div
       className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-6"
       style={{ background: 'rgba(0, 0, 0, 0.45)' }}
@@ -312,7 +330,8 @@ export default function WineDetail({
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 

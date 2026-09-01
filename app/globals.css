@@ -721,16 +721,23 @@ body {
 @keyframes page-in {
   from {
     opacity: 0;
-    transform: translateY(6px);
+    translate: 0 6px;
   }
   to {
     opacity: 1;
-    transform: none;
+    translate: none;
   }
 }
 
+/* `translate` rather than `transform`, and no fill mode.
+   A transformed element becomes the containing block for any `fixed`
+   descendant, so animating transform on <main> quietly broke the bottle
+   panel: its `fixed inset-0` overlay resolved against <main> instead of
+   the viewport and rendered 8000px down the page. The independent
+   `translate` property does the same visual job, and dropping the fill
+   means nothing is left applied once the page has arrived. */
 .page-in {
-  animation: page-in var(--m-settle) var(--ease) both;
+  animation: page-in var(--m-settle) var(--ease);
 }
 
 /* The aroma wheel's wedges are buttons and looked like a chart.
