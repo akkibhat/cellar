@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start -p 3007",
     "lint": "eslint",
-    "deploy": "next build && wrangler pages deploy out --project-name=cellar"
+    "deploy": "next build && wrangler deploy"
   },
   "dependencies": {
     "next": "16.3.1",

@@ -1,0 +1,21 @@
+{
+  // Cloudflare Workers, serving the static export.
+  //
+  // There is no `main`, so this is a pure static-assets Worker: no script
+  // runs, Cloudflare just serves what `next build` wrote into out/. If
+  // something dynamic is ever needed - a form handler, an endpoint that
+  // reads the cellar live - it attaches here rather than needing a move.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "cellar",
+  "compatibility_date": "2026-09-01",
+
+  "assets": {
+    "directory": "./out",
+
+    // Routes are directories with an index.html, because next.config.ts
+    // sets trailingSlash. `404-page` makes anything unmatched fall to
+    // out/404.html, which is the site's own not-found page rather than
+    // Cloudflare's.
+    "not_found_handling": "404-page"
+  }
+}
