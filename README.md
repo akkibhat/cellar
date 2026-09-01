@@ -124,5 +124,5 @@ There is none: the slugs that changed during drafting were never published,
 so nothing has ever pointed at them.
 
 How the marks, palette, naming and voice were arrived at - and what lost -
-is in [DESIGN.md](DESIGN.md). What is still to do is in
-[ROADMAP.md](ROADMAP.md).
+is at `/design`, which draws the rejected marks rather than describing them.
+What is still to do is in [ROADMAP.md](ROADMAP.md).

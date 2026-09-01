@@ -104,7 +104,11 @@ export default function Shell({ children }: { children: React.ReactNode }) {
      so the chapter sidebar beside it would be furniture belonging to
      something else. It keeps the bar across the top, which is how you
      leave. */
-  if (pathname.startsWith('/cellar') || pathname === '/brand') {
+  /* trailingSlash is on, so a route arrives as "/brand/" and an equality
+     test against "/brand" silently never matches. Compare on the trimmed
+     path. */
+  const route = pathname.replace(/\/+$/, '') || '/';
+  if (route.startsWith('/cellar') || route === '/brand' || route === '/design') {
     return (
       <>
         <CellarNav />
