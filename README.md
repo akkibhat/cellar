@@ -119,7 +119,8 @@ npx wrangler login
 npm run deploy
 ```
 
-`public/_redirects` maps the chapter slugs that changed when the chapters
-were merged onto their current addresses.
+Pages supports a `public/_redirects` file if an address ever needs to move.
+There is none: the slugs that changed during drafting were never published,
+so nothing has ever pointed at them.
 
 What is still to do is in [ROADMAP.md](ROADMAP.md).
