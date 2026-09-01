@@ -123,4 +123,6 @@ Pages supports a `public/_redirects` file if an address ever needs to move.
 There is none: the slugs that changed during drafting were never published,
 so nothing has ever pointed at them.
 
-What is still to do is in [ROADMAP.md](ROADMAP.md).
+How the marks, palette, naming and voice were arrived at - and what lost -
+is in [DESIGN.md](DESIGN.md). What is still to do is in
+[ROADMAP.md](ROADMAP.md).
