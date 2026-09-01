@@ -1,0 +1,766 @@
+@import "tailwindcss";
+
+/* =====================================================================
+   THE NOTEBOOK DESIGN SYSTEM
+
+   The visual language is a kept journal: warm paper, ink, wine stains,
+   handwritten headings. The application furniture - sidebar, stepper,
+   chips, sliders - is rendered in that same language rather than in
+   standard UI chrome, so the tools feel like part of the notebook
+   instead of a panel bolted onto it.
+
+   Two themes. Light is paper in daylight. Dark is the same notebook
+   under a lamp: a deep warm brown ground with aged-parchment ink, which
+   keeps the warmth rather than flipping to the usual cold grey.
+   ===================================================================== */
+
+@theme {
+  /* Typefaces are injected by next/font in app/layout.tsx, which sets
+     --font-hand and --font-body on :root as CSS variables. */
+  --font-hand: var(--font-caveat), ui-rounded, cursive;
+  --font-body: var(--font-crimson), Georgia, serif;
+  --font-brand: var(--font-wordmark), Georgia, serif;
+  /* The interface face. Was the bare system stack, which rendered as a
+     different typeface per platform; now specified like the other three. */
+  --font-ui: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* =====================================================================
+   TYPE SCALE
+
+   Before this existed the codebase carried 29 distinct font sizes,
+   fourteen of them between 0.8 and 1.05rem — 0.80, 0.82, 0.83, 0.85,
+   0.86, 0.88, 0.90, 0.92, 0.94, 0.95, 0.97, 1.00, 1.02, 1.05. Fourteen
+   values doing one job, separated by amounts nobody can perceive.
+
+   The steps below are deliberately set close to what was already in use,
+   so adopting them is a consolidation rather than a redesign: almost
+   nothing should visibly move. The three crowded bands collapse to
+   --t-caption, --t-ui and --t-base.
+
+   Sizes are in rem against a 16px root. Body text renders at 18px.
+
+   The bottom of the scale was raised after seeing it rendered. The floor
+   had been 10.9px for small-caps labels and 13.1px for chips and
+   captions, which is small enough to be a genuine accessibility problem
+   rather than a stylistic choice - and small-caps at 10.9px is the size
+   the interface uses most. The four interface steps moved up to 12.5,
+   14.4, 16.0 and 17.0px. Nothing above --t-body changed.
+   ===================================================================== */
+:root {
+  --t-micro:    0.78rem;   /* 12.5px  small-caps labels, eyebrows       */
+  --t-caption:  0.9rem;    /* 14.4px  captions, aliases, chips          */
+  --t-ui:       1rem;      /* 16.0px  buttons, nav, secondary text      */
+  --t-base:     1.0625rem; /* 17.0px  dense body - cards, notes         */
+  --t-body:     1.125rem;  /* 18.0px  chapter prose. The default.        */
+  --t-lead:     1.2rem;    /* 19.2px  standfirsts, pull quotes          */
+  --t-h3:       1.5rem;    /* 24.0px  sub-headings                      */
+  --t-h2:       1.875rem;  /* 30.0px  section headings                  */
+  --t-h1:       2.6rem;    /* 41.6px  chapter titles                     */
+  --t-display:  3.4rem;    /* 54.4px  page titles                       */
+  --t-hero:     4.6rem;    /* 73.6px  landing only                      */
+
+  /* Line heights, paired to the steps above. Tight for display, open
+     for prose, middling for interface text. */
+  --lh-tight:   1.08;
+  --lh-heading: 1.2;
+  --lh-ui:      1.45;
+  --lh-body:    1.65;
+
+  /* The reading measure — about 68 characters. Body text never exceeds
+     it, whatever the container is doing. */
+  --measure:    34rem;
+}
+
+/* Utility classes, so a size is named at the call site rather than
+   guessed. Each carries its paired line height. */
+.t-micro   { font-size: var(--t-micro);   line-height: var(--lh-ui); }
+.t-caption { font-size: var(--t-caption); line-height: var(--lh-ui); }
+.t-ui      { font-size: var(--t-ui);      line-height: var(--lh-ui); }
+.t-base    { font-size: var(--t-base);    line-height: var(--lh-body); }
+.t-body    { font-size: var(--t-body);    line-height: var(--lh-body); }
+.t-lead    { font-size: var(--t-lead);    line-height: var(--lh-ui); }
+.t-h3      { font-size: var(--t-h3);      line-height: var(--lh-heading); }
+.t-h2      { font-size: var(--t-h2);      line-height: var(--lh-heading); }
+.t-h1      { font-size: var(--t-h1);      line-height: var(--lh-tight); }
+.t-display { font-size: var(--t-display); line-height: var(--lh-tight); }
+.t-hero    { font-size: var(--t-hero);    line-height: var(--lh-tight); }
+
+/* ---------------------------------------------------------------------
+   Tabular numerals.
+
+   Any column of figures — hectares, caudalies, contrast ratios, scores,
+   meter values — needs digits of equal width or the columns wobble.
+   Nothing used this before.
+   --------------------------------------------------------------------- */
+.nums { font-variant-numeric: tabular-nums; }
+
+/* =====================================================================
+   SPACING SCALE
+
+   Spacing was already on Tailwind's 0.25rem scale and mostly disciplined
+   — only two arbitrary values in the whole codebase. What it lacked was
+   a rhythm: nineteen steps in use, including 7, 9, 11 and 14, which sit
+   between the others for no reason.
+
+   Sanctioned steps below. The half-steps survive because at small sizes
+   a 10px gap really is different from 8 or 12; above 4 the scale opens
+   out and the halves stop earning their place.
+   ===================================================================== */
+:root {
+  --s-hair:  0.125rem;  /*  2px  hairline nudges          — Tailwind 0.5 */
+  --s-3xs:   0.25rem;   /*  4px                           — 1            */
+  --s-2xs:   0.375rem;  /*  6px                           — 1.5          */
+  --s-xs:    0.5rem;    /*  8px  inside a chip            — 2            */
+  --s-sm:    0.625rem;  /* 10px                           — 2.5          */
+  --s-md:    0.75rem;   /* 12px  between related items    — 3            */
+  --s-lg:    0.875rem;  /* 14px                           — 3.5          */
+  --s-xl:    1rem;      /* 16px  card padding             — 4            */
+  --s-2xl:   1.25rem;   /* 20px                           — 5            */
+  --s-3xl:   1.5rem;    /* 24px  between blocks           — 6            */
+  --s-4xl:   2rem;      /* 32px                           — 8            */
+  --s-5xl:   2.5rem;    /* 40px                           — 10           */
+  --s-6xl:   3rem;      /* 48px  between sections         — 12           */
+  --s-7xl:   4rem;      /* 64px  page gutters, part breaks— 16           */
+}
+
+/* =====================================================================
+   AROMA FAMILIES
+
+   Six categorical fills for the wheel and the tasting chips. The set that
+   was here before predated the Southern palette and had only ever been
+   checked against the old warm paper: on the night ground fruity measured
+   2.76:1 and smoky 1.85:1, so two of six were effectively invisible.
+
+   Each colour carries three constraints at once, because each is a fill
+   with a pale label sitting on it:
+
+     fill vs limestone   >= 3:1
+     fill vs night       >= 3:1
+     label on the fill   >= 4.5:1
+
+   Solving those together brackets the luminance to 0.127-0.174, so all
+   six are derived at a single target luminance and differ only in hue.
+   That is the right shape for categorical colour — a family that is
+   heavier than its neighbours reads as more important than them — and it
+   means one value works on both grounds, so there is no dark variant.
+   ===================================================================== */
+:root {
+  --aroma-fruity:   #c63548;  /* berry            4.37 / 3.43 / 4.82 */
+  --aroma-vegetal:  #387a32;  /* leaf             4.38 / 3.43 / 4.82 */
+  --aroma-woody:    #985e2c;  /* bark and oak     4.41 / 3.40 / 4.86 */
+  --aroma-mineral:  #3f7194;  /* wet slate        4.38 / 3.43 / 4.82 */
+  --aroma-smoky:    #885b9a;  /* purpled grey     4.37 / 3.44 / 4.81 */
+  --aroma-balsamic: #6e7023;  /* resin, herb      4.37 / 3.43 / 4.82 */
+
+  /* The label that sits on top of every one of them. */
+  --aroma-label:    #f8f5ee;
+}
+
+/* =====================================================================
+   SEMANTIC COLOUR
+
+   Distinct from the brand accents on purpose. Garnet is the primary and
+   is used for headings, links and the mark, so it cannot also mean
+   "error" — the two readings would collide on every page. Alert is a
+   vermilion, far enough round the wheel to be separable from garnet.
+
+   All four are text weights, so they clear 4.5:1 on their own ground.
+   Where one is used as a fill instead, the same colour is safe: a fill
+   needs only 3:1 and these already exceed it.
+   ===================================================================== */
+:root {
+  --ok:       #2c5d52;   /* 6.27:1  saved, confirmed, drinking well  */
+  --caution:  #89632c;   /* 4.51:1  drink soon, approaching a limit  */
+  --alert:    #a33a22;   /* 5.50:1  failed, past it, over a limit    */
+  --info:     #3e6f91;   /* 4.51:1  neutral notices                  */
+}
+
+/* =====================================================================
+   MOTION
+
+   Four durations, one easing. The product is a reading surface, so
+   motion's job is to confirm that something responded — never to
+   entertain, and never to make the reader wait.
+
+   Everything is suppressed under prefers-reduced-motion further down.
+   ===================================================================== */
+:root {
+  --m-instant: 0.09s;  /* hover, focus, chip toggles — must feel free  */
+  --m-quick:   0.14s;  /* buttons, selections, small state changes     */
+  --m-settle:  0.24s;  /* panels opening, content swapping             */
+  --m-slow:    0.5s;   /* progress bars, values counting up            */
+
+  /* One curve. Fast out of the gate, gentle at rest, which reads as
+     responsive rather than springy. */
+  --ease: cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+/* ---------------------------------------------------------------------
+   The wordmark. Deliberately not the handwriting face: the brand needs to
+   stand steady beside a solid mark, while the chapter headings stay
+   handwritten. Brand is steady, content is a notebook.
+   --------------------------------------------------------------------- */
+.wordmark {
+  font-family: var(--font-brand);
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+/* ---------------------------------------------------------------------
+   Palette — "Southern"
+
+   Named for the ground New Zealand actually grows wine on rather than for
+   hues, which makes the names arguable and therefore useful.
+
+   Two values were corrected against measured contrast rather than chosen
+   by eye:
+
+     - Tussock is 2.84:1 on limestone, which fails WCAG for text — and
+       tussock was what every small-caps label and value used. It now
+       splits: --tussock is a fill only, --tussock-deep is the text weight
+       at 4.51:1.
+     - The old faint grey was 2.37:1 while carrying real content (grape
+       aliases, captions). Darkened to --scree at 4.52:1.
+
+   The older semantic names are kept as aliases, so the components carry
+   on working while they migrate to the geological ones.
+   --------------------------------------------------------------------- */
+:root {
+  /* Ground — Waipara and Waitaki limestone */
+  --limestone:        #efeae0;
+  --limestone-raised: #f8f5ee;
+  --limestone-sunk:   #e3ddd0;
+
+  /* Ink — Central Otago rock */
+  --schist:           #22262b;   /* 12.69:1  AAA                        */
+  --schist-soft:      #5f666d;   /*  4.85:1  AA                         */
+  --scree:            #636b72;   /*  4.52:1  AA   (was 2.37, failing)   */
+
+  /* Accents */
+  --garnet:           #78202f;   /*  8.56:1  AAA  primary               */
+  --pounamu:          #2c5d52;   /*  6.27:1  AA   secondary             */
+  --tussock:          #b3823a;   /*  2.84:1  FILL ONLY — never text     */
+  --tussock-deep:     #89632c;   /*  4.51:1  AA   the text weight       */
+
+  /* Hairlines — pale volcanic stone */
+  --pumice:           #cdc6b7;
+  --pumice-strong:    #a79e8c;
+
+  /* ---- Aliases the components already use ------------------------- */
+  --paper:        var(--limestone);
+  --paper-raised: var(--limestone-raised);
+  --paper-sunk:   var(--limestone-sunk);
+  --ink:          var(--schist);
+  --ink-soft:     var(--schist-soft);
+  --ink-faint:    var(--scree);
+  --wine:         var(--garnet);
+  --wine-bright:  #96324a;
+  --gold:         var(--tussock-deep);   /* the text weight, not the fill */
+  --rule:         var(--pumice);
+  --rule-strong:  var(--pumice-strong);
+  --stain:        rgba(120, 32, 47, 0.12);
+  --shadow:       rgba(34, 38, 43, 0.10);
+
+  /* ---- The mark --------------------------------------------------- */
+  /* The book mark draws a cover and an open page, so it carries both
+     accents. The door mark is one shape and takes the page colour alone.
+     Green is therefore the thing only the book has, and at sidebar size -
+     where the two silhouettes are nearly identical - it is what tells them
+     apart.
+
+     The wordmark's suffix stays garnet on both, rather than following the
+     cover, so "book" and "door" read as the same word ending twice.
+
+     --logo-cover needs no dark-mode value: pounamu already has one and
+     this reference picks it up. */
+  --logo-cover:   var(--pounamu);        /* the cover, and the spine    */
+  --logo-page:    var(--garnet);         /* the open page               */
+  --logo-word:    var(--garnet);         /* same value; garnet passes   */
+  --logo-door:    var(--pounamu);        /* the door, and its suffix    */
+
+  /* The height of the section bar. Declared here rather than measured,
+     because the course sidebar sticks directly beneath it and the two
+     numbers have to agree; CellarNav sets its own height from this, so
+     there is one value rather than a guess in each file. */
+  --nav-h: 3.7rem;
+
+  color-scheme: light;
+}
+
+/* System preference, unless an explicit light choice is stamped on. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    /* Night — the same rock after dark */
+    --limestone:        #14171a;
+    --limestone-raised: #1d2126;
+    --limestone-sunk:   #0e1114;
+
+    --schist:           #e9e3d6;   /* 14.07:1  AAA  bone on night       */
+    --schist-soft:      #97a0a8;   /*  6.78:1  AA                       */
+    --scree:            #7b848c;   /*  4.9:1   AA                       */
+
+    --garnet:           #d2576c;   /*  4.56:1  AA  deeper than the      */
+                               /*  usual lifted pink; full garnet   */
+                               /*  #78202F is 1.75:1 and vanishes   */
+    --pounamu:          #6aab99;   /*  6.77:1  AA                       */
+    --tussock:          #d7a95e;   /*  8.33:1  AAA — passes, so the     */
+    --tussock-deep:     #d7a95e;   /*  same value serves fill and text  */
+
+    --pumice:           #333a41;
+    --pumice-strong:    #4d555d;
+
+    --wine-bright:      #e07d90;
+    --stain:            rgba(210, 87, 108, 0.15);
+    --shadow:           rgba(0, 0, 0, 0.45);
+
+    /* The mark's page runs deeper than text is allowed to: 3.02:1 clears
+       the 3:1 WCAG asks of a graphic, but not the 4.5:1 it asks of text.
+       So in dark mode alone the page and the wordmark diverge. */
+    --logo-page:    #b63147;
+    --logo-word:    var(--garnet);
+
+    /* Semantic, lifted for the dark ground. The aroma families are not
+       repeated here: they were solved to clear both grounds at one value. */
+    --ok:       #6aab99;   /* 6.77:1 */
+    --caution:  #d7a95e;   /* 8.33:1 */
+    --alert:    #e8836a;   /* 6.76:1 */
+    --info:     #7fb0d1;   /* 7.74:1 */
+
+    color-scheme: dark;
+  }
+}
+
+/* Explicit dark choice wins in both directions. */
+:root[data-theme='dark'] {
+    /* Night — the same rock after dark */
+  --limestone:        #14171a;
+  --limestone-raised: #1d2126;
+  --limestone-sunk:   #0e1114;
+
+  --schist:           #e9e3d6;   /* 14.07:1  AAA  bone on night       */
+  --schist-soft:      #97a0a8;   /*  6.78:1  AA                       */
+  --scree:            #7b848c;   /*  4.9:1   AA                       */
+
+  --garnet:           #d2576c;   /*  4.56:1  AA  deeper than the      */
+                               /*  usual lifted pink; full garnet   */
+                               /*  #78202F is 1.75:1 and vanishes   */
+  --pounamu:          #6aab99;   /*  6.77:1  AA                       */
+  --tussock:          #d7a95e;   /*  8.33:1  AAA — passes, so the     */
+  --tussock-deep:     #d7a95e;   /*  same value serves fill and text  */
+
+  --pumice:           #333a41;
+  --pumice-strong:    #4d555d;
+
+  --wine-bright:      #e07d90;
+  --stain:            rgba(210, 87, 108, 0.15);
+  --shadow:           rgba(0, 0, 0, 0.45);
+
+  /* The mark's page runs deeper than text is allowed to: 3.02:1 clears
+     the 3:1 WCAG asks of a graphic, but not the 4.5:1 it asks of text.
+     So in dark mode alone the page and the wordmark diverge. */
+  --logo-page:    #b63147;
+  --logo-word:    var(--garnet);
+
+  /* Semantic, lifted for the dark ground. The aroma families are not
+     repeated here: they were solved to clear both grounds at one value. */
+  --ok:       #6aab99;   /* 6.77:1 */
+  --caution:  #d7a95e;   /* 8.33:1 */
+  --alert:    #e8836a;   /* 6.76:1 */
+  --info:     #7fb0d1;   /* 7.74:1 */
+
+  color-scheme: dark;
+}
+
+/* ---------------------------------------------------------------------
+   Base document
+   --------------------------------------------------------------------- */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  /* Paper fibre. An inline SVG turbulence filter, so no asset request. */
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+}
+
+/* The noise texture is far too strong over a dark ground. */
+:root[data-theme='dark'] body { background-blend-mode: overlay; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) body { background-blend-mode: overlay; }
+}
+
+::selection {
+  background: var(--stain);
+  color: var(--ink);
+}
+
+/* ---------------------------------------------------------------------
+   Handwriting headings, with a wobbly hand-drawn underline
+   --------------------------------------------------------------------- */
+.hand {
+  font-family: var(--font-hand);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.05;
+}
+
+/* The SVG rule that sits under a title. Drawn once in a component and
+   coloured from here so it follows the theme. */
+.hand-rule path {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+/* Reads the section accent when a page sets one (see lib/config.ts),
+   so the Cellar's rules come out pounamu rather than garnet. Falls
+   back to wine, which is what every other call site gets. */
+.hand-rule.accent path { stroke: var(--accent, var(--wine)); }
+
+/* ---------------------------------------------------------------------
+   Prose. Applied to the rendered chapter body.
+   --------------------------------------------------------------------- */
+.prose-paper p {
+  margin: 0 0 1.05rem;
+  max-width: var(--measure);
+}
+.prose-paper strong {
+  font-weight: 600;
+  color: var(--ink);
+  /* A faint highlighter wash rather than a heavier weight alone. */
+  background: linear-gradient(transparent 62%, var(--stain) 62%);
+}
+.prose-paper em { font-style: italic; }
+
+.prose-paper a {
+  color: var(--wine);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.prose-paper a:hover { background: var(--stain); }
+
+/* The opening paragraph of a chapter gets a hand-lettered drop cap. */
+.dropcap::first-letter {
+  font-family: var(--font-hand);
+  font-size: 3.4em;
+  float: left;
+  line-height: 0.76;
+  padding: 0.12em 0.1em 0 0;
+  color: var(--wine);
+}
+
+/* ---------------------------------------------------------------------
+   Paper surfaces
+   --------------------------------------------------------------------- */
+
+/* An index card tipped into the notebook. */
+.card {
+  background: var(--paper-raised);
+  border: 1px solid var(--rule);
+  box-shadow: 3px 4px 0 var(--shadow);
+}
+
+/* A well sunk into the page - sidebars, inset panels. */
+.sunk {
+  background: var(--paper-sunk);
+  border-color: var(--rule);
+}
+
+/* An aside written on tinted paper and pinned in. */
+.note-block {
+  background: var(--paper-raised);
+  border-left: 3px solid var(--wine);
+  box-shadow: 2px 3px 0 var(--shadow);
+}
+
+/* Something not yet settled. Dashed rather than solid on purpose: the
+   border itself should read as provisional, which is the one thing a
+   note's firm left rule cannot say. */
+.unsure-block {
+  background: color-mix(in srgb, var(--caution) 6%, var(--paper-raised));
+  border: 1px dashed var(--caution);
+}
+
+/* ---------------------------------------------------------------------
+   Wine stains. Decorative only, and hidden from assistive technology at
+   the call site.
+   --------------------------------------------------------------------- */
+.stain-ring {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(
+    circle,
+    transparent 0 58%,
+    var(--stain) 60% 72%,
+    transparent 74%
+  );
+}
+.stain-drop {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  background: var(--stain);
+}
+
+/* ---------------------------------------------------------------------
+   Controls, drawn as ink rather than as system widgets
+   --------------------------------------------------------------------- */
+
+/* Toggleable chips: an ink outline that fills with wine when selected. */
+.chip {
+  font-family: var(--font-ui);
+  font-size: var(--t-caption);
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--rule-strong);
+  color: var(--ink-soft);
+  background: transparent;
+  cursor: pointer;
+  transition: all var(--m-quick) var(--ease);
+  line-height: 1.4;
+}
+.chip:hover {
+  border-color: var(--ink-soft);
+  color: var(--ink);
+}
+.chip[aria-pressed='true'] {
+  background: var(--wine);
+  border-color: var(--wine);
+  color: var(--paper-raised);
+  font-weight: 500;
+}
+
+/* Range inputs redrawn as an ink line with a wine-drop thumb. */
+.ink-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--rule-strong);
+  cursor: pointer;
+}
+.ink-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: var(--wine);
+  border: 2px solid var(--paper);
+  box-shadow: 0 1px 2px var(--shadow);
+}
+.ink-range::-moz-range-thumb {
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: var(--wine);
+  border: 2px solid var(--paper);
+}
+.ink-range:focus-visible { outline: 2px solid var(--wine); outline-offset: 4px; }
+
+/* Buttons. */
+.btn {
+  font-family: var(--font-ui);
+  font-size: var(--t-ui);
+  font-weight: 500;
+  padding: 0.5rem 1.1rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition: all var(--m-quick) var(--ease);
+}
+.btn:hover { background: var(--paper-raised); border-color: var(--ink-soft); }
+.btn-primary {
+  background: var(--wine);
+  border-color: var(--wine);
+  color: var(--paper-raised);
+}
+.btn-primary:hover {
+  background: var(--wine-bright);
+  border-color: var(--wine-bright);
+  color: var(--paper-raised);
+}
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* Text inputs, drawn as a ruled line rather than a box. */
+.ink-input {
+  font-family: var(--font-body);
+  font-size: var(--t-base);
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--rule-strong);
+  padding: 0.35rem 0.1rem;
+  width: 100%;
+}
+.ink-input::placeholder { color: var(--ink-faint); font-style: italic; }
+.ink-input:focus { outline: none; border-bottom-color: var(--wine); }
+
+/* Small uppercase labels used for annotations and eyebrows. */
+.label-ui {
+  font-family: var(--font-ui);
+  font-size: var(--t-micro);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  color: var(--ink-soft);
+}
+
+/* ---------------------------------------------------------------------
+   Tables, set as ruled ledger rows rather than boxed grids
+   --------------------------------------------------------------------- */
+.ledger {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--t-ui);
+  /* Columns of figures need equal-width digits or they wobble. */
+  font-variant-numeric: tabular-nums;
+}
+.ledger th {
+  font-family: var(--font-ui);
+  font-size: var(--t-micro);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--wine);
+  text-align: left;
+  padding: 0 0.9rem 0.5rem 0;
+  border-bottom: 1.5px solid var(--rule-strong);
+  vertical-align: bottom;
+}
+.ledger td {
+  padding: 0.6rem 0.9rem 0.6rem 0;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+.ledger tr:last-child td { border-bottom: 0; }
+.ledger td:last-child, .ledger th:last-child { padding-right: 0; }
+
+/* ---------------------------------------------------------------------
+   Meters, used for the grape structure bars
+   --------------------------------------------------------------------- */
+.meter { display: flex; gap: 3px; font-variant-numeric: tabular-nums; }
+.meter span {
+  width: 15px; height: 5px; border-radius: 1px;
+  background: var(--rule);
+}
+.meter span.on { background: var(--wine); }
+
+/* ---------------------------------------------------------------------
+   Utility
+   --------------------------------------------------------------------- */
+.rule-h { border: 0; border-top: 1px solid var(--rule); margin: 2rem 0; }
+
+/* ---------------------------------------------------------------------
+   The fermentation diagram's rising gas (components/Fermentation.tsx).
+
+   Decoration only. The diagram draws a static pair of bubbles as well, so
+   the reduced-motion rule below can freeze this to nothing without taking
+   any of the meaning with it.
+   --------------------------------------------------------------------- */
+@keyframes ferment-drift {
+  from { transform: translateY(0);     opacity: 0; }
+  20%  {                               opacity: 0.9; }
+  to   { transform: translateY(-46px); opacity: 0; }
+}
+.ferment-drift { animation: ferment-drift 3.3s linear infinite; }
+
+/* Respect a user's motion preference throughout. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Keyboard focus is always visible, in wine rather than the browser blue. */
+:focus-visible {
+  outline: 2px solid var(--wine);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* The way back from a tool embedded in a chapter to its own page. Quiet
+   until hovered, because it is an offer rather than an instruction. */
+.tool-home {
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule-strong);
+  transition: color var(--m-quick) var(--ease),
+              border-color var(--m-quick) var(--ease);
+}
+.tool-home:hover {
+  color: var(--wine) !important;
+  border-color: var(--wine);
+}
+
+/* Page transitions.
+
+   Keyed on the pathname in Shell, so React replaces the <main> on every
+   navigation and the animation runs again. It is a short rise and fade
+   rather than a slide: the sidebar and masthead stay put across a
+   navigation, so anything larger would make the page look like it was
+   moving relative to furniture that is not.
+
+   The reduced-motion block at the end of this file already collapses every
+   duration to nothing, so this needs no guard of its own. */
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.page-in {
+  animation: page-in var(--m-settle) var(--ease) both;
+}
+
+/* The aroma wheel's wedges are buttons and looked like a chart.
+
+   The families that are not selected sit back, so the wheel shows its own
+   state rather than relying on a stroke width nobody reads as selection.
+   Dimming is applied to the whole group - wedge and label together - which
+   is what makes it safe: an earlier attempt lightened only the fill, and
+   the pale label left on top of it stopped clearing contrast. Fading both
+   at once leaves their relationship untouched.
+
+   Hovering an unselected family brings it back to full, so pointing at one
+   previews what choosing it would do. */
+.aroma-family {
+  transition: opacity var(--m-quick) var(--ease);
+}
+.aroma-family:not(.is-active) {
+  opacity: 0.4;
+}
+.aroma-family:not(.is-active):hover {
+  opacity: 1;
+}
+/* A wedge is a wedge, but an outline is drawn around its bounding box, so
+   focusing one puts a rounded rectangle across the wheel. Suppress the box
+   on both states and mark keyboard focus on the shape itself. */
+.aroma-wedge:focus,
+.aroma-wedge:focus-visible {
+  outline: none;
+}
+.aroma-wedge:focus-visible {
+  stroke: var(--ink);
+  stroke-width: 3;
+}

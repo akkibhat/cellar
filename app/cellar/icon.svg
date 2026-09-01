@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Cellardoor">
+  <!--
+    The Cellardoor mark as this half's icon, overriding app/icon.svg for
+    every route under /cellar.
+
+    The arch whole rather than split, with a bottle punched through it as
+    a real hole - so the tile shows through and the silhouette reads as
+    an absence, the way it does everywhere else in the app.
+
+    One bottle, not two. doorHoles() drops to a single silhouette below
+    24px, and this renders 12px tall in a 16px tab; two would merge.
+  -->
+  <rect width="64" height="64" rx="10" fill="#efeae0"/>
+  <g transform="translate(14 8) scale(0.3)">
+    <path fill-rule="evenodd" fill="#2c5d52"
+          d="M15,150 V65 A45,45 0 0 1 105,65 V150 Z M45,150 V100 q0,-9 9.3,-13 v-13 h11.4 v13 q9.3,4 9.3,13 V150 Z"/>
+  </g>
+</svg>

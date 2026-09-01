@@ -1,0 +1,40 @@
+import type { Metadata } from 'next';
+import TemperatureGuide from '@/components/TemperatureGuide';
+import PageHeader from '@/components/PageHeader';
+
+export const metadata: Metadata = {
+  title: 'Serving temperature',
+  description:
+    'Every style on one scale, and why the fridge and a heated room are both wrong.',
+};
+
+export default function TemperaturePage() {
+  return (
+    <div className="relative mx-auto max-w-[50rem] px-6 sm:px-10 lg:px-12 py-12 lg:py-16">
+      <span
+        className="stain-ring"
+        style={{ width: 170, height: 170, top: 18, right: 10 }}
+        aria-hidden="true"
+      />
+      <PageHeader
+        eyebrow="Every style · one scale"
+        title="Serving temperature"
+        standfirst="The cheapest improvement available to any bottle you already own, and the one most people get wrong in both directions."
+        ruleWidth={280}
+      />
+      <TemperatureGuide />
+
+      <div className="note-block px-5 py-4 mt-8 max-w-[36rem]">
+        <p className="hand t-h3 mb-1" style={{ color: 'var(--wine)' }}>
+          The 20 minute rule
+        </p>
+        <p className="!mb-0 t-ui">
+          Both common mistakes have the same fix, 20 minutes before you pour:
+          put the red somewhere cooler and the white somewhere warmer. A
+          heated house sits near 22&nbsp;&deg;C and the fridge near 4, and
+          almost nothing wants to be served at either.
+        </p>
+      </div>
+    </div>
+  );
+}

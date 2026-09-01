@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Cellarbook">
+  <!--
+    The Cellarbook mark as the site icon.
+
+    Micro-tier geometry: no spine, and the split carried by the single
+    wide gap. Scaled so the mark stands 48 of the tile's 64 units, which
+    renders it 12px tall in a 16px tab - exactly the mark's minimum size,
+    where that gap measures 1.05px and still reads.
+
+    The tile is here because a favicon is the one place the mark cannot
+    choose its own ground: browsers set it behind the icon and it may be
+    light or dark. Garnet is 1.75:1 on a near-black tab bar, so a
+    transparent icon would lose the page half entirely. Limestone gives
+    the mark the surface it is drawn for, and the colours are fixed
+    rather than tokens because an icon has no stylesheet.
+  -->
+  <rect width="64" height="64" rx="10" fill="#efeae0"/>
+  <g transform="translate(14 8) scale(0.3)">
+    <path d="M15,150 V65 A45,45 0 0 1 52,20.4 V143 Z" fill="#2c5d52"/>
+    <path d="M105,150 V72 A38,38 0 0 0 66,34 V150 Z" fill="#78202f"/>
+  </g>
+</svg>

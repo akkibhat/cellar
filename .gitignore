@@ -1,0 +1,26 @@
+node_modules
+.next
+out
+build
+.DS_Store
+*.pem
+npm-debug.log*
+.env*
+!.env.example
+next-env.d.ts
+.vercel
+*.tsbuildinfo
+
+# Viewing copy of a _previews document, served so its JS runs.
+public/lockup-motion.html
+public/akkis-lockup.html
+
+# Working documents: the chapter export, the marked-up review copies and the
+# design explorations. All either generated or scratch, and the export is
+# reproduced by `node scripts/export-chapters.mjs`.
+_previews/
+
+# The bottle shots at full size, 5.7 MB of source for 302 KB of built WebP.
+# public/bottles/ is what ships; these are the originals, kept locally and
+# reprocessed with scripts/optimise-bottles.py when one is recut.
+_bottles/
