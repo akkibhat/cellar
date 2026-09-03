@@ -20,6 +20,46 @@ import { LOCKUP } from '@/lib/mark';
  * whole map, because the whole site is only three places deep.
  */
 
+/* Nav glyph size. The lift below is derived from it, so they cannot
+   disagree the way two hardcoded 17s eventually would. */
+const GLYPH = 19;
+
+/**
+ * Home, as a glyph.
+ *
+ * Deliberately a pitched roof rather than an arch. The other two links
+ * wear arch marks, and an arch here would read as a third brand sitting
+ * next to the two real ones - worse, as a second door. A plain house is
+ * interface furniture, which is what this link is.
+ *
+ * Same 24 box, 1.7 stroke and round caps as the theme switch, so the two
+ * drawn things in the bar are drawn the same way.
+ */
+function HomeIcon({ size = GLYPH }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.7"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      style={{ flex: 'none' }}
+    >
+      {/* Roof, eaves overhanging the walls by a little so it reads as a
+          roof and not as a triangle balanced on a box. */}
+      <path d="M3.1 10.9 12 3.6l8.9 7.3" />
+      {/* Walls, stopping under the eaves. */}
+      <path d="M5.4 9.1v11.3h13.2V9.1" />
+      {/* The door. Squared off, again to stay clear of the arch. */}
+      <path d="M9.9 20.4v-5.1h4.2v5.1" />
+    </svg>
+  );
+}
+
 /* Book before door, matching the front door, where Cellarbook is the
    left-hand card. The two orders disagreeing made the pair feel like two
    lists rather than one. */
@@ -31,6 +71,10 @@ const LINKS = [
 
 export default function CellarNav() {
   const pathname = usePathname();
+  /* trailingSlash: true means this arrives as '/course/', so comparing it
+     to '/course' never matched and only Cellardoor - which tests with
+     startsWith - ever lit up. Normalise once, here. */
+  const route = pathname.replace(/\/+$/, '') || '/';
 
   return (
     <nav
@@ -45,8 +89,8 @@ export default function CellarNav() {
              exact match. */
           const active =
             l.href === '/cellar'
-              ? pathname.startsWith('/cellar')
-              : pathname === l.href;
+              ? route.startsWith('/cellar')
+              : route === l.href;
 
           /* The mark colours itself from its variant, so the bar only
              needs the accent for the word beside it. */
@@ -64,13 +108,15 @@ export default function CellarNav() {
                 color: active ? 'var(--ink)' : 'var(--ink-soft)',
               }}
             >
-              {l.variant && (
+              {l.variant ? (
                 <LogoMark
-                  size={17}
+                  size={GLYPH}
                   variant={l.variant}
                   decorative
-                  style={{ transform: `translateY(${-17 * LOCKUP.lift}px)` }}
+                  style={{ transform: `translateY(${-GLYPH * LOCKUP.lift}px)` }}
                 />
+              ) : (
+                <HomeIcon />
               )}
               {/* The two halves wear their wordmark here as everywhere
                   else; Home is interface, so it stays in the UI face.

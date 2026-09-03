@@ -165,7 +165,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
           <Link
             href="/course"
             className="block"
-            aria-label="Home"
+            aria-label="Cellarbook contents"
             style={{
               ['--logo-word' as string]: here.accent,
               ['--logo-page' as string]: here.accent,
