@@ -1,9 +1,12 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { CHAPTERS, findChapter, neighbours } from '@/lib/content/course';
+import { CHAPTERS, chaptersInPart, findChapter, neighbours } from '@/lib/content/course';
 import { findPart } from '@/lib/content/parts';
 import ChapterBody from '@/components/ChapterBody';
 import ChapterFooter from '@/components/ChapterFooter';
+import ChapterOpener from '@/components/ChapterOpener';
+import ChapterRail from '@/components/ChapterRail';
+import { headingsOf } from '@/lib/headings';
 import Quiz from '@/components/Quiz';
 import { QUIZZES_ENABLED } from '@/lib/config';
 
@@ -35,48 +38,50 @@ export default async function ChapterPage({
   const part = findPart(mod.part);
   const { prev, next } = neighbours(slug);
 
+  const siblings = chaptersInPart(mod.part).map((c) => ({
+    slug: c.slug,
+    title: c.title,
+  }));
+
   return (
-    <article className="relative mx-auto max-w-[46rem] px-6 sm:px-10 lg:px-12 py-12 lg:py-16">
-      {/* Decorative stains, positioned off the text column. */}
+    <article>
+      {/* ---- Opener ---------------------------------------------- */}
+      <ChapterOpener
+        partSlug={mod.part}
+        numeral={part?.numeral}
+        partTitle={part?.title}
+        title={mod.title}
+        standfirst={mod.standfirst}
+        minutes={mod.minutes}
+      />
 
-      {/* ---- Header --------------------------------------------- */}
-      <header className="mb-8">
-        {/* The reading time stays - it is a courtesy, and says what you
-            are in for. The lesson number does not: "Chapter 12" made each
-            one a scheduled unit of a syllabus rather than something
-            written on a subject. */}
-        <p className="label-ui mb-2">
-          {part && `Part ${part.numeral} · ${part.title} · `}
-          {mod.minutes} min
-        </p>
+      <div className="chapter-grid">
+        <ChapterRail
+          headings={headingsOf(mod.body)}
+          siblings={siblings}
+          currentSlug={mod.slug}
+          partTitle={part?.title}
+        />
 
-        <h1 className="hand t-h1 sm:t-display leading-[1.02] mb-1">
-          {mod.title}
-        </h1>
+        <div className="chapter-main">
+          {/* ---- Body ---------------------------------------------- */}
+          <ChapterBody body={mod.body} />
 
-        <p
-          className="t-lead italic leading-relaxed mt-5 max-w-[33rem]"
-          style={{ color: 'var(--ink-soft)' }}
-        >
-          {mod.standfirst}
-        </p>
-      </header>
+          {/* ---- Questions, currently parked ----------------------- *
+           * The questions are still authored on every chapter; they are
+           * simply not shown while this is a reading resource rather than
+           * a test. Flip QUIZZES_ENABLED in lib/config.ts to bring them
+           * back.                                                        */}
+          {QUIZZES_ENABLED && mod.quiz && mod.quiz.length > 0 && (
+            <Quiz slug={mod.slug} questions={mod.quiz} />
+          )}
 
-      <hr className="rule-h" />
-
-      {/* ---- Body ------------------------------------------------ */}
-      <ChapterBody body={mod.body} />
-
-      {/* ---- Questions, currently parked -------------------------- *
-       * The questions are still authored on every chapter; they are
-       * simply not shown while this is a reading resource rather than a
-       * test. Flip QUIZZES_ENABLED in lib/config.ts to bring them back.  */}
-      {QUIZZES_ENABLED && mod.quiz && mod.quiz.length > 0 && (
-        <Quiz slug={mod.slug} questions={mod.quiz} />
-      )}
-
-      {/* ---- Footer ---------------------------------------------- */}
-      <ChapterFooter slug={mod.slug} prev={prev} next={next} />
+          {/* ---- Footer -------------------------------------------- */}
+          <div className="chapter-foot">
+            <ChapterFooter slug={mod.slug} prev={prev} next={next} />
+          </div>
+        </div>
+      </div>
     </article>
   );
 }

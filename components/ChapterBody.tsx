@@ -1,33 +1,100 @@
 import type { Block } from '@/lib/types';
 import { inline } from '@/lib/markup';
 import EmbeddedTool from './EmbeddedTool';
+import Link from 'next/link';
+import { GLOSSARY } from '@/lib/glossary';
+import { headingsOf } from '@/lib/headings';
 
 /**
  * Renders a chapter's body: an ordered list of blocks, each mapped to its
  * own presentation. Keeping this in one place means the authoring format
  * stays small and every chapter looks consistent.
  */
+/** The glossary entry a bold phrase names, if it names one. */
+function termFor(phrase: string) {
+  const k = phrase.trim().toLowerCase();
+  return GLOSSARY.find((t) => t.term.toLowerCase() === k);
+}
+
+/**
+ * For each paragraph, the one glossary term to set in the margin beside
+ * it: the first bold phrase that is a glossary entry and has not already
+ * had a note earlier in the chapter. One note per paragraph and one per
+ * term keeps the margin a few quiet asides rather than a second text.
+ */
+function marginNotes(body: Block[]): Map<number, ReturnType<typeof termFor>> {
+  const used = new Set<string>();
+  const out = new Map<number, ReturnType<typeof termFor>>();
+  body.forEach((block, i) => {
+    if (block.kind !== 'p') return;
+    for (const m of block.text.matchAll(/\*\*(.+?)\*\*/g)) {
+      const t = termFor(m[1]);
+      if (t && !used.has(t.slug)) {
+        used.add(t.slug);
+        out.set(i, t);
+        break;
+      }
+    }
+  });
+  return out;
+}
+
 export default function ChapterBody({ body }: { body: Block[] }) {
+  const ids = headingsOf(body);
+  const notes = marginNotes(body);
+  let h = -1;
+
   return (
-    <div className="prose-paper">
-      {body.map((block, i) => (
-        <BlockView key={i} block={block} index={i} />
-      ))}
+    <div className="prose-paper chapter-prose">
+      {body.map((block, i) => {
+        if (block.kind === 'h') h += 1;
+        return (
+          <BlockView
+            key={i}
+            block={block}
+            index={i}
+            headingId={block.kind === 'h' ? ids[h]?.id : undefined}
+            note={notes.get(i)}
+          />
+        );
+      })}
     </div>
   );
 }
 
-function BlockView({ block, index }: { block: Block; index: number }) {
+function BlockView({
+  block,
+  index,
+  headingId,
+  note,
+}: {
+  block: Block;
+  index: number;
+  headingId?: string;
+  note?: ReturnType<typeof termFor>;
+}) {
   switch (block.kind) {
     /* -------------------------------------------------------------- */
     case 'p':
+      if (note) {
+        return (
+          <div className="chap-row">
+            <p>{inline(block.text)}</p>
+            <aside className="margin-note">
+              <strong>{note.term}</strong>
+              {note.definition}{' '}
+              <Link href={`/glossary#${note.slug}`}>In the glossary</Link>
+            </aside>
+          </div>
+        );
+      }
       return <p>{inline(block.text)}</p>;
 
     /* -------------------------------------------------------------- */
     case 'h':
       return (
         <div className="mt-8 mb-3">
-          <h2 className="hand t-h2 mb-1">{block.text}</h2>
+          <h2 id={headingId} className="hand t-h2 mb-1 scroll-mt-24">{block.text}</h2>
           {/* Alternate the rule shape so repeated headings do not look stamped. */}
         </div>
       );
@@ -80,7 +147,7 @@ function BlockView({ block, index }: { block: Block; index: number }) {
     /* -------------------------------------------------------------- */
     case 'note':
       return (
-        <aside className="note-block my-6 px-5 py-4 max-w-[36rem]">
+        <aside className="note-block chap-wide my-6 px-5 py-4">
           {block.title && (
             <p className="hand t-h3 mb-1" style={{ color: 'var(--wine)' }}>
               {block.title}
@@ -93,7 +160,7 @@ function BlockView({ block, index }: { block: Block; index: number }) {
     /* -------------------------------------------------------------- */
     case 'unsure':
       return (
-        <aside className="unsure-block my-6 px-5 py-4 max-w-[36rem]">
+        <aside className="unsure-block chap-wide my-6 px-5 py-4">
           {/* The marker is always shown, with any title appended, so the
               signal cannot be lost behind a specific heading. */}
           <p className="label-ui mb-2" style={{ color: 'var(--caution)' }}>
@@ -126,7 +193,7 @@ function BlockView({ block, index }: { block: Block; index: number }) {
     /* -------------------------------------------------------------- */
     case 'table':
       return (
-        <div className="my-6 max-w-[40rem] overflow-x-auto">
+        <div className="chap-wide my-6 overflow-x-auto">
           <table className="ledger">
             <thead>
               <tr>
@@ -150,7 +217,11 @@ function BlockView({ block, index }: { block: Block; index: number }) {
 
     /* -------------------------------------------------------------- */
     case 'tool':
-      return <EmbeddedTool tool={block.tool} only={block.only} />;
+      return (
+        <div className="chap-wide">
+          <EmbeddedTool tool={block.tool} only={block.only} />
+        </div>
+      );
 
     /* -------------------------------------------------------------- */
     default:

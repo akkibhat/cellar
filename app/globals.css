@@ -1112,3 +1112,152 @@ body {
   background: var(--wine);
   color: var(--paper-raised);
 }
+
+
+/* =====================================================================
+   THE CHAPTER PAGE
+
+   An opener in the part's colours, then a three-column reading layout:
+   the rail on the left, the prose in the middle at a reading measure, and
+   a margin on the right for asides. Tables, figures and notes run across
+   the middle and the margin together so they have room. Below 74rem the
+   rail and the margin fold into the flow of the page.
+   ===================================================================== */
+.opener {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(9rem, 24%);
+}
+.opener__main {
+  padding: clamp(2.5rem, 6vw, 5.5rem) clamp(1.25rem, 3vw, 3rem) clamp(2rem, 4vw, 3.5rem);
+}
+.opener__title {
+  font-family: var(--font-wordmark), Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(3rem, 9vw, 8.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  overflow-wrap: anywhere;
+}
+.opener__stand {
+  margin-top: 1.4rem;
+  max-width: 34ch;
+  font-size: clamp(1.15rem, 1.9vw, 1.6rem);
+  line-height: 1.4;
+  font-style: italic;
+}
+.opener__side {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.3rem;
+  padding: 1.5rem clamp(1rem, 2vw, 2rem);
+  font-family: var(--font-archivo), system-ui, sans-serif;
+}
+.opener__numeral {
+  font-family: var(--font-wordmark), Georgia, serif;
+  font-size: clamp(3.5rem, 9vw, 8rem);
+  line-height: 0.85;
+}
+.opener__part { font-size: 1.05rem; font-weight: 500; }
+.opener__min { font-size: 0.95rem; opacity: 0.85; }
+
+.chapter-grid {
+  display: grid;
+  grid-template-columns: 13rem minmax(0, 1fr);
+  column-gap: 3.5rem;
+  max-width: 82rem;
+  margin-inline: auto;
+  padding: 3rem clamp(1.25rem, 3vw, 3rem) 6rem;
+}
+.chapter-prose {
+  display: grid;
+  grid-template-columns: minmax(0, 40rem) minmax(0, 15rem);
+  column-gap: 3.5rem;
+}
+.chapter-prose > * { grid-column: 1; }
+.chapter-prose > .chap-row,
+.chapter-prose > .chap-wide {
+  grid-column: 1 / -1;
+}
+.chap-row {
+  display: grid;
+  grid-template-columns: minmax(0, 40rem) minmax(0, 15rem);
+  column-gap: 3.5rem;
+}
+.chap-row > p { grid-column: 1; }
+.margin-note {
+  grid-column: 2;
+  align-self: start;
+  margin-top: 0.35rem;
+  padding-left: 0.9rem;
+  border-left: 3px solid var(--tint-white);
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+.margin-note strong {
+  display: block;
+  margin-bottom: 0.2rem;
+  color: var(--ink);
+  font-weight: 500;
+}
+.margin-note a { color: var(--wine); text-decoration: underline; text-underline-offset: 3px; }
+.chap-wide { max-width: 58rem; }
+.chapter-foot { max-width: 40rem; }
+
+.rail {
+  position: sticky;
+  top: calc(var(--nav-h) + 1.5rem);
+  align-self: start;
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  font-size: 0.95rem;
+}
+.rail ul { list-style: none; margin: 0; padding: 0; }
+.rail__label {
+  margin: 0 0 0.6rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--ink-faint);
+}
+.rail__label--gap { margin-top: 2rem; }
+.rail__link {
+  display: block;
+  padding: 0.4rem 0 0.4rem 0.9rem;
+  color: var(--ink-soft);
+  border-left: 3px solid transparent;
+  text-decoration: none;
+  line-height: 1.35;
+}
+.rail__link:hover { color: var(--ink); }
+.rail__link[aria-current='location'] {
+  color: var(--ink);
+  font-weight: 500;
+  border-left-color: var(--wine);
+}
+.rail__all {
+  display: inline-block;
+  margin-top: 1.75rem;
+  color: var(--wine);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+@media (max-width: 74rem) {
+  .chapter-grid { grid-template-columns: minmax(0, 1fr); }
+  .rail { position: static; margin-bottom: 2.5rem; max-width: 40rem; }
+  /* The other chapters of the part are on the previous/next links at the
+     foot; on a narrow screen they would push the text a screen down. */
+  .rail__sibs { display: none; }
+  .chapter-prose,
+  .chap-row { grid-template-columns: minmax(0, 40rem); }
+  .chapter-prose > .chap-row,
+  .chapter-prose > .chap-wide { grid-column: 1; }
+  .margin-note { grid-column: 1; margin: -0.4rem 0 1.4rem; }
+}
+@media (max-width: 40rem) {
+  .opener { grid-template-columns: 1fr; }
+  .opener__side { flex-direction: row; align-items: baseline; gap: 0.9rem; padding: 0.9rem 1.25rem; }
+  .opener__numeral { font-size: 2.2rem; }
+  .rail__link { padding-block: 0.55rem; }
+}
