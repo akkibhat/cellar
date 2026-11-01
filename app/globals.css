@@ -1031,3 +1031,26 @@ body {
 .grape-band:hover {
   background: color-mix(in srgb, var(--tint) 16%, var(--paper));
 }
+
+/* The section bar on a phone. Home, both halves and the theme switch come
+   to a little over 390px at their desktop padding, so the switch ran off
+   the edge and the whole page scrolled sideways. Tighter padding, and the
+   Home label drops to icon only (still read out to a screen reader). */
+@media (max-width: 30rem) {
+  nav[aria-label='Sections'] > div {
+    padding-inline: 0.75rem;
+    gap: 0;
+  }
+  nav[aria-label='Sections'] a {
+    padding-inline: 0.5rem;
+    gap: 0.35rem;
+  }
+  nav[aria-label='Sections'] a[href='/'] > span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+}
