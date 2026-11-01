@@ -1,8 +1,7 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type ReactNode } from 'react';
 import WineDetail from './WineDetail';
-import { tintOf } from '@/lib/wineTint';
 import {
   CELLAR,
   TASTED,
@@ -11,48 +10,38 @@ import {
   photoFor,
   placeOf,
   stars,
-  statusFor,
-  STATUS_SHORT,
-  STATUS_COLOUR,
   type CellarWine,
 } from '@/lib/cellar';
 
-/* The year the windows are judged against. Read once so every card on the
-   page agrees, rather than each asking the clock separately. */
-const YEAR = new Date().getFullYear();
-
 /**
- * The wines, as a grid of cards.
+ * The cellar, set as a shelf.
  *
- * An earlier version drew this as a wall of vaulted bins, which was the
- * wrong picture: it represented physical storage that does not exist, so
- * the bins could not mean anything and their numbering promised an order
- * there was none of. This is a collection rather than a cellar - what has
- * been drunk and what was thought of it - and a collection is looked at
- * rather than navigated.
+ * Every wine stands at full height on a band in the colour of what is in
+ * it: reds on garnet, whites on straw, and the rosé and sweet wines on
+ * blush. It reads like a wine rack, and the colour of the wine is the
+ * structure of the page rather than a tint behind a card.
  *
- * Owned and drunk are one list with a filter, because two bottles on
- * their own read as an empty page and "what have I had" is a single
- * question.
+ * An earlier version was a grid of identical cards, small photographs in a
+ * narrow column. The photograph is the best thing here, so the card has
+ * gone: the bottle stands on the band at a size you can read the label,
+ * with its name, producer and vintage beneath it, and opens into the same
+ * panel as before.
  *
- * The photograph is the card. An earlier version drew a filled silhouette
- * for a bottle still here and an outlined one for a bottle drunk, which
- * worked only for as long as there were no photographs: you cannot hollow
- * out a photograph. So it moved to a pill over the image.
+ * The two bottles still in the cellar carry a "Still here" tag, and the
+ * filter above narrows the shelf to them or to the tasted ones; a band
+ * with nothing left in it is not drawn.
  *
- * The pill says one thing: still here, or drunk. It used to carry the
- * drinking window instead - "drink up", "too young" - which is a lot of
- * state to read across a grid, applies to two of the twenty-three cards,
- * and competed with the section accent for the same green. A window is a
- * reason to open something rather than a fact about it, so it belongs in
- * the panel where that is being decided.
+ * Where there is no photograph yet, the bottle silhouette stands in at the
+ * same height, coloured by what was in it. That is not decoration filling
+ * a hole - it still carries the one fact a glance should give you.
+ *
+ * `children` is the page's own introduction, set beside the filter in the
+ * head, so the filter and the words that explain it sit together.
  */
 
 type Filter = 'all' | 'cellar' | 'tasted';
 
-/* Bottle glass, by wine. Deliberately outside the token set: these read
-   as the colour of the liquid rather than as brand, and this is the only
-   place in the app where that is true. */
+/** What the bottle silhouette is filled with when there is no photograph. */
 const GLASS: Record<CellarWine['type'], string> = {
   red: '#6d1f2b',
   white: '#c8a33f',
@@ -67,7 +56,40 @@ const BOTTLE = 'M4,70 V30 C4,26 8,24 8,20 V6 h8 V20 C16,24 20,26 20,30 V70 Z';
 
 type Entry = { wine: CellarWine; drunk: boolean };
 
-export default function CellarGrid() {
+/**
+ * The bands, in shelf order. Reds and whites are the two the cellar is
+ * mostly made of and get a band each; everything else (rosé, sweet,
+ * sparkling, fortified) shares the third, named from whatever is in it.
+ * Colours are fixed on purpose: they are the wine, so they do not follow
+ * the light or dark theme the way the paper does.
+ */
+const BANDS: {
+  key: 'red' | 'white' | 'other';
+  bg: string;
+  ink: string;
+  tint: 'red' | 'white' | 'rose';
+  match: (t: CellarWine['type']) => boolean;
+}[] = [
+  { key: 'red', bg: '#5b1a2a', ink: '#e6d79a', tint: 'red', match: (t) => t === 'red' },
+  { key: 'white', bg: '#e6d79a', ink: '#5b1a2a', tint: 'white', match: (t) => t === 'white' },
+  { key: 'other', bg: '#e8b7ae', ink: '#5b1a2a', tint: 'rose', match: (t) => t !== 'red' && t !== 'white' },
+];
+
+/** "Rosé and sweet": the third band's name, from what is actually in it. */
+function otherLabel(entries: Entry[]): string {
+  const kinds = [...new Set(entries.map((e) => TYPE_LABEL[e.wine.type]))];
+  return kinds.map((k, i) => (i === 0 ? k : k.toLowerCase())).join(' and ');
+}
+
+/** The places in a band, in order of first appearance, for its caption. */
+function placesLine(entries: Entry[]): string {
+  const places = [
+    ...new Set(entries.map((e) => placeOf(e.wine)).filter((p): p is string => Boolean(p))),
+  ];
+  return places.slice(0, 5).join(', ');
+}
+
+export default function CellarGrid({ children }: { children?: ReactNode }) {
   const [filter, setFilter] = useState<Filter>('all');
   const [open, setOpen] = useState<Entry | null>(null);
 
@@ -88,25 +110,61 @@ export default function CellarGrid() {
 
   return (
     <>
-      <div className="flex flex-wrap gap-x-3 gap-y-1 mb-6">
-        <Chip on={filter === 'all'} onClick={() => setFilter('all')}>
-          Everything &middot; {all.length}
-        </Chip>
-        <Chip on={filter === 'cellar'} onClick={() => setFilter('cellar')}>
-          Still here &middot; {CELLAR.length}
-        </Chip>
-        <Chip on={filter === 'tasted'} onClick={() => setFilter('tasted')}>
-          Tasted &middot; {TASTED.length}
-        </Chip>
-      </div>
+      {/* ---- The head ------------------------------------------- */}
+      <header className="index-head">
+        <h1 className="index-title">
+          Cellar<span style={{ color: 'var(--logo-door)' }}>door</span>
+        </h1>
+        <div className="index-intro">
+          {children}
+          <div className="index-tools">
+            <Chip on={filter === 'all'} onClick={() => setFilter('all')}>
+              Everything &middot; {all.length}
+            </Chip>
+            <Chip on={filter === 'cellar'} onClick={() => setFilter('cellar')}>
+              Still here &middot; {CELLAR.length}
+            </Chip>
+            <Chip on={filter === 'tasted'} onClick={() => setFilter('tasted')}>
+              Tasted &middot; {TASTED.length}
+            </Chip>
+          </div>
+        </div>
+      </header>
 
-      <ul className="grid grid-cols-1 min-[26rem]:grid-cols-2 lg:grid-cols-3 gap-3">
-        {shown.map((x, i) => (
-          <li key={`${fullName(x.wine)}-${x.wine.vintage}-${i}`}>
-            <WineCard entry={x} onOpen={() => setOpen(x)} />
-          </li>
-        ))}
-      </ul>
+      {/* ---- The shelf ------------------------------------------ */}
+      {BANDS.map((band) => {
+        const here = shown.filter((x) => band.match(x.wine.type));
+        if (here.length === 0) return null;
+        const label =
+          band.key === 'red' ? 'Reds' : band.key === 'white' ? 'Whites' : otherLabel(here);
+
+        return (
+          <section
+            key={band.key}
+            className="shelf"
+            aria-labelledby={`shelf-${band.key}`}
+            data-wine={band.tint}
+          >
+            <div className="shelf__head" style={{ background: band.bg, color: band.ink }}>
+              <span className="shelf__numeral" aria-hidden="true">
+                {here.length}
+              </span>
+              <h2 id={`shelf-${band.key}`} className="shelf__title">
+                {label}
+              </h2>
+              <p className="shelf__blurb">{placesLine(here)}</p>
+            </div>
+
+            <ul className="shelf__row" style={{ borderBottomColor: band.bg }}>
+              {here.map((x, i) => (
+                <li key={`${fullName(x.wine)}-${x.wine.vintage}-${i}`}>
+                  <Bottle entry={x} onOpen={() => setOpen(x)} />
+                </li>
+              ))}
+            </ul>
+          </section>
+        );
+      })}
 
       {open && (
         <WineDetail
@@ -120,138 +178,47 @@ export default function CellarGrid() {
 }
 
 /**
- * One wine.
+ * One bottle on the shelf: the photograph, then what it is.
  *
- * Where there is no photograph yet, the bottle silhouette stands in,
- * coloured by what was in it. That is not decoration filling a hole - it
- * still carries the one fact a glance should give you, which is what kind
- * of wine it was.
+ * The name is the wine's, with the producer and vintage under it, which is
+ * the order a label reads in. The rating, where there is one, sits last
+ * and an unrated wine simply has no line, since five empty pips read as a
+ * score of nought.
  */
-function WineCard({ entry, onOpen }: { entry: Entry; onOpen: () => void }) {
+function Bottle({ entry, onOpen }: { entry: Entry; onOpen: () => void }) {
   const { wine, drunk } = entry;
-  const colour = GLASS[wine.type];
   const photo = photoFor(wine);
-
-  /* For a bottle already drunk, the shelf fact is all there is to say. For
-     one still here, where it sits in its drinking window is the more useful
-     answer - it is the thing that should make you act, and it was only
-     visible after opening the panel. */
-  const status = drunk ? null : statusFor(wine, YEAR);
-  const pill =
-    drunk || !status || status === 'unknown'
-      ? { text: drunk ? 'Tasted' : 'Still here', colour: drunk ? 'var(--ink-faint)' : 'var(--accent)' }
-      : { text: STATUS_SHORT[status], colour: STATUS_COLOUR[status] };
+  /* The wine's own name, not fullName: that prefixes the producer, which
+     the line beneath already gives, so the two read as one repeated label.
+     A wine named the same as its producer (a château's own wine) shows once. */
+  const name = wine.wine;
+  const byline = wine.producer !== wine.wine ? wine.producer : '';
 
   return (
-    <button
-      onClick={onOpen}
-      className="card h-full w-full flex flex-col overflow-hidden text-left"
-    >
-      {/* ---- The picture -------------------------------------- */}
-      <div
-        className="relative w-full wine-plate"
-        data-wine={tintOf(wine.type)}
-        style={{
-          aspectRatio: '3 / 4',
-          borderBottom: '1px solid var(--rule)',
-        }}
-      >
-        {photo ? (
-          /* eslint-disable-next-line @next/next/no-img-element */
-          <img
-            src={photo}
-            alt={`${fullName(wine)} bottle`}
-            loading="lazy"
-            className="absolute inset-0 h-full w-full"
-            style={{ objectFit: 'contain', padding: '8%' }}
-          />
-        ) : (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <svg
-              width={34}
-              height={102}
-              viewBox="0 0 24 72"
-              aria-hidden="true"
-              style={{ display: 'block', maxHeight: '70%' }}
-            >
-              <path d={BOTTLE} fill={colour} />
-            </svg>
-          </div>
-        )}
-
-        {/* It rides over the image, because the image is the card now and
-            there is no longer a silhouette to hollow out. */}
-        <span
-          className="label-ui absolute top-2 left-2 px-2 py-0.5"
-          style={{
-            background: 'var(--paper-raised)',
-            color: pill.colour,
-            fontSize: '0.62rem',
-            letterSpacing: '0.1em',
-          }}
+    <button onClick={onOpen} className="bottle" aria-label={`${name}${wine.vintage ? ' ' + wine.vintage : ''}, open details`}>
+      {photo ? (
+        /* eslint-disable-next-line @next/next/no-img-element */
+        <img src={photo} alt="" loading="lazy" className="bottle__img" />
+      ) : (
+        <svg
+          className="bottle__img bottle__img--blank"
+          viewBox="0 0 24 72"
+          aria-hidden="true"
         >
-          {pill.text}
+          <path d={BOTTLE} fill={GLASS[wine.type]} />
+        </svg>
+      )}
+
+      {!drunk && <span className="bottle__tag">Still here</span>}
+      <span className="bottle__name">{name}</span>
+      <span className="bottle__sub">
+        {[byline, wine.vintage].filter(Boolean).join(' ')}
+      </span>
+      {wine.rating !== undefined && (
+        <span className="bottle__stars nums" title={`${wine.rating} out of 5`}>
+          {stars(wine.rating)}
         </span>
-      </div>
-
-      {/* ---- The facts ---------------------------------------- */}
-      <div className="px-3.5 py-3 flex flex-col flex-1">
-        <p className="t-base leading-tight">
-          {fullName(wine)}
-          {wine.vintage && <span className="nums"> {wine.vintage}</span>}
-        </p>
-
-        {/* The type already had a colour - GLASS, which until now only
-            tinted the silhouette drawn when a bottle has no photograph.
-            Carried onto the card it sorts the grid by eye, and it sits on
-            the type rather than on the whole card so a wall of reds does
-            not turn into a wall of red. */}
-        <p className="t-caption mt-1" style={{ color: 'var(--ink-soft)' }}>
-          {/* Inline rather than a flex child: as a flex child it centred on
-              the whole wrapped block and floated between lines. In the text
-              flow it sits on the first line, where it belongs. */}
-          <span
-            aria-hidden="true"
-            className="rounded-full"
-            style={{
-              display: 'inline-block',
-              width: 7,
-              height: 7,
-              marginRight: 6,
-              verticalAlign: '0.08em',
-              background: colour,
-            }}
-          />
-          {[TYPE_LABEL[wine.type], placeOf(wine)].filter(Boolean).join(' · ')}
-        </p>
-
-        {wine.grapes?.length ? (
-          <p className="t-caption" style={{ color: 'var(--ink-faint)' }}>
-            {wine.grapes.join(', ')}
-          </p>
-        ) : null}
-
-        {/* Pushed to the bottom so the cards' bottom lines agree even
-            when names run to different depths. */}
-        <div className="mt-auto pt-2.5">
-          {/* An unrated wine gets blank space rather than five empty
-              pips, which read as a score of nought out of five. The
-              height is held so the cards' bottom lines still agree. */}
-          {wine.rating !== undefined ? (
-            <p
-              className="t-caption nums"
-              style={{ color: 'var(--gold)', letterSpacing: '0.08em' }}
-              title={`${wine.rating} out of 5`}
-            >
-              {stars(wine.rating)}
-            </p>
-          ) : (
-            <p className="t-caption" aria-hidden="true">
-              &nbsp;
-            </p>
-          )}
-        </div>
-      </div>
+      )}
     </button>
   );
 }
@@ -266,11 +233,7 @@ function Chip({
   children: React.ReactNode;
 }) {
   return (
-    <button
-      onClick={onClick}
-      aria-pressed={on}
-      className="chip"
-    >
+    <button onClick={onClick} aria-pressed={on} className="chip">
       {children}
     </button>
   );

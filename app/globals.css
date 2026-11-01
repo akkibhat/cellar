@@ -1408,3 +1408,129 @@ body {
 .nav-frame > a:first-child {
   margin-left: -0.75rem;
 }
+
+
+/* =====================================================================
+   THE SHELF (Cellardoor)
+
+   Bands in the colour of the wine, the bottles standing on them at full
+   height. The head above reuses the Cellarbook index's.
+   ===================================================================== */
+.shelf {
+  display: grid;
+  grid-template-columns: minmax(0, 24%) minmax(0, 1fr);
+}
+.shelf__head {
+  padding: clamp(1.75rem, 3vw, 2.75rem) clamp(1.25rem, 3vw, 3rem);
+}
+.shelf__numeral {
+  display: block;
+  font-family: var(--font-wordmark), Georgia, serif;
+  font-size: clamp(4rem, 7vw, 6.5rem);
+  line-height: 0.85;
+}
+.shelf__title {
+  margin-top: 0.6rem;
+  font-family: var(--font-wordmark), Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(1.9rem, 3vw, 2.6rem);
+  line-height: 1;
+}
+.shelf__blurb {
+  margin-top: 0.7rem;
+  max-width: 26ch;
+  font-style: italic;
+  font-size: 1.1rem;
+  line-height: 1.45;
+  opacity: 0.92;
+}
+
+/* The shelf board: the bottles stand on the paper, and the band's colour
+   runs along the bottom as the edge they stand on. In the dark theme the
+   ground takes a wash of the wine's colour, because a dark bottle on a
+   near-black page disappears. */
+.shelf__row {
+  list-style: none;
+  margin: 0;
+  padding: clamp(1.5rem, 2.5vw, 2.25rem) clamp(1.25rem, 3vw, 3rem) clamp(1.25rem, 2vw, 1.75rem);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 1.75rem 1.5rem;
+  background: var(--paper);
+  border-bottom: 0.9rem solid;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .shelf__row {
+    background: color-mix(in srgb, var(--tint) 26%, var(--paper-sunk));
+  }
+}
+:root[data-theme='dark'] .shelf__row {
+  background: color-mix(in srgb, var(--tint) 26%, var(--paper-sunk));
+}
+
+.bottle {
+  width: 7.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  text-align: left;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  font-size: 0.82rem;
+  line-height: 1.3;
+  color: var(--ink);
+}
+.bottle__img {
+  display: block;
+  /* A fixed box, with the bottle standing on its bottom edge, so every
+     bottle in a row shares a base however long its caption runs. */
+  width: 100%;
+  height: clamp(11.5rem, 17vw, 16.5rem);
+  object-fit: contain;
+  object-position: 50% 100%;
+  margin: 0 0 0.7rem;
+  transition: transform 160ms ease;
+}
+.bottle__img--blank { opacity: 0.85; }
+.bottle:hover .bottle__img { transform: translateY(-4px); }
+.bottle:focus-visible { outline: 3px solid var(--wine); outline-offset: 4px; }
+.bottle__tag {
+  align-self: flex-start;
+  margin-bottom: 0.3rem;
+  padding: 0.05rem 0.4rem;
+  background: var(--wine);
+  color: var(--paper);
+  font-size: 0.72rem;
+  font-weight: 500;
+}
+.bottle__name { font-weight: 500; }
+.bottle:hover .bottle__name { color: var(--wine); }
+.bottle__sub { color: var(--ink-soft); }
+.bottle__stars { margin-top: 0.15rem; color: var(--gold); letter-spacing: 0.08em; }
+
+.door-foot {
+  max-width: 90rem;
+  margin-inline: auto;
+  padding: 2.5rem clamp(1.25rem, 3vw, 3rem) 4rem;
+}
+
+@media (max-width: 64rem) {
+  .shelf { grid-template-columns: minmax(0, 1fr); }
+  .shelf__blurb { max-width: 40ch; }
+}
+@media (max-width: 40rem) {
+  /* Three to a row. The width goes on the list item, which is the flex
+     child; a percentage on the button inside it resolved against an item
+     that had no width of its own and collapsed the row to a sliver. */
+  .shelf__row { gap: 1.5rem 0.9rem; }
+  .shelf__row > li { width: calc((100% - 1.8rem) / 3); }
+  .bottle { width: 100%; }
+  .bottle__img { height: 10.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bottle__img { transition: none; }
+}

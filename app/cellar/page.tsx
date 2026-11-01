@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import CellarGrid from '@/components/CellarGrid';
-import SectionTitle from '@/components/SectionTitle';
 import { sectionName, SECTIONS } from '@/lib/config';
 import { CELLAR, PULLED_AT } from '@/lib/cellar';
 
@@ -28,61 +27,49 @@ export const metadata: Metadata = { title: sectionName('cellar') };
  */
 export default function CellarPage() {
   return (
-    <div
-      className="relative mx-auto max-w-[52rem] px-6 sm:px-10 lg:px-12 py-12 lg:py-16"
-      style={{ ['--accent' as string]: SECTIONS.cellar.accent }}
-    >
-
-      {/* ---- Masthead -------------------------------------------- */}
-      <header className="mb-8">
-
-        <SectionTitle section="cellar" />
-
-        <p className="t-lead leading-relaxed mt-6 max-w-[34rem]">
+    <div style={{ ['--accent' as string]: SECTIONS.cellar.accent }}>
+      <CellarGrid>
+        <p>
           The wines I have tried, and the {CELLAR.length}{' '}
           {CELLAR.length === 1 ? 'bottle' : 'bottles'} still waiting. Open any
           of them for the grape, what it goes with, and what I made of it.
         </p>
-
-        <p
-          className="t-base mt-4 max-w-[34rem]"
-          style={{ color: 'var(--ink-soft)' }}
-        >
+        <p className="index-sub">
           This is new, so most of what I have tasted is missing. From here they
           go in as I taste them.
         </p>
-      </header>
+      </CellarGrid>
 
-      <CellarGrid />
-
-      <p className="t-caption mt-8" style={{ color: 'var(--ink-faint)' }}>
-        Last updated{' '}
-        <span className="nums">
-          {new Date(PULLED_AT).toLocaleDateString('en-NZ', {
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric',
-          })}
-        </span>
-      </p>
-
-      {/* ---- Cross-link ------------------------------------------ */}
-      <p className="t-caption mt-10" style={{ color: 'var(--ink-soft)' }}>
-        Not sure what you are tasting for?{' '}
-        <Link href="/course" className="underline">
-          {/* The other half is named, and a name is set in the wordmark.
-              Size and ink are inherited so it sits inside this sentence
-              rather than standing away from it. */}
-          <span
-            className="wordmark"
-            style={{ fontSize: 'inherit', color: 'inherit' }}
-          >
-            Cellar
-            <span style={{ color: SECTIONS.course.accent }}>book</span>
+      <div className="door-foot">
+        <p className="t-caption" style={{ color: 'var(--ink-faint)' }}>
+          Last updated{' '}
+          <span className="nums">
+            {new Date(PULLED_AT).toLocaleDateString('en-NZ', {
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric',
+            })}
           </span>
-        </Link>{' '}
-        covers the method, the vocabulary and what the words actually mean.
-      </p>
+        </p>
+
+        {/* ---- Cross-link ---------------------------------------- */}
+        <p className="t-caption mt-6" style={{ color: 'var(--ink-soft)' }}>
+          Not sure what you are tasting for?{' '}
+          <Link href="/course" className="underline">
+            {/* The other half is named, and a name is set in the wordmark.
+                Size and ink are inherited so it sits inside this sentence
+                rather than standing away from it. */}
+            <span
+              className="wordmark"
+              style={{ fontSize: 'inherit', color: 'inherit' }}
+            >
+              Cellar
+              <span style={{ color: 'var(--wine)' }}>book</span>
+            </span>
+          </Link>{' '}
+          covers the method, the vocabulary and what the words actually mean.
+        </p>
+      </div>
     </div>
   );
 }
