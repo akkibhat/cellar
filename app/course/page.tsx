@@ -69,7 +69,9 @@ export default function CoursePage() {
       </section>
 
       {/* ---- Contents -------------------------------------------- */}
-      <h2 className="hand t-h2 leading-none mb-1">Contents</h2>
+      <h2 id="contents" className="hand t-h2 leading-none mb-1 scroll-mt-24">
+        Contents
+      </h2>
 
       <Contents />
     </div>
