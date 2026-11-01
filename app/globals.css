@@ -816,7 +816,7 @@ body {
   color: var(--p-straw);
   min-height: 100svh;
   overflow: hidden;
-  padding: 7.5rem clamp(1.25rem, 2.2vw, 2rem) 3rem;
+  padding: 7.5rem clamp(1.25rem, 3vw, 3rem) 3rem;
 }
 .poster-bar {
   position: absolute;
@@ -825,7 +825,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem clamp(1.25rem, 2.2vw, 2rem);
+  padding: 1.5rem clamp(1.25rem, 3vw, 3rem);
   font-weight: 500;
 }
 .poster-name {
@@ -896,7 +896,7 @@ body {
   position: relative;
   overflow: hidden;
   min-height: 46rem;
-  padding: 3.5rem clamp(1.25rem, 2.2vw, 2rem);
+  padding: 3.5rem clamp(1.25rem, 3vw, 3rem);
 }
 .poster-half--book { background: var(--p-straw); }
 .poster-half--door { background: var(--p-blush); }
@@ -930,7 +930,7 @@ body {
 .poster-stats {
   background: var(--p-ink);
   color: var(--p-chalk);
-  padding: 3.5rem clamp(1.25rem, 2.2vw, 2rem);
+  padding: 3.5rem clamp(1.25rem, 3vw, 3rem);
 }
 .poster-stats dl {
   margin: 0;
@@ -952,7 +952,7 @@ body {
 .poster-foot {
   background: var(--p-garnet);
   color: var(--p-straw);
-  padding: 3rem clamp(1.25rem, 2.2vw, 2rem) 1rem;
+  padding: 3rem clamp(1.25rem, 3vw, 3rem) 1rem;
   font-weight: 900;
   font-size: 21.5vw;
   line-height: 0.8;
@@ -1289,11 +1289,16 @@ body {
 .index-intro p { font-size: 1.35rem; line-height: 1.4; max-width: 34ch; }
 .index-intro .index-sub { margin-top: 0.8rem; font-size: 1.05rem; color: var(--ink-soft); max-width: 40ch; }
 .index-actions {
+  margin-top: 1.5rem;
+  font-family: var(--font-archivo), system-ui, sans-serif;
+}
+/* The tools sit on their own row under the button, so the button never
+   shares a line with them and wraps one of them off on its own. */
+.index-tools {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: 0.75rem 1.5rem;
-  margin-top: 1.5rem;
+  gap: 0.5rem 1.75rem;
+  margin-top: 1.1rem;
   font-family: var(--font-archivo), system-ui, sans-serif;
 }
 .index-tool {
@@ -1306,7 +1311,12 @@ body {
   padding: 0;
   cursor: pointer;
 }
-.index-tool span { color: var(--ink-faint); text-decoration: none; margin-left: 0.2rem; }
+.index-tool span {
+  /* inline-block takes the count out of the link's underline */
+  display: inline-block;
+  color: var(--ink-faint);
+  margin-left: 0.3rem;
+}
 
 .band {
   display: grid;
@@ -1380,4 +1390,21 @@ body {
   .index-head { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
   .band { grid-template-columns: minmax(0, 1fr); }
   .band__list { grid-template-columns: minmax(0, 1fr); padding-top: 1rem; padding-bottom: 1.75rem; }
+}
+
+
+/* The section bar takes the same frame as the pages under it: the opener,
+   the index and the poster all start 3vw in, and the bar was sitting in a
+   narrow centred column, so its links floated well to the right of
+   everything beneath. Same edge, same maximum width. */
+.nav-frame {
+  max-width: 90rem;
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 3vw, 3rem);
+}
+/* The first link's padding is part of its highlight box, so its icon sat
+   0.75rem inside the page edge. Pulling the box out by that much puts the
+   icon on the same edge as the headings below. */
+.nav-frame > a:first-child {
+  margin-left: -0.75rem;
 }

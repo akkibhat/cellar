@@ -82,7 +82,7 @@ export default function CellarNav() {
       className="sunk border-b sticky top-0 z-30"
       style={{ borderColor: 'var(--rule)', height: 'var(--nav-h)' }}
     >
-      <div className="mx-auto max-w-[52rem] px-6 sm:px-10 lg:px-12 h-full flex items-center gap-1">
+      <div className="nav-frame h-full flex items-center gap-1">
         {LINKS.map((l) => {
           /* The cellar's own link stays lit anywhere inside it, so you can
              always see which half you are in; the others only light on an

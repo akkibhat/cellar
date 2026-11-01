@@ -73,6 +73,8 @@ export default function Contents({
             <Link href={startHref} className="btn btn-primary" suppressHydrationWarning>
               {started ? `Continue with ${resume.title}` : `Start with ${CHAPTERS[0].title.toLowerCase()}`}
             </Link>
+          </div>
+          <div className="index-tools">
             <Link href="/glossary" className="index-tool">
               Glossary <span>{glossaryCount}</span>
             </Link>
