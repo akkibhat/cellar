@@ -17,7 +17,7 @@
 @theme {
   /* Typefaces are injected by next/font in app/layout.tsx, which sets
      --font-hand and --font-body on :root as CSS variables. */
-  --font-hand: var(--font-caveat), ui-rounded, cursive;
+  --font-hand: var(--font-wordmark), Georgia, serif;
   --font-body: var(--font-crimson), Georgia, serif;
   --font-brand: var(--font-wordmark), Georgia, serif;
   /* The interface face. Was the bare system stack, which rendered as a
@@ -416,8 +416,8 @@ body {
    --------------------------------------------------------------------- */
 .hand {
   font-family: var(--font-hand);
-  font-weight: 700;
-  letter-spacing: 0.01em;
+  font-weight: 400;
+  letter-spacing: -0.01em;
   line-height: 1.05;
 }
 
@@ -462,7 +462,6 @@ body {
 .card {
   background: var(--paper-raised);
   border: 1px solid var(--rule);
-  box-shadow: 3px 4px 0 var(--shadow);
 }
 
 /* A well sunk into the page - sidebars, inset panels. */
@@ -475,7 +474,6 @@ body {
 .note-block {
   background: var(--paper-raised);
   border-left: 3px solid var(--wine);
-  box-shadow: 2px 3px 0 var(--shadow);
 }
 
 /* Something not yet settled. Dashed rather than solid on purpose: the
@@ -491,27 +489,29 @@ body {
    Controls, drawn as ink rather than as system widgets
    --------------------------------------------------------------------- */
 
-/* Toggleable chips: an ink outline that fills with wine when selected. */
+/* Toggleable options, set as plain words: the chosen one takes the accent
+   and an underline. They used to be outlined pills that filled when
+   selected, which is the default filter control of every web app. */
 .chip {
   font-family: var(--font-ui);
   font-size: var(--t-caption);
-  padding: 0.3rem 0.75rem;
-  border-radius: 999px;
-  border: 1px solid var(--rule-strong);
+  padding: 0.25rem 0;
+  margin-right: 0.35rem;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
   color: var(--ink-soft);
   background: transparent;
   cursor: pointer;
-  transition: all var(--m-quick) var(--ease);
+  transition: color var(--m-quick) var(--ease), border-color var(--m-quick) var(--ease);
   line-height: 1.4;
 }
 .chip:hover {
-  border-color: var(--ink-soft);
   color: var(--ink);
 }
 .chip[aria-pressed='true'] {
-  background: var(--wine);
-  border-color: var(--wine);
-  color: var(--paper-raised);
+  color: var(--wine);
+  border-bottom-color: var(--wine);
   font-weight: 500;
 }
 
@@ -777,4 +777,257 @@ body {
 }
 :root[data-theme='dark'] .wine-plate {
   background: color-mix(in srgb, var(--tint) 34%, var(--paper-sunk));
+}
+
+
+/* =====================================================================
+   THE FRONT DOOR, AS A POSTER
+
+   Flat fields of wine colour and the heaviest type on the site. The
+   colours are fixed on purpose: they are the wine, so they do not follow
+   the light or dark theme the way the paper does. Text on each field is
+   chosen against that field, not against the page.
+
+   Everything is scoped under .poster. No gradients, no shadows, no
+   rules; the fields are separated by being different colours.
+   ===================================================================== */
+.poster {
+  --p-garnet: #5b1a2a;   /* the tint of a red                */
+  --p-straw:  #e6d79a;   /* a white                          */
+  --p-blush:  #e8b7ae;   /* a rose                           */
+  --p-chalk:  #f0eeeb;   /* a low-chroma bone, not a cream */
+  --p-ink:    #1e1814;
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  color: var(--p-ink);
+  background: var(--p-garnet);
+}
+.poster a { color: inherit; }
+
+/* The statement. */
+.poster-hero {
+  position: relative;
+  background: var(--p-garnet);
+  color: var(--p-straw);
+  min-height: 100svh;
+  overflow: hidden;
+  padding: 7.5rem clamp(1.25rem, 2.2vw, 2rem) 3rem;
+}
+.poster-bar {
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem clamp(1.25rem, 2.2vw, 2rem);
+  font-weight: 500;
+}
+.poster-name {
+  font-family: var(--font-wordmark), Georgia, serif;
+  font-size: 1.6rem;
+}
+.poster-bar nav {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+}
+.poster-toggle {
+  color: var(--p-straw) !important;
+}
+.poster-h1 {
+  position: relative;
+  z-index: 2;
+  font-weight: 900;
+  font-size: clamp(3.6rem, 13.5vw, 14rem);
+  line-height: 0.86;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+}
+.poster-lead {
+  position: relative;
+  z-index: 2;
+  margin-top: 2.2rem;
+  max-width: 30ch;
+  font-size: 1.4rem;
+  line-height: 1.45;
+  color: var(--p-chalk);
+}
+.poster-btn {
+  display: inline-block;
+  position: relative;
+  z-index: 2;
+  min-height: 3rem;
+  padding: 0.95rem 1.6rem;
+  font-weight: 900;
+  font-size: 1.1rem;
+  text-decoration: none;
+  transition: transform 160ms ease;
+}
+.poster-btn:hover { transform: translateY(-2px); }
+.poster-btn:active { transform: translateY(0); }
+.poster-btn:focus-visible { outline: 3px solid currentColor; outline-offset: 3px; }
+.poster-btn--straw { background: var(--p-straw); color: var(--p-garnet) !important; margin-top: 1.7rem; }
+.poster-btn--garnet { background: var(--p-garnet); color: var(--p-straw) !important; margin-top: 1.6rem; }
+
+/* Bottles: the real photographs, cut out, stood on the colour. The first
+   screen keeps them clear of the headline: they sit in the right-hand
+   fifth and rise from the bottom edge. */
+.poster-bottle {
+  position: absolute;
+  width: auto;
+  pointer-events: none;
+}
+.poster-bottle--1 { right: 22%; bottom: -6%; height: 56%; transform: rotate(-6deg); z-index: 1; }
+.poster-bottle--2 { right: 11%; bottom: -10%; height: 74%; transform: rotate(3deg); z-index: 1; }
+.poster-bottle--3 { right: -1%; bottom: -8%; height: 62%; transform: rotate(-4deg); z-index: 1; }
+
+/* The two halves. */
+.poster-halves {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.poster-half {
+  position: relative;
+  overflow: hidden;
+  min-height: 46rem;
+  padding: 3.5rem clamp(1.25rem, 2.2vw, 2rem);
+}
+.poster-half--book { background: var(--p-straw); }
+.poster-half--door { background: var(--p-blush); }
+.poster-h2 {
+  font-weight: 900;
+  font-size: clamp(2.6rem, 7.6vw, 8rem);
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  max-width: 9ch;
+}
+.poster-half p {
+  margin-top: 1.6rem;
+  max-width: 34ch;
+  font-size: 1.3rem;
+  line-height: 1.5;
+}
+.poster-figure {
+  position: absolute;
+  right: 1.75rem;
+  bottom: 2.25rem;
+  font-family: var(--font-wordmark), Georgia, serif;
+  font-size: clamp(7rem, 16vw, 17rem);
+  line-height: 0.8;
+  color: var(--p-garnet);
+}
+.poster-half--door .poster-bottle--rose { right: 28%; bottom: -10%; height: 56%; transform: rotate(-6deg); }
+.poster-half--door .poster-bottle--white { right: 6%; bottom: -8%; height: 68%; transform: rotate(5deg); }
+
+/* The figures. */
+.poster-stats {
+  background: var(--p-ink);
+  color: var(--p-chalk);
+  padding: 3.5rem clamp(1.25rem, 2.2vw, 2rem);
+}
+.poster-stats dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
+}
+.poster-stats dd {
+  margin: 0;
+  font-weight: 900;
+  font-size: clamp(3rem, 7vw, 7rem);
+  line-height: 0.9;
+  color: var(--p-straw);
+}
+.poster-stats dt { margin-top: 0.4rem; font-size: 1.15rem; }
+.poster-stats dl > div { display: flex; flex-direction: column-reverse; }
+
+/* The name, once more, as wide as the screen. */
+.poster-foot {
+  background: var(--p-garnet);
+  color: var(--p-straw);
+  padding: 3rem clamp(1.25rem, 2.2vw, 2rem) 1rem;
+  font-weight: 900;
+  font-size: 21.5vw;
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+@media (max-width: 52rem) {
+  .poster-halves { grid-template-columns: 1fr; }
+  .poster-half { min-height: 36rem; }
+  .poster-hero { padding-top: 6rem; }
+  .poster-h1 { font-size: 15.5vw; }
+  .poster-name { font-size: 1.2rem; white-space: nowrap; }
+  .poster-bar nav { gap: 0.9rem; font-size: 0.95rem; }
+  .poster-lead { font-size: 1.2rem; max-width: 24ch; }
+  .poster-bottle--1 { right: 36%; height: 38%; }
+  .poster-bottle--2 { right: 18%; height: 50%; }
+  .poster-bottle--3 { right: -4%; height: 42%; }
+  .poster-stats dl { grid-template-columns: 1fr; }
+}
+@media (max-width: 26rem) {
+  .poster-name { font-size: 1.05rem; }
+  .poster-bar nav { gap: 0.7rem; font-size: 0.88rem; }
+}
+
+/* ---- Motion --------------------------------------------------------
+   Everything rises into place once: the hero on load, staggered, and
+   each later block as it scrolls into view. Opacity and translate only,
+   so nothing reflows, and it is all CSS: with no script and no support
+   for scroll-driven animation the content is simply there. */
+@keyframes poster-rise {
+  from { opacity: 0; translate: 0 28px; }
+  to   { opacity: 1; translate: 0 0; }
+}
+.poster-bar,
+.poster-h1,
+.poster-lead,
+.poster-hero .poster-btn,
+.poster-hero .poster-bottle {
+  animation: poster-rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.poster-h1 { animation-delay: 0.08s; }
+.poster-lead { animation-delay: 0.2s; }
+.poster-hero .poster-btn { animation-delay: 0.3s; }
+.poster-bottle--1 { animation-delay: 0.35s; }
+.poster-bottle--2 { animation-delay: 0.45s; }
+.poster-bottle--3 { animation-delay: 0.55s; }
+
+@supports (animation-timeline: view()) {
+  .poster-half > *,
+  .poster-stats dl > div,
+  .poster-foot {
+    animation: poster-rise linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 60%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .poster *,
+  .poster-foot {
+    animation: none !important;
+  }
+  .poster-btn { transition: none; }
+}
+
+
+/* The grape list: one band of the grape's own colour per variety, full
+   width, stacked. Red grapes sit on garnet, whites on straw, so the list
+   reads as a colour chart of the grapes, not a grid of cards. */
+.grape-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.grape-band {
+  border: 0 !important;
+  padding: 1rem 1.25rem !important;
+}
+.grape-band:hover {
+  background: color-mix(in srgb, var(--tint) 16%, var(--paper));
 }

@@ -1,27 +1,22 @@
 import type { Metadata } from 'next';
 import { OWNER } from '@/lib/config';
-import { Archivo, Caveat, Crimson_Pro, Young_Serif } from 'next/font/google';
+import { Archivo, Crimson_Pro, Young_Serif } from 'next/font/google';
 import Shell from '@/components/Shell';
 import './globals.css';
 
 /**
- * The two typefaces. Loaded through next/font so they are self-hosted and
- * do not block rendering on a third-party request.
+ * The three typefaces. Loaded through next/font so they are self-hosted
+ * and do not block rendering on a third-party request.
  *
- * Caveat carries the handwritten headings; Crimson Pro sets the body,
- * because a whole course in handwriting would be unreadable.
+ * Young Serif sets the wordmark and every heading; Crimson Pro sets the
+ * body; Archivo sets the interface and, at its heaviest, the front door.
+ * The handwriting face that used to carry the headings is gone: a whole
+ * site in a pen hand reads as a theme, and the headings are better as
+ * type.
  */
-const caveat = Caveat({
-  subsets: ['latin'],
-  weight: ['500', '600', '700'],
-  variable: '--font-caveat',
-  display: 'swap',
-});
-
 /**
- * The wordmark face. Heavier and steadier than the handwriting, so the
- * brand holds its own beside a solid mark while the chapter headings stay
- * handwritten - the brand is steady, the content is a notebook.
+ * The heading and wordmark face: heavy, steady and warm, so the brand and
+ * the chapter titles are the same voice.
  */
 const youngSerif = Young_Serif({
   subsets: ['latin'],
@@ -45,7 +40,7 @@ const youngSerif = Young_Serif({
  */
 const archivo = Archivo({
   subsets: ['latin'],
-  weight: ['400', '500', '600'],
+  weight: ['400', '500', '600', '900'],
   variable: '--font-archivo',
   display: 'swap',
 });
@@ -121,7 +116,7 @@ export default function RootLayout({
        HTML. It suppresses the warning for this element's attributes only. */
     <html
       lang="en"
-      className={`${caveat.variable} ${crimson.variable} ${youngSerif.variable} ${archivo.variable}`}
+      className={`${crimson.variable} ${youngSerif.variable} ${archivo.variable}`}
       suppressHydrationWarning
     >
       <head>

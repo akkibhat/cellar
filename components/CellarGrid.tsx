@@ -88,7 +88,7 @@ export default function CellarGrid() {
 
   return (
     <>
-      <div className="flex flex-wrap gap-2 mb-5">
+      <div className="flex flex-wrap gap-x-3 gap-y-1 mb-6">
         <Chip on={filter === 'all'} onClick={() => setFilter('all')}>
           Everything &middot; {all.length}
         </Chip>
@@ -182,10 +182,9 @@ function WineCard({ entry, onOpen }: { entry: Entry; onOpen: () => void }) {
         {/* It rides over the image, because the image is the card now and
             there is no longer a silhouette to hollow out. */}
         <span
-          className="label-ui absolute top-2 left-2 px-2 py-0.5 rounded-full"
+          className="label-ui absolute top-2 left-2 px-2 py-0.5"
           style={{
             background: 'var(--paper-raised)',
-            border: '1px solid var(--rule)',
             color: pill.colour,
             fontSize: '0.62rem',
             letterSpacing: '0.1em',
@@ -270,12 +269,7 @@ function Chip({
     <button
       onClick={onClick}
       aria-pressed={on}
-      className="t-caption px-3 py-1 rounded-full"
-      style={{
-        border: `1px solid ${on ? 'var(--pounamu)' : 'var(--rule-strong)'}`,
-        background: on ? 'var(--pounamu)' : 'transparent',
-        color: on ? 'var(--paper-raised)' : 'var(--ink-soft)',
-      }}
+      className="chip"
     >
       {children}
     </button>

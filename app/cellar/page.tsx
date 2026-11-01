@@ -35,9 +35,6 @@ export default function CellarPage() {
 
       {/* ---- Masthead -------------------------------------------- */}
       <header className="mb-8">
-        <p className="label-ui mb-3" style={{ color: 'var(--accent)' }}>
-          Your bottles, your notes
-        </p>
 
         <SectionTitle section="cellar" />
 

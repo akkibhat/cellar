@@ -133,7 +133,7 @@ export default function GrapeExplorer({
       </p>
 
       {/* ---- Results -------------------------------------------- */}
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="grape-list">
         {results.map((g) => (
           <GrapeCard
             key={g.slug}
@@ -181,9 +181,8 @@ function GrapeCard({
 }) {
   return (
     <div
-      className="card wine-ground px-4 py-3.5"
+      className="card wine-ground grape-band"
       data-wine={grape.colour}
-      style={{ borderColor: open ? 'var(--wine)' : 'var(--rule)' }}
     >
       <button
         className="w-full text-left"

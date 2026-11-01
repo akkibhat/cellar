@@ -28,7 +28,6 @@ export default function CoursePage() {
 
       {/* ---- Masthead -------------------------------------------- */}
       <header className="mb-12">
-        <p className="label-ui mb-3">What I have worked out</p>
 
         <SectionTitle section="course" />
 
