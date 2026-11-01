@@ -1335,9 +1335,11 @@ body {
   list-style: none;
   margin: 0;
   padding: clamp(1.25rem, 2.5vw, 2.25rem) clamp(1.25rem, 3vw, 3rem);
+  /* One column, in reading order. Two columns filled across then down, so
+     chapters 1 and 2 sat side by side with 3 underneath, and the order of
+     the list was not obvious at a glance. */
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 3rem;
+  grid-template-columns: minmax(0, 42rem);
   align-content: center;
 }
 .band__item {
