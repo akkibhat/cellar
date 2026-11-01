@@ -76,6 +76,11 @@ export default function CellarNav() {
      startsWith - ever lit up. Normalise once, here. */
   const route = pathname.replace(/\/+$/, '') || '/';
 
+  /* Inside a chapter, the Cellarbook link goes back to that chapter's row
+     in the index and not to the top of it, the same as "All chapters" in
+     the chapter's own rail. */
+  const chapter = /^\/course\/([^/]+)$/.exec(route)?.[1];
+
   return (
     <nav
       aria-label="Sections"
@@ -100,7 +105,7 @@ export default function CellarNav() {
           return (
             <Link
               key={l.href}
-              href={l.href}
+              href={l.href === '/course' && chapter ? `/course/#${chapter}` : l.href}
               aria-current={active ? 'page' : undefined}
               className="flex items-center gap-2 px-3 py-1.5 rounded"
               style={{

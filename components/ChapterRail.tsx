@@ -30,6 +30,18 @@ export default function ChapterRail({
 }) {
   const [active, setActive] = useState<string | null>(headings[0]?.id ?? null);
 
+  /* Remember which chapter this is, so the index can mark it when the
+     reader comes back by the browser's back button, which restores the
+     scroll position but carries no #chapter in the address. Kept in
+     sessionStorage: it is a note for this visit, not a preference. */
+  useEffect(() => {
+    try {
+      sessionStorage.setItem('cellar.lastChapter', currentSlug);
+    } catch {
+      /* private mode or storage blocked: the highlight is a nicety */
+    }
+  }, [currentSlug]);
+
   useEffect(() => {
     const els = headings
       .map((h) => document.getElementById(h.id))

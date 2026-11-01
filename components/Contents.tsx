@@ -40,7 +40,19 @@ export default function Contents({
      without a full load, so the row is marked from state instead. */
   const [current, setCurrent] = useState<string | null>(null);
   useEffect(() => {
-    const read = () => setCurrent(window.location.hash.replace(/^#/, '') || null);
+    /* The address wins ("All chapters" sets it). With no #chapter on it
+       the reader may have come back by the browser's back button, so the
+       last chapter they opened is used instead. */
+    const read = () => {
+      const fromHash = window.location.hash.replace(/^#/, '');
+      let last: string | null = null;
+      try {
+        last = sessionStorage.getItem('cellar.lastChapter');
+      } catch {
+        /* storage blocked: no highlight */
+      }
+      setCurrent(fromHash || last || null);
+    };
     read();
     window.addEventListener('hashchange', read);
     return () => window.removeEventListener('hashchange', read);
