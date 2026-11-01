@@ -108,10 +108,9 @@ export default function Shell({ children }: { children: React.ReactNode }) {
      test against "/brand" silently never matches. Compare on the trimmed
      path. */
   const route = pathname.replace(/\/+$/, '') || '/';
-  /* A chapter has its own rail in the page (the sections of this chapter and
-     its neighbours), so it does not get the 25-chapter sidebar beside it.
-     The contents are one link away. */
-  const isChapter = route.startsWith('/course/');
+  /* A chapter has its own rail in the page, and the index page is the
+     contents itself, so neither gets the 25-chapter sidebar beside it. */
+  const isChapter = route.startsWith('/course/') || route === '/course';
   if (isChapter || route.startsWith('/cellar') || route === '/brand' || route === '/design') {
     return (
       <>

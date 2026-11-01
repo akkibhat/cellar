@@ -88,7 +88,7 @@ export default function ChapterRail({
         </div>
       )}
 
-      <Link href="/course/#contents" className="rail__all">
+      <Link href={`/course/#${currentSlug}`} className="rail__all">
         All chapters &rarr;
       </Link>
     </nav>
