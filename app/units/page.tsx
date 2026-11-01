@@ -11,16 +11,10 @@ export const metadata: Metadata = {
 export default function UnitsPage() {
   return (
     <div className="relative mx-auto max-w-[50rem] px-6 sm:px-10 lg:px-12 py-12 lg:py-16">
-      <span
-        className="stain-ring"
-        style={{ width: 170, height: 170, top: 18, right: 10 }}
-        aria-hidden="true"
-      />
       <PageHeader
         eyebrow="Four countries · one pour"
         title="Standard drinks"
         standfirst="A unit is a fixed dose of alcohol. A glass is whatever the person pouring felt like. This converts between the two."
-        ruleWidth={280}
       />
       <UnitsCalculator />
 

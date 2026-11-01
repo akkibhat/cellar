@@ -12,16 +12,10 @@ export const metadata: Metadata = {
 export default function GlossaryPage() {
   return (
     <div className="relative mx-auto max-w-[52rem] px-6 sm:px-10 lg:px-12 py-12 lg:py-16">
-      <span
-        className="stain-ring"
-        style={{ width: 190, height: 190, top: 20, right: 8 }}
-        aria-hidden="true"
-      />
       <PageHeader
         eyebrow={`${GLOSSARY.length} terms`}
         title="The vocabulary"
         standfirst="Search by the word or by what it means - looking for “tail” finds both caudalie and queue de paon."
-        ruleWidth={300}
       />
       <GlossarySearch />
     </div>

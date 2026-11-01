@@ -63,10 +63,8 @@ export default function BrandPage() {
   return (
     <div className="relative mx-auto max-w-[52rem] px-6 sm:px-10 lg:px-12 py-12 lg:py-16">
       <PageHeader
-        eyebrow="Reference"
         title="Brand"
         standfirst="The wordmark, the palette and the type scale - read from the same tokens the rest of the site uses, so this page cannot drift away from it."
-        ruleWidth={280}
       />
 
       {/* ---- The wordmark ---------------------------------------- */}

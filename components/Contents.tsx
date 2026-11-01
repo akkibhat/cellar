@@ -5,7 +5,6 @@ import { PARTS } from '@/lib/content/parts';
 import { CHAPTERS, CHAPTER_COUNT, chaptersInPart } from '@/lib/content/course';
 import { useProgress } from '@/lib/storage';
 import { PROGRESS_ENABLED } from '@/lib/config';
-import HandRule from './HandRule';
 
 /**
  * The table of contents.
@@ -94,7 +93,6 @@ export default function Contents() {
                 </span>
               )}
             </div>
-            <HandRule width={230} className="mb-3" />
 
             <p
               className="t-ui italic mb-4 max-w-[34rem]"

@@ -17,10 +17,8 @@ export default function NotFound() {
   return (
     <div className="relative mx-auto max-w-[40rem] px-6 sm:px-10 lg:px-12 py-16 lg:py-24">
       <PageHeader
-        eyebrow="Not here"
         title="No such page"
         standfirst="The address does not match anything on this site. Some chapters were merged and renamed recently, so an older link may have gone with them."
-        ruleWidth={260}
       />
 
       <div className="flex flex-wrap gap-3 mt-8">

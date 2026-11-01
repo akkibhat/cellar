@@ -181,7 +181,8 @@ function GrapeCard({
 }) {
   return (
     <div
-      className="card px-4 py-3.5"
+      className="card wine-ground px-4 py-3.5"
+      data-wine={grape.colour}
       style={{ borderColor: open ? 'var(--wine)' : 'var(--rule)' }}
     >
       <button

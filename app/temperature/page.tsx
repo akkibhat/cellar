@@ -11,16 +11,10 @@ export const metadata: Metadata = {
 export default function TemperaturePage() {
   return (
     <div className="relative mx-auto max-w-[50rem] px-6 sm:px-10 lg:px-12 py-12 lg:py-16">
-      <span
-        className="stain-ring"
-        style={{ width: 170, height: 170, top: 18, right: 10 }}
-        aria-hidden="true"
-      />
       <PageHeader
         eyebrow="Every style · one scale"
         title="Serving temperature"
         standfirst="The cheapest improvement available to any bottle you already own, and the one most people get wrong in both directions."
-        ruleWidth={280}
       />
       <TemperatureGuide />
 

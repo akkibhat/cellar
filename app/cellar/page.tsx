@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
-import HandRule from '@/components/HandRule';
 import CellarGrid from '@/components/CellarGrid';
 import SectionTitle from '@/components/SectionTitle';
 import { sectionName, SECTIONS } from '@/lib/config';
@@ -33,11 +32,6 @@ export default function CellarPage() {
       className="relative mx-auto max-w-[52rem] px-6 sm:px-10 lg:px-12 py-12 lg:py-16"
       style={{ ['--accent' as string]: SECTIONS.cellar.accent }}
     >
-      <span
-        className="stain-ring"
-        style={{ width: 210, height: 210, top: 30, right: 0 }}
-        aria-hidden="true"
-      />
 
       {/* ---- Masthead -------------------------------------------- */}
       <header className="mb-8">
@@ -46,7 +40,6 @@ export default function CellarPage() {
         </p>
 
         <SectionTitle section="cellar" />
-        <HandRule width={340} accent />
 
         <p className="t-lead leading-relaxed mt-6 max-w-[34rem]">
           The wines I have tried, and the {CELLAR.length}{' '}

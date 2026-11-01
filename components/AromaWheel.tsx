@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { AROMA_FAMILIES } from '@/lib/aromas';
-import HandRule from './HandRule';
 
 /**
  * The aroma wheel.
@@ -176,7 +175,6 @@ export default function AromaWheel({
         <h3 className="hand t-h2 leading-none" style={{ color: family.colour }}>
           {family.name}
         </h3>
-        <HandRule width={140} className="mt-1 mb-3" />
 
         <p className="t-ui mb-4" style={{ color: 'var(--ink-soft)' }}>
           {family.meaning}

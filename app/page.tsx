@@ -24,16 +24,6 @@ export default function Home() {
       {/* Decorative stains, hidden from assistive technology. Placed
           rather than floating: the ring sits behind the masthead where
           the centred lockup gives it something to be behind. */}
-      <span
-        className="stain-ring"
-        style={{ width: 250, height: 250, top: -18, right: 26 }}
-        aria-hidden="true"
-      />
-      <span
-        className="stain-drop"
-        style={{ width: 20, height: 24, top: 300, left: 4 }}
-        aria-hidden="true"
-      />
 
       <FrontDoor />
     </div>

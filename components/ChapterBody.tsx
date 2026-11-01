@@ -1,6 +1,5 @@
 import type { Block } from '@/lib/types';
 import { inline } from '@/lib/markup';
-import HandRule from './HandRule';
 import EmbeddedTool from './EmbeddedTool';
 
 /**
@@ -30,7 +29,6 @@ function BlockView({ block, index }: { block: Block; index: number }) {
         <div className="mt-8 mb-3">
           <h2 className="hand t-h2 mb-1">{block.text}</h2>
           {/* Alternate the rule shape so repeated headings do not look stamped. */}
-          <HandRule width={200} variant={index % 2 === 0 ? 0 : 1} />
         </div>
       );
 

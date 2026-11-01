@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from 'react';
 import Link from 'next/link';
-import HandRule from './HandRule';
 import Logo from './Logo';
 import ThemeToggle from './ThemeToggle';
 import { OWNER, SECTIONS } from '@/lib/config';
@@ -289,7 +288,6 @@ export default function FrontDoor() {
           </span>
         </span>
 
-        <HandRule width={220} className="mt-3" />
 
         <h1 className="t-lead leading-relaxed mt-4 max-w-[34rem]">
           One half is what I have learned. The other is what I have tasted.
@@ -384,7 +382,6 @@ function Half({
       {/* 31 gives a 24px word through LOCKUP.word, which is the size this
           card used before the mark joined it. */}
       <Logo size={31} suffix={suffix} className="mt-1.5 mb-2" />
-      <HandRule width={130} className="mb-4" />
 
       <span className="t-base leading-relaxed" style={{ color: 'var(--ink)' }}>
         {blurb}

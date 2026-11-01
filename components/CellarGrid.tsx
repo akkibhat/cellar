@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import WineDetail from './WineDetail';
+import { tintOf } from '@/lib/wineTint';
 import {
   CELLAR,
   TASTED,
@@ -148,10 +149,10 @@ function WineCard({ entry, onOpen }: { entry: Entry; onOpen: () => void }) {
     >
       {/* ---- The picture -------------------------------------- */}
       <div
-        className="relative w-full"
+        className="relative w-full wine-plate"
+        data-wine={tintOf(wine.type)}
         style={{
           aspectRatio: '3 / 4',
-          background: 'var(--paper-sunk)',
           borderBottom: '1px solid var(--rule)',
         }}
       >

@@ -11,16 +11,9 @@ export const metadata: Metadata = {
 export default function JournalPage() {
   return (
     <div className="relative mx-auto max-w-[48rem] px-6 sm:px-10 lg:px-12 py-12 lg:py-16">
-      <span
-        className="stain-ring"
-        style={{ width: 175, height: 175, top: 18, right: 10 }}
-        aria-hidden="true"
-      />
       <PageHeader
-        eyebrow="Tool"
         title="Tasting journal"
         standfirst="Select two or three notes to line them up against each other. Structured notes compare; free text does not."
-        ruleWidth={300}
       />
       <Journal />
 

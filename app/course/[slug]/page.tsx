@@ -6,7 +6,6 @@ import ChapterBody from '@/components/ChapterBody';
 import ChapterFooter from '@/components/ChapterFooter';
 import Quiz from '@/components/Quiz';
 import { QUIZZES_ENABLED } from '@/lib/config';
-import HandRule from '@/components/HandRule';
 
 /** Pre-render every chapter at build time. */
 export function generateStaticParams() {
@@ -39,11 +38,6 @@ export default async function ChapterPage({
   return (
     <article className="relative mx-auto max-w-[46rem] px-6 sm:px-10 lg:px-12 py-12 lg:py-16">
       {/* Decorative stains, positioned off the text column. */}
-      <span
-        className="stain-ring"
-        style={{ width: 190, height: 190, top: 24, right: 8 }}
-        aria-hidden="true"
-      />
 
       {/* ---- Header --------------------------------------------- */}
       <header className="mb-8">
@@ -59,7 +53,6 @@ export default async function ChapterPage({
         <h1 className="hand t-h1 sm:t-display leading-[1.02] mb-1">
           {mod.title}
         </h1>
-        <HandRule width={340} variant={mod.n % 2 === 0 ? 1 : 0} />
 
         <p
           className="t-lead italic leading-relaxed mt-5 max-w-[33rem]"

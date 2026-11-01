@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import type { Question } from '@/lib/types';
 import { useProgress } from '@/lib/storage';
-import HandRule from './HandRule';
 
 /**
  * The end-of-chapter check.
@@ -59,7 +58,6 @@ export default function Quiz({
   return (
     <section className="mt-12">
       <h2 className="hand t-h2 mb-1">Check yourself</h2>
-      <HandRule width={190} variant={1} />
 
       <p className="label-ui mt-3 mb-5">
         {answeredCount} of {questions.length} answered

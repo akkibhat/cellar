@@ -230,24 +230,24 @@
    --------------------------------------------------------------------- */
 :root {
   /* Ground — Waipara and Waitaki limestone */
-  --limestone:        #efeae0;
-  --limestone-raised: #f8f5ee;
-  --limestone-sunk:   #e3ddd0;
+  --limestone:        #f5f2ea;
+  --limestone-raised: #fbf9f4;
+  --limestone-sunk:   #ebe6da;
 
   /* Ink — Central Otago rock */
-  --schist:           #22262b;   /* 12.69:1  AAA                        */
-  --schist-soft:      #5f666d;   /*  4.85:1  AA                         */
-  --scree:            #636b72;   /*  4.52:1  AA   (was 2.37, failing)   */
+  --schist:           #1e1814;
+  --schist-soft:      #5d544d;
+  --scree:            #686058;
 
   /* Accents */
   --garnet:           #78202f;   /*  8.56:1  AAA  primary               */
-  --pounamu:          #2c5d52;   /*  6.27:1  AA   secondary             */
+  --pounamu:          #775f12;   /* straw: the white-wine accent */
   --tussock:          #b3823a;   /*  2.84:1  FILL ONLY — never text     */
   --tussock-deep:     #89632c;   /*  4.51:1  AA   the text weight       */
 
   /* Hairlines — pale volcanic stone */
-  --pumice:           #cdc6b7;
-  --pumice-strong:    #a79e8c;
+  --pumice:           #d6d0c3;
+  --pumice-strong:    #aea697;
 
   /* ---- Aliases the components already use ------------------------- */
   --paper:        var(--limestone);
@@ -262,6 +262,14 @@
   --rule:         var(--pumice);
   --rule-strong:  var(--pumice-strong);
   --stain:        rgba(120, 32, 47, 0.12);
+
+  /* The colours of the wine itself. A page, a photograph's plate or a card
+     takes the tint of the wine it is about; nothing here is decoration.
+     Used through `data-wine` (see .wine-ground below). */
+  --tint-red:     #5b1a2a;   /* garnet            */
+  --tint-white:   #e6d79a;   /* straw             */
+  --tint-rose:    #e8b7ae;   /* blush             */
+  --tint-gold:    #efe3b0;   /* pale gold: fizz and dessert */
   --shadow:       rgba(34, 38, 43, 0.10);
 
   /* ---- The mark --------------------------------------------------- */
@@ -294,23 +302,23 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
     /* Night — the same rock after dark */
-    --limestone:        #14171a;
-    --limestone-raised: #1d2126;
-    --limestone-sunk:   #0e1114;
+    --limestone:        #171214;
+    --limestone-raised: #221a1d;
+    --limestone-sunk:   #100c0e;
 
-    --schist:           #e9e3d6;   /* 14.07:1  AAA  bone on night       */
-    --schist-soft:      #97a0a8;   /*  6.78:1  AA                       */
-    --scree:            #7b848c;   /*  4.9:1   AA                       */
+    --schist:           #ece5d7;   /* 14.07:1  AAA  bone on night       */
+    --schist-soft:      #a89fa0;   /*  6.78:1  AA                       */
+    --scree:            #8d8486;   /*  4.9:1   AA                       */
 
     --garnet:           #d2576c;   /*  4.56:1  AA  deeper than the      */
                                /*  usual lifted pink; full garnet   */
                                /*  #78202F is 1.75:1 and vanishes   */
-    --pounamu:          #6aab99;   /*  6.77:1  AA                       */
+    --pounamu:          #dcc66e;   /*  6.77:1  AA                       */
     --tussock:          #d7a95e;   /*  8.33:1  AAA — passes, so the     */
     --tussock-deep:     #d7a95e;   /*  same value serves fill and text  */
 
-    --pumice:           #333a41;
-    --pumice-strong:    #4d555d;
+    --pumice:           #35292d;
+    --pumice-strong:    #52434a;
 
     --wine-bright:      #e07d90;
     --stain:            rgba(210, 87, 108, 0.15);
@@ -336,23 +344,23 @@
 /* Explicit dark choice wins in both directions. */
 :root[data-theme='dark'] {
     /* Night — the same rock after dark */
-  --limestone:        #14171a;
-  --limestone-raised: #1d2126;
-  --limestone-sunk:   #0e1114;
+  --limestone:        #171214;
+  --limestone-raised: #221a1d;
+  --limestone-sunk:   #100c0e;
 
-  --schist:           #e9e3d6;   /* 14.07:1  AAA  bone on night       */
-  --schist-soft:      #97a0a8;   /*  6.78:1  AA                       */
-  --scree:            #7b848c;   /*  4.9:1   AA                       */
+  --schist:           #ece5d7;   /* 14.07:1  AAA  bone on night       */
+  --schist-soft:      #a89fa0;   /*  6.78:1  AA                       */
+  --scree:            #8d8486;   /*  4.9:1   AA                       */
 
   --garnet:           #d2576c;   /*  4.56:1  AA  deeper than the      */
                                /*  usual lifted pink; full garnet   */
                                /*  #78202F is 1.75:1 and vanishes   */
-  --pounamu:          #6aab99;   /*  6.77:1  AA                       */
+  --pounamu:          #dcc66e;   /*  6.77:1  AA                       */
   --tussock:          #d7a95e;   /*  8.33:1  AAA — passes, so the     */
   --tussock-deep:     #d7a95e;   /*  same value serves fill and text  */
 
-  --pumice:           #333a41;
-  --pumice-strong:    #4d555d;
+  --pumice:           #35292d;
+  --pumice-strong:    #52434a;
 
   --wine-bright:      #e07d90;
   --stain:            rgba(210, 87, 108, 0.15);
@@ -412,19 +420,6 @@ body {
   letter-spacing: 0.01em;
   line-height: 1.05;
 }
-
-/* The SVG rule that sits under a title. Drawn once in a component and
-   coloured from here so it follows the theme. */
-.hand-rule path {
-  fill: none;
-  stroke: var(--ink);
-  stroke-width: 2.2;
-  stroke-linecap: round;
-}
-/* Reads the section accent when a page sets one (see lib/config.ts),
-   so the Cellar's rules come out pounamu rather than garnet. Falls
-   back to wine, which is what every other call site gets. */
-.hand-rule.accent path { stroke: var(--accent, var(--wine)); }
 
 /* ---------------------------------------------------------------------
    Prose. Applied to the rendered chapter body.
@@ -491,27 +486,6 @@ body {
   border: 1px dashed var(--caution);
 }
 
-/* ---------------------------------------------------------------------
-   Wine stains. Decorative only, and hidden from assistive technology at
-   the call site.
-   --------------------------------------------------------------------- */
-.stain-ring {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-  background: radial-gradient(
-    circle,
-    transparent 0 58%,
-    var(--stain) 60% 72%,
-    transparent 74%
-  );
-}
-.stain-drop {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-  background: var(--stain);
-}
 
 /* ---------------------------------------------------------------------
    Controls, drawn as ink rather than as system widgets
@@ -770,4 +744,37 @@ body {
 .aroma-wedge:focus-visible {
   stroke: var(--ink);
   stroke-width: 3;
+}
+
+
+/* =====================================================================
+   THE COLOUR OF THE WINE
+
+   An element carrying data-wine="red|white|rose|gold" takes the tint of
+   that wine as its ground, mixed into the page's own paper so it works on
+   both the chalk and the dark theme. The mix is light - a wash, not a
+   fill - so type on top keeps the contrast the base tokens were measured
+   at. A plate behind a bottle photograph gets a stronger mix, because the
+   photograph is what sits on it.
+   ===================================================================== */
+[data-wine] {
+  --tint: var(--tint-red);
+}
+[data-wine='white'] { --tint: var(--tint-white); }
+[data-wine='rose']  { --tint: var(--tint-rose); }
+[data-wine='gold']  { --tint: var(--tint-gold); }
+
+.wine-ground {
+  background: color-mix(in srgb, var(--tint) 9%, var(--paper));
+}
+.wine-plate {
+  background: color-mix(in srgb, var(--tint) 22%, var(--paper-sunk));
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .wine-plate {
+    background: color-mix(in srgb, var(--tint) 34%, var(--paper-sunk));
+  }
+}
+:root[data-theme='dark'] .wine-plate {
+  background: color-mix(in srgb, var(--tint) 34%, var(--paper-sunk));
 }

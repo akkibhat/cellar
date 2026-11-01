@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import Contents from '@/components/Contents';
-import HandRule from '@/components/HandRule';
 import SectionTitle from '@/components/SectionTitle';
 import { CHAPTER_COUNT } from '@/lib/content/course';
 import { GRAPES } from '@/lib/grapes';
@@ -26,23 +25,12 @@ export default function CoursePage() {
   return (
     <div className="relative mx-auto max-w-[52rem] px-6 sm:px-10 lg:px-12 py-12 lg:py-16">
       {/* Decorative stains */}
-      <span
-        className="stain-ring"
-        style={{ width: 230, height: 230, top: 20, right: 10 }}
-        aria-hidden="true"
-      />
-      <span
-        className="stain-drop"
-        style={{ width: 26, height: 31, top: 300, left: 12 }}
-        aria-hidden="true"
-      />
 
       {/* ---- Masthead -------------------------------------------- */}
       <header className="mb-12">
         <p className="label-ui mb-3">What I have worked out</p>
 
         <SectionTitle section="course" />
-        <HandRule width={340} accent />
 
         <p className="t-lead leading-relaxed mt-6 max-w-[34rem]">
           Everything from what fermentation is to how to spit without
@@ -62,7 +50,6 @@ export default function CoursePage() {
       {/* ---- Reference tools ------------------------------------- */}
       <section className="mb-12">
         <h2 className="hand t-h2 leading-none mb-1">The tools</h2>
-        <HandRule width={160} variant={1} className="mb-4" />
         <div className="grid gap-2.5 sm:grid-cols-2">
           <ToolCard
             href="/glossary"
@@ -84,7 +71,6 @@ export default function CoursePage() {
 
       {/* ---- Contents -------------------------------------------- */}
       <h2 className="hand t-h2 leading-none mb-1">Contents</h2>
-      <HandRule width={160} className="mb-8" />
 
       <Contents />
     </div>

@@ -57,10 +57,8 @@ export default function DesignPage() {
   return (
     <div className="relative mx-auto max-w-[52rem] px-6 sm:px-10 lg:px-12 py-12 lg:py-16">
       <PageHeader
-        eyebrow="Record"
         title="How it was decided"
         standfirst="What was drawn, what came back, and what survived - in the order it happened. The marks are drawn live rather than screenshotted, at the size that decided them."
-        ruleWidth={300}
       />
 
       {/* ================= THE MARK ================= */}

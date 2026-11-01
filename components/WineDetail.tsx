@@ -1,5 +1,6 @@
 'use client';
 
+import { tintOf } from '@/lib/wineTint';
 import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
@@ -111,7 +112,8 @@ export default function WineDetail({
       >
         {/* ---- Who it is ------------------------------------------- */}
         <header
-          className="px-5 sm:px-7 pt-6 pb-5 flex items-start gap-4"
+          className="px-5 sm:px-7 pt-6 pb-5 flex items-start gap-4 wine-ground"
+          data-wine={tintOf(wine.type)}
           style={{ borderBottom: '1px solid var(--rule)' }}
         >
           <div className="min-w-0 flex-1">

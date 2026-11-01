@@ -4,7 +4,6 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { AROMA_FAMILIES } from '@/lib/aromas';
 import { useJournal } from '@/lib/storage';
-import HandRule from './HandRule';
 
 /**
  * The guided tasting tool.
@@ -440,7 +439,6 @@ export default function TastingTool({ compact = false }: { compact?: boolean }) 
         <span className="label-ui" style={{ color: 'var(--wine)' }}>
           Your note, so far
         </span>
-        <HandRule width={150} accent className="mt-1 mb-3" />
 
         {wine.trim() && (
           <p className="hand t-h2 leading-none mb-2">{wine}</p>
