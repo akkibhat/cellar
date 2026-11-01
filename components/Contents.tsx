@@ -108,10 +108,7 @@ export default function Contents() {
                   <li key={m.slug}>
                     <Link
                       href={`/course/${m.slug}`}
-                      className="card px-4 py-3 flex items-baseline gap-3 h-full"
-                      style={{
-                        borderColor: isDone ? 'var(--gold)' : 'var(--rule)',
-                      }}
+                      className="chapter-row"
                     >
                       <span
                         className="hand t-h3 leading-none shrink-0"

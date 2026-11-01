@@ -308,7 +308,7 @@
 
     --schist:           #ece5d7;   /* 14.07:1  AAA  bone on night       */
     --schist-soft:      #a89fa0;   /*  6.78:1  AA                       */
-    --scree:            #8d8486;   /*  4.9:1   AA                       */
+    --scree:            #9c9496;   /*  5.8:1   AA, clear of the tinted bands */
 
     --garnet:           #d2576c;   /*  4.56:1  AA  deeper than the      */
                                /*  usual lifted pink; full garnet   */
@@ -350,7 +350,7 @@
 
   --schist:           #ece5d7;   /* 14.07:1  AAA  bone on night       */
   --schist-soft:      #a89fa0;   /*  6.78:1  AA                       */
-  --scree:            #8d8486;   /*  4.9:1   AA                       */
+  --scree:            #9c9496;   /*  5.8:1   AA, clear of the tinted bands */
 
   --garnet:           #d2576c;   /*  4.56:1  AA  deeper than the      */
                                /*  usual lifted pink; full garnet   */
@@ -461,7 +461,10 @@ body {
 /* An index card tipped into the notebook. */
 .card {
   background: var(--paper-raised);
-  border: 1px solid var(--rule);
+  /* Transparent rather than none: the selected and hovered states colour
+     it from inline styles, and a width of zero would swallow them. The
+     surface is told apart from the page by its tone, not by a line. */
+  border: 1px solid transparent;
 }
 
 /* A well sunk into the page - sidebars, inset panels. */
@@ -561,12 +564,15 @@ body {
 .btn-primary {
   background: var(--wine);
   border-color: var(--wine);
-  color: var(--paper-raised);
+  /* The page colour, not the raised one: on the lifted garnet used in the
+     dark theme the raised surface is a touch too close and the label
+     measured 4.3:1; the page colour clears 4.5:1 in both themes. */
+  color: var(--paper);
 }
 .btn-primary:hover {
   background: var(--wine-bright);
   border-color: var(--wine-bright);
-  color: var(--paper-raised);
+  color: var(--paper);
 }
 .btn:disabled { opacity: 0.45; cursor: not-allowed; }
 
@@ -1053,4 +1059,56 @@ body {
     clip: rect(0 0 0 0);
     white-space: nowrap;
   }
+}
+
+
+/* The tools on the Cellarbook index: three plain rows, title large over a
+   sentence, with room between them instead of boxes around them. */
+.tool-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1.4rem;
+}
+.tool-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  max-width: 36rem;
+  text-decoration: none;
+}
+.tool-row:hover .hand {
+  color: var(--wine);
+}
+
+/* Contents: one chapter per row, number and title, a tint behind the row
+   you are pointing at. */
+.chapter-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  padding: 0.6rem 0.75rem;
+  margin-inline: -0.75rem;
+  text-decoration: none;
+}
+.chapter-row:hover {
+  background: var(--paper-sunk);
+}
+
+/* Options in the guided tasting tool. Plain words lost the look of a thing
+   to press, and here there are many options per question, so they are set
+   as flat blocks of tone: a step darker than the page, filled with the
+   wine colour when chosen. No outline, no rounding. */
+.chip--block {
+  background: var(--paper-sunk);
+  padding: 0.35rem 0.8rem;
+  margin: 0 0.35rem 0.35rem 0;
+  border-bottom-width: 0;
+}
+.chip--block:hover {
+  background: color-mix(in srgb, var(--wine) 12%, var(--paper-sunk));
+}
+.chip--block[aria-pressed='true'] {
+  background: var(--wine);
+  color: var(--paper-raised);
 }

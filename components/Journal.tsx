@@ -146,7 +146,7 @@ export default function Journal() {
                 </span>
 
                 <button
-                  className="chip"
+                  className="chip chip--block"
                   aria-pressed={selected}
                   onClick={() => toggleCompare(n.id)}
                 >

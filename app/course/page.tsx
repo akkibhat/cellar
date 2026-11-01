@@ -49,7 +49,7 @@ export default function CoursePage() {
       {/* ---- Reference tools ------------------------------------- */}
       <section className="mb-12">
         <h2 className="hand t-h2 leading-none mb-1">The tools</h2>
-        <div className="grid gap-2.5 sm:grid-cols-2">
+        <div className="tool-list">
           <ToolCard
             href="/glossary"
             title="Glossary"
@@ -87,8 +87,8 @@ function ToolCard({
   body: string;
 }) {
   return (
-    <Link href={href} className="card px-4 py-3.5 block">
-      <span className="hand t-h3 leading-none block mb-1">{title}</span>
+    <Link href={href} className="tool-row">
+      <span className="hand t-h2 leading-none">{title}</span>
       <span className="t-ui" style={{ color: 'var(--ink-soft)' }}>
         {body}
       </span>

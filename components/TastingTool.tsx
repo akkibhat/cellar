@@ -191,7 +191,7 @@ export default function TastingTool({ compact = false }: { compact?: boolean }) 
           {COLOURS.map((c) => (
             <button
               key={c.id}
-              className="chip"
+              className="chip chip--block"
               aria-pressed={colour === c.id}
               onClick={() => {
                 setColour(c.id);
@@ -212,7 +212,7 @@ export default function TastingTool({ compact = false }: { compact?: boolean }) 
             onClick={() => setStep(i)}
             className="card px-4 py-3 text-left transition-colors"
             style={{
-              borderColor: step === i ? 'var(--wine)' : 'var(--rule)',
+              borderColor: step === i ? 'var(--wine)' : 'transparent',
               borderWidth: step === i ? 2 : 1,
             }}
             aria-current={step === i ? 'step' : undefined}
@@ -244,7 +244,7 @@ export default function TastingTool({ compact = false }: { compact?: boolean }) 
               {HUES[colour].map((h) => (
                 <button
                   key={h}
-                  className="chip"
+                  className="chip chip--block"
                   aria-pressed={hues.includes(h)}
                   onClick={() => toggle(hues, setHues, h)}
                 >
@@ -267,7 +267,7 @@ export default function TastingTool({ compact = false }: { compact?: boolean }) 
               {(['bright', 'hazy'] as const).map((c) => (
                 <button
                   key={c}
-                  className="chip"
+                  className="chip chip--block"
                   aria-pressed={clarity === c}
                   onClick={() => setClarity(c)}
                 >
@@ -290,7 +290,7 @@ export default function TastingTool({ compact = false }: { compact?: boolean }) 
               {AROMA_FAMILIES.map((f) => (
                 <button
                   key={f.slug}
-                  className="chip"
+                  className="chip chip--block"
                   aria-pressed={families.includes(f.slug)}
                   onClick={() => {
                     toggle(families, setFamilies, f.slug);
@@ -322,7 +322,7 @@ export default function TastingTool({ compact = false }: { compact?: boolean }) 
                 {availableAromas.map(({ d, colour: c }) => (
                   <button
                     key={d}
-                    className="chip"
+                    className="chip chip--block"
                     aria-pressed={aromas.includes(d)}
                     onClick={() => toggle(aromas, setAromas, d)}
                     style={
@@ -401,7 +401,7 @@ export default function TastingTool({ compact = false }: { compact?: boolean }) 
               {[1, 2, 3, 4, 5].map((r) => (
                 <button
                   key={r}
-                  className="chip"
+                  className="chip chip--block"
                   aria-pressed={rating === r}
                   onClick={() => setRating(r)}
                   aria-label={`${r} out of 5`}

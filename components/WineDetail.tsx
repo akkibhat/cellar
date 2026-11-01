@@ -5,6 +5,7 @@ import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import {
+  photoFor,
   LEVEL_NOTE,
   STATUS_COLOUR,
   STATUS_LABEL,
@@ -116,6 +117,20 @@ export default function WineDetail({
           data-wine={tintOf(wine.type)}
           style={{ borderBottom: '1px solid var(--rule)' }}
         >
+          {photoFor(wine) && (
+            <div
+              className="wine-plate shrink-0 flex items-end justify-center"
+              data-wine={tintOf(wine.type)}
+              style={{ width: 'clamp(5.5rem, 22vw, 8.5rem)', height: 'clamp(8rem, 32vw, 12rem)' }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={photoFor(wine)}
+                alt={`${fullName(wine)} bottle`}
+                style={{ height: '92%', width: 'auto', objectFit: 'contain' }}
+              />
+            </div>
+          )}
           <div className="min-w-0 flex-1">
             <p className="label-ui mb-1.5">
               {drunk ? 'Tasted' : 'Still here'}
@@ -307,15 +322,16 @@ export default function WineDetail({
           {/* ---- Back into the course ------------------------------ */}
           {links.length > 0 && (
             <Section title="Read about it" level="mine" note={null} divider>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-x-5 gap-y-1">
                 {links.map((l) => (
                   <Link
                     key={l.href + l.label}
                     href={l.href}
-                    className="t-caption px-3 py-1.5 rounded-full"
+                    className="t-ui"
                     style={{
-                      border: '1px solid var(--rule-strong)',
-                      color: 'var(--ink-soft)',
+                      color: 'var(--wine)',
+                      textDecoration: 'underline',
+                      textUnderlineOffset: '3px',
                     }}
                   >
                     {l.label}
@@ -447,29 +463,17 @@ function Measure({ name, value }: { name: string; value: string | null }) {
   );
 }
 
-/** A row of small tags, optionally introduced by a word. */
+/** A line of tags set as running text, optionally introduced by a word. */
 function ChipRow({ label, items }: { label: string; items: string[] }) {
   if (items.length === 0) return null;
   return (
-    <div className="flex flex-wrap items-baseline gap-1.5 mt-2">
+    <p className="t-ui leading-relaxed mt-2">
       {label && (
-        <span className="t-caption mr-1" style={{ color: 'var(--ink-faint)' }}>
+        <span className="mr-2" style={{ color: 'var(--ink-faint)' }}>
           {label}
         </span>
       )}
-      {items.map((t) => (
-        <span
-          key={t}
-          className="t-caption px-2 py-0.5 rounded-full"
-          style={{
-            background: 'var(--paper-sunk)',
-            border: '1px solid var(--rule)',
-            color: 'var(--ink-soft)',
-          }}
-        >
-          {t}
-        </span>
-      ))}
-    </div>
+      {items.join(' \u00b7 ')}
+    </p>
   );
 }
