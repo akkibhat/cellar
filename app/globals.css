@@ -1534,3 +1534,15 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .bottle__img { transition: none; }
 }
+
+/* "Start here", set just above the chapter to begin with. A small label
+   in the accent, with an arrow pointing down at the row. */
+.band__start {
+  display: block;
+  margin: 0 0 0.1rem;
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--wine);
+}
+.band__start::after { content: ' ↓'; }

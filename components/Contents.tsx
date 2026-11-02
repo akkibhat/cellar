@@ -22,7 +22,7 @@ import { PROGRESS_ENABLED } from '@/lib/config';
  * and the browser's :target highlight marks it, instead of dropping you at
  * the top of the page to hunt for where you were.
  *
- * Progress (completion ticks and a "continue" button that resumes at the
+ * Progress (completion ticks and a "continue here" marker that sits at the
  * first unfinished chapter) is kept for when PROGRESS_ENABLED is turned
  * on; with it off, `done` is empty and everything reads as unstarted.
  */
@@ -61,7 +61,6 @@ export default function Contents({
   const done = PROGRESS_ENABLED && ready ? progress.done : [];
   const resume = CHAPTERS.find((m) => !done.includes(m.slug)) ?? CHAPTERS[0];
   const started = done.length > 0;
-  const startHref = `/course/${started ? resume.slug : CHAPTERS[0].slug}`;
 
   return (
     <>
@@ -81,11 +80,6 @@ export default function Contents({
             learn, but you can start anywhere.
             {started && ` You have finished ${done.length}.`}
           </p>
-          <div className="index-actions">
-            <Link href={startHref} className="btn btn-primary" suppressHydrationWarning>
-              {started ? `Continue with ${resume.title}` : `Start with ${CHAPTERS[0].title.toLowerCase()}`}
-            </Link>
-          </div>
           <div className="index-tools">
             <Link href="/glossary" className="index-tool">
               Glossary <span>{glossaryCount}</span>
@@ -143,6 +137,16 @@ export default function Contents({
                     className="band__item"
                     data-current={current === m.slug ? 'true' : undefined}
                   >
+                    {/* Where to begin: a marker just above the first chapter,
+                        or above the next unread one once progress is on and
+                        started. It replaces a button in the head, which sent
+                        you away from the list to a chapter you could see
+                        further down anyway. */}
+                    {m.slug === resume.slug && (
+                      <span className="band__start" suppressHydrationWarning>
+                        {started ? 'Continue here' : 'Start here'}
+                      </span>
+                    )}
                     <Link href={`/course/${m.slug}`} className="band__row">
                       <span className="band__n" suppressHydrationWarning>
                         {isDone ? '\u2713' : m.n}
