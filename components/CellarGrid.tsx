@@ -233,7 +233,7 @@ function Chip({
   children: React.ReactNode;
 }) {
   return (
-    <button onClick={onClick} aria-pressed={on} className="chip">
+    <button onClick={onClick} aria-pressed={on} className="chip chip--tab">
       {children}
     </button>
   );

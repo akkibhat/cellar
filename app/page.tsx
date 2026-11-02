@@ -1,8 +1,6 @@
 import Link from 'next/link';
 import ThemeToggle from '@/components/ThemeToggle';
 import { CHAPTER_COUNT } from '@/lib/content/course';
-import { GRAPES } from '@/lib/grapes';
-import { GLOSSARY } from '@/lib/glossary';
 
 /**
  * The front door, set as a poster.
@@ -18,12 +16,11 @@ import { GLOSSARY } from '@/lib/glossary';
  * each carrying its own sentence, so the choice between them is made by
  * reading, not by comparing two panels.
  *
- * The figures come from the data, so they cannot drift from what is on
- * the site. There is deliberately no count of bottles anywhere on this
- * page: the front door used to avoid it on the grounds that reporting how
- * many bottles are left makes a doorway into a dashboard, and that still
- * holds. Chapters, grapes and glossary terms are things to read, so they
- * can be counted.
+ * There is no strip of figures and no oversized wordmark at the foot: both
+ * were stock landing-page furniture, and the chapter count already appears
+ * once, on the Cellarbook half. There is also deliberately no count of
+ * bottles anywhere on this page: reporting how many are left would turn a
+ * doorway into a dashboard.
  *
  * The bottle photographs are the same files the cellar grid shows, named
  * here so the poster does not depend on which wines happen to be first in
@@ -35,12 +32,6 @@ import { GLOSSARY } from '@/lib/glossary';
 const BOTTLES = '/bottles/';
 
 export default function Home() {
-  const stats = [
-    { n: CHAPTER_COUNT, label: 'chapters' },
-    { n: GRAPES.length, label: 'grape varieties' },
-    { n: GLOSSARY.length, label: 'terms in the glossary' },
-  ];
-
   return (
     <div className="poster">
       {/* ---- The statement ------------------------------------- */}
@@ -126,21 +117,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---- The figures --------------------------------------- */}
-      <section className="poster-stats" aria-label="The site in numbers">
-        <dl>
-          {stats.map((s) => (
-            <div key={s.label}>
-              <dt>{s.label}</dt>
-              <dd>{s.n}</dd>
-            </div>
-          ))}
-        </dl>
-      </section>
-
-      <footer className="poster-foot" aria-hidden="true">
-        Cellar
-      </footer>
     </div>
   );
 }

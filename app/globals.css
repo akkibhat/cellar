@@ -843,11 +843,14 @@ body {
 .poster-h1 {
   position: relative;
   z-index: 2;
-  font-weight: 900;
-  font-size: clamp(3.6rem, 13.5vw, 14rem);
-  line-height: 0.86;
+  /* The site's own heading serif, set very large: the same voice as the
+     chapter titles and the Cellarbook index, where the poster was a heavy
+     grotesque in capitals and read as a different site. */
+  font-family: var(--font-wordmark), Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(3.8rem, 14vw, 14.5rem);
+  line-height: 0.9;
   letter-spacing: -0.035em;
-  text-transform: uppercase;
 }
 .poster-lead {
   position: relative;
@@ -901,11 +904,11 @@ body {
 .poster-half--book { background: var(--p-straw); }
 .poster-half--door { background: var(--p-blush); }
 .poster-h2 {
-  font-weight: 900;
-  font-size: clamp(2.6rem, 7.6vw, 8rem);
-  line-height: 0.9;
+  font-family: var(--font-wordmark), Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(2.8rem, 7.4vw, 7.6rem);
+  line-height: 0.95;
   letter-spacing: -0.03em;
-  text-transform: uppercase;
   max-width: 9ch;
 }
 .poster-half p {
@@ -1546,3 +1549,14 @@ body {
   color: var(--wine);
 }
 .band__start::after { content: ' ↓'; }
+
+/* A filter you press, at a size you can press: 44px tall, set at the UI
+   size, with the chosen one underlined thicker. Used by Cellardoor. */
+.chip--tab {
+  font-size: var(--t-ui);
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  padding-block: 0;
+  border-bottom-width: 3px;
+}
