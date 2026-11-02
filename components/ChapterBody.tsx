@@ -42,34 +42,37 @@ function marginNotes(body: Block[]): Map<number, ReturnType<typeof termFor>> {
 export default function ChapterBody({ body }: { body: Block[] }) {
   const ids = headingsOf(body);
   const notes = marginNotes(body);
-  let h = -1;
+
+  /* The id each heading block carries, by the block's position. The nth
+     heading takes the nth id, counted from the blocks themselves rather
+     than in a variable reassigned while rendering. */
+  const headingAt = new Map<number, string>();
+  body.forEach((block, i) => {
+    if (block.kind !== 'h') return;
+    const n = body.slice(0, i).filter((b) => b.kind === 'h').length;
+    if (ids[n]) headingAt.set(i, ids[n].id);
+  });
 
   return (
     <div className="prose-paper chapter-prose">
-      {body.map((block, i) => {
-        if (block.kind === 'h') h += 1;
-        return (
-          <BlockView
-            key={i}
-            block={block}
-            index={i}
-            headingId={block.kind === 'h' ? ids[h]?.id : undefined}
-            note={notes.get(i)}
-          />
-        );
-      })}
+      {body.map((block, i) => (
+        <BlockView
+          key={i}
+          block={block}
+          headingId={headingAt.get(i)}
+          note={notes.get(i)}
+        />
+      ))}
     </div>
   );
 }
 
 function BlockView({
   block,
-  index,
   headingId,
   note,
 }: {
   block: Block;
-  index: number;
   headingId?: string;
   note?: ReturnType<typeof termFor>;
 }) {
