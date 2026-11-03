@@ -6,6 +6,8 @@ import ChapterBody from '@/components/ChapterBody';
 import ChapterFooter from '@/components/ChapterFooter';
 import ChapterOpener from '@/components/ChapterOpener';
 import ChapterRail from '@/components/ChapterRail';
+import PlaceBottles from '@/components/PlaceBottles';
+import { PART_COLOURS, FALLBACK } from '@/lib/content/partColours';
 import { headingsOf } from '@/lib/headings';
 import Quiz from '@/components/Quiz';
 import { QUIZZES_ENABLED } from '@/lib/config';
@@ -75,6 +77,13 @@ export default async function ChapterPage({
           {QUIZZES_ENABLED && mod.quiz && mod.quiz.length > 0 && (
             <Quiz slug={mod.slug} questions={mod.quiz} />
           )}
+
+          {/* ---- Bottles from this place ----------------------------- *
+           * Only place chapters have any; the rest draw nothing.      */}
+          <PlaceBottles
+            slug={mod.slug}
+            field={(PART_COLOURS[mod.part] ?? FALLBACK).main}
+          />
 
           {/* ---- Footer -------------------------------------------- */}
           <div className="chapter-foot">

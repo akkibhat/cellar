@@ -402,6 +402,22 @@ export function courseLinksFor(w: CellarWine): CourseLink[] {
 }
 
 /**
+ * The bottles a chapter can point at: every wine whose link into the course
+ * lands on that chapter. This is `courseLinksFor` read the other way round,
+ * so the two cannot disagree about which wine belongs to which chapter.
+ * A chapter with no bottle behind it returns an empty list, and the page
+ * shows nothing for it rather than an empty shelf.
+ */
+export function bottlesFor(slug: string): { wine: CellarWine; drunk: boolean }[] {
+  const mine = (w: CellarWine) =>
+    courseLinksFor(w).some((l) => l.href === `/course/${slug}`);
+  return [
+    ...CELLAR.filter(mine).map((wine) => ({ wine, drunk: false })),
+    ...TASTED.filter(mine).map((wine) => ({ wine, drunk: true })),
+  ];
+}
+
+/**
  * Notes that are actually about the wine, not about the import.
  *
  * The bulk import on 30 August stamped a breadcrumb into every bottle's
