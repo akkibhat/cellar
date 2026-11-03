@@ -1560,3 +1560,64 @@ body {
   padding-block: 0;
   border-bottom-width: 3px;
 }
+
+/* ---------------------------------------------------------------------
+   Bottles from here: the Cellardoor shelf, set into the end of a place
+   chapter. The bottles stand on the paper with the edge they stand on in
+   the colour of the place, as on the shelf itself.
+   --------------------------------------------------------------------- */
+.place {
+  margin: 3.5rem 0 3rem;
+  max-width: 40rem;
+}
+.place__kicker {
+  margin: 0 0 0.35rem;
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.place__title {
+  margin: 0;
+  font-family: var(--font-wordmark), Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(1.9rem, 3vw, 2.4rem);
+  line-height: 1.05;
+  color: var(--ink);
+}
+.place__blurb {
+  margin: 0.6rem 0 0;
+  max-width: 34rem;
+  color: var(--ink-soft);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+.place__row {
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 1.5rem 1.25rem 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 1.5rem 1.5rem;
+  background: var(--paper);
+  border-bottom: 0.9rem solid var(--place-bg);
+}
+.place .bottle__img { height: clamp(9.5rem, 14vw, 12.5rem); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .place__row {
+    background: color-mix(in srgb, var(--place-bg) 26%, var(--paper-sunk));
+  }
+}
+:root[data-theme='dark'] .place__row {
+  background: color-mix(in srgb, var(--place-bg) 26%, var(--paper-sunk));
+}
+
+@media (max-width: 40rem) {
+  /* Same rule as the shelf: the width goes on the list item. */
+  .place__row { gap: 1.5rem 0.9rem; padding-inline: 1rem; }
+  .place__row > li { width: calc((100% - 1.8rem) / 3); }
+  .place .bottle__img { height: 9rem; }
+}

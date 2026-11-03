@@ -1,0 +1,94 @@
+'use client';
+
+import { useState } from 'react';
+import WineDetail from './WineDetail';
+import { bottlesFor, photoFor, stars, type CellarWine } from '@/lib/cellar';
+
+/**
+ * The end of a place chapter: the bottles in the cellar from there.
+ *
+ * The book is what I have learned and the cellar is what I have drunk, and
+ * the two halves of the site were only joined from the bottle's side (a
+ * wine links to its chapter). This is the other direction. A chapter that
+ * says the producer matters more than the name on the label ends by
+ * showing two Châteauneuf-du-Pape from different producers, and opening
+ * one is the same panel the shelf uses.
+ *
+ * It stands on the shelf's own board: bottles on the paper with the edge
+ * they stand on in the colour of the place, so it reads as a piece of the
+ * Cellardoor shelf set into the chapter and not as a new component. It
+ * draws nothing when no bottle belongs to the chapter.
+ */
+type Field = { bg: string; ink: string };
+
+export default function PlaceBottles({
+  slug,
+  field,
+}: {
+  slug: string;
+  /** The colours of the chapter's part: a place takes a colour of wine. */
+  field: Field;
+}) {
+  const [open, setOpen] = useState<{ wine: CellarWine; drunk: boolean } | null>(null);
+  const bottles = bottlesFor(slug);
+  if (bottles.length === 0) return null;
+
+  return (
+    <section
+      className="place no-print"
+      aria-labelledby="place-h"
+      style={{ ['--place-bg' as string]: field.bg, ['--place-ink' as string]: field.ink }}
+    >
+      <header className="place__head">
+        <p className="place__kicker">In the cellar</p>
+        <h2 id="place-h" className="place__title">
+          Bottles from here
+        </h2>
+        <p className="place__blurb">
+          {bottles.length === 1
+            ? 'One wine I have opened or still hold from this chapter. Open it for the grape, what it goes with, and what I made of it.'
+            : `${bottles.length} wines I have opened or still hold from this chapter. Open one for the grape, what it goes with, and what I made of it.`}
+        </p>
+      </header>
+
+      <ul className="place__row">
+        {bottles.map((b, i) => {
+          const { wine, drunk } = b;
+          const photo = photoFor(wine);
+          const byline = wine.producer !== wine.wine ? wine.producer : '';
+          return (
+            <li key={`${wine.producer}-${wine.wine}-${wine.vintage}-${i}`}>
+              <button
+                type="button"
+                className="bottle"
+                onClick={() => setOpen(b)}
+                aria-label={`${wine.wine}${wine.vintage ? ' ' + wine.vintage : ''}, open details`}
+              >
+                {photo ? (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img src={photo} alt="" loading="lazy" className="bottle__img" />
+                ) : (
+                  <span className="bottle__img bottle__img--blank" aria-hidden="true" />
+                )}
+                {!drunk && <span className="bottle__tag">Still here</span>}
+                <span className="bottle__name">{wine.wine}</span>
+                <span className="bottle__sub">
+                  {[byline, wine.vintage].filter(Boolean).join(' ')}
+                </span>
+                {wine.rating !== undefined && (
+                  <span className="bottle__stars nums" title={`${wine.rating} out of 5`}>
+                    {stars(wine.rating)}
+                  </span>
+                )}
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+
+      {open && (
+        <WineDetail wine={open.wine} drunk={open.drunk} onClose={() => setOpen(null)} />
+      )}
+    </section>
+  );
+}
