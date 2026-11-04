@@ -2,6 +2,7 @@
 
 import { useMemo, useState, type ReactNode } from 'react';
 import WineDetail from './WineDetail';
+import { SILHOUETTE_FILL as GLASS, SILHOUETTE_PATH as BOTTLE } from '@/lib/bottleSilhouette';
 import {
   CELLAR,
   TASTED,
@@ -40,19 +41,6 @@ import {
  */
 
 type Filter = 'all' | 'cellar' | 'tasted';
-
-/** What the bottle silhouette is filled with when there is no photograph. */
-const GLASS: Record<CellarWine['type'], string> = {
-  red: '#6d1f2b',
-  white: '#c8a33f',
-  'rosé': '#d98a86',
-  sparkling: '#d9c168',
-  dessert: '#b3762a',
-  fortified: '#5a2a20',
-};
-
-/** A Bordeaux silhouette in a 24x72 box: straight sides, sharp shoulder. */
-const BOTTLE = 'M4,70 V30 C4,26 8,24 8,20 V6 h8 V20 C16,24 20,26 20,30 V70 Z';
 
 type Entry = { wine: CellarWine; drunk: boolean };
 

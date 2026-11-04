@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import WineDetail from './WineDetail';
+import { SILHOUETTE_FILL, SILHOUETTE_PATH } from '@/lib/bottleSilhouette';
 import { bottlesFor, photoFor, stars, type CellarWine } from '@/lib/cellar';
 
 /**
@@ -68,7 +69,10 @@ export default function PlaceBottles({
                   /* eslint-disable-next-line @next/next/no-img-element */
                   <img src={photo} alt="" loading="lazy" className="bottle__img" />
                 ) : (
-                  <span className="bottle__img bottle__img--blank" aria-hidden="true" />
+                  /* No photograph yet: the silhouette the shelf uses, in the colour of the wine. */
+                  <svg className="bottle__img bottle__img--blank" viewBox="0 0 24 72" aria-hidden="true">
+                    <path d={SILHOUETTE_PATH} fill={SILHOUETTE_FILL[wine.type]} />
+                  </svg>
                 )}
                 {!drunk && <span className="bottle__tag">Still here</span>}
                 <span className="bottle__name">{wine.wine}</span>
