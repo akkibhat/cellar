@@ -107,7 +107,7 @@ export default function CellarNav() {
               key={l.href}
               href={l.href === '/course' && chapter ? `/course/#${chapter}` : l.href}
               aria-current={active ? 'page' : undefined}
-              className="flex items-center gap-2 px-3 py-1.5 rounded"
+              className="tap flex items-center gap-2 px-3 py-1.5 rounded"
               style={{
                 background: active ? 'var(--paper-raised)' : undefined,
                 color: active ? 'var(--ink)' : 'var(--ink-soft)',

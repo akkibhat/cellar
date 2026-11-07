@@ -132,7 +132,7 @@ export default function GlossarySearch() {
                     <button
                       key={slug}
                       onClick={() => jumpTo(slug)}
-                      className="t-caption underline underline-offset-2"
+                      className="tap t-caption underline underline-offset-2"
                       style={{ color: 'var(--wine)' }}
                     >
                       {target.term}

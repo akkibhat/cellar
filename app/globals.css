@@ -1621,3 +1621,34 @@ body {
   .place__row > li { width: calc((100% - 1.8rem) / 3); }
   .place .bottle__img { height: 9rem; }
 }
+
+/* ---------------------------------------------------------------------
+   Touch screens: grow small controls' tap area to 44px tall without
+   moving anything. An invisible box centred on the control takes the
+   press; the control itself keeps its size, so a phone looks exactly
+   like it did. Mouse and trackpad users get no change at all.
+   Height only, plus a hair of width: growing sideways would overlap
+   neighbouring chips that sit a few pixels apart.
+   `.tap` is for one-off controls (theme switch, top bar, See also). */
+@media (pointer: coarse) {
+  .chip,
+  .tap,
+  .rail__link,
+  .rail__all,
+  .index-tool {
+    position: relative;
+  }
+  .chip::after,
+  .tap::after,
+  .rail__link::after,
+  .rail__all::after,
+  .index-tool::after {
+    content: '';
+    position: absolute;
+    left: -0.15rem;
+    right: -0.15rem;
+    top: 50%;
+    height: max(100%, 44px);
+    transform: translateY(-50%);
+  }
+}

@@ -26,7 +26,7 @@ export default function ThemeToggle({ className = '' }: { className?: string }) 
   return (
     <button
       onClick={toggle}
-      className={`rounded p-1.5 ${className}`}
+      className={`tap rounded p-1.5 ${className}`}
       style={{ color: 'var(--ink-faint)', lineHeight: 0 }}
       aria-label={`Switch to ${next} theme`}
       title={`Switch to ${next} theme`}
