@@ -89,18 +89,32 @@ export const metadata: Metadata = {
 };
 
 /**
- * Runs before first paint to stamp the saved theme onto the root element,
- * so a reader who chose dark does not get a flash of paper-white first.
+ * Runs before first paint and always stamps data-theme on the root element:
+ * the saved choice if there is one, otherwise the system setting. The CSS
+ * only has a [data-theme='dark'] block, so this is what turns dark on.
+ * Until the reader picks a theme it keeps following the system setting if
+ * that changes while the page is open. Without JavaScript the site is light.
  * Written as a raw string because it must execute synchronously in head.
  */
 const THEME_SCRIPT = `
 (function () {
-  try {
-    var saved = localStorage.getItem('wine.theme');
-    if (saved === 'dark' || saved === 'light') {
-      document.documentElement.setAttribute('data-theme', saved);
+  var root = document.documentElement;
+  var media = window.matchMedia('(prefers-color-scheme: dark)');
+  function saved() {
+    try {
+      var v = localStorage.getItem('wine.theme');
+      return v === 'dark' || v === 'light' ? v : null;
+    } catch (e) {
+      return null;
     }
-  } catch (e) {}
+  }
+  function apply() {
+    root.setAttribute('data-theme', saved() || (media.matches ? 'dark' : 'light'));
+  }
+  apply();
+  media.addEventListener('change', function () {
+    if (!saved()) apply();
+  });
 })();
 `;
 

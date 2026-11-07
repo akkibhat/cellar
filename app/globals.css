@@ -263,50 +263,9 @@
   color-scheme: light;
 }
 
-/* System preference, unless an explicit light choice is stamped on. */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) {
-    /* Night - the same rock after dark */
-    --limestone:        #171214;
-    --limestone-raised: #221a1d;
-    --limestone-sunk:   #100c0e;
-
-    --schist:           #ece5d7;   /* 14.07:1  AAA  bone on night       */
-    --schist-soft:      #a89fa0;   /*  6.78:1  AA                       */
-    --scree:            #9c9496;   /*  5.8:1   AA, clear of the tinted bands */
-
-    --garnet:           #d45e72;   /*  4.98:1 page, 4.58:1 on raised    */
-                               /*  panels (#d2576c was 4.31 there). */
-                               /*  Full garnet #78202F is 1.75:1    */
-    --straw:            #dcc66e;   /*  6.77:1  AA                       */
-    --tussock:          #d7a95e;   /*  8.33:1  AAA - passes, so the     */
-    --tussock-deep:     #d7a95e;   /*  same value serves fill and text  */
-
-    --pumice:           #35292d;
-    --pumice-strong:    #52434a;
-
-    --wine-bright:      #e07d90;
-    --stain:            rgba(210, 87, 108, 0.15);
-    --shadow:           rgba(0, 0, 0, 0.45);
-
-    /* The mark's page runs deeper than text is allowed to: 3.02:1 clears
-       the 3:1 WCAG asks of a graphic, but not the 4.5:1 it asks of text.
-       So in dark mode alone the page and the wordmark diverge. */
-    --logo-page:    #b63147;
-    --logo-word:    var(--garnet);
-
-    /* Semantic, lifted for the dark ground. The aroma families are not
-       repeated here: they were solved to clear both grounds at one value. */
-    --ok:       #6aab99;   /* 6.77:1 */
-    --caution:  #d7a95e;   /* 8.33:1 */
-    --alert:    #e8836a;   /* 6.76:1 */
-    --info:     #7fb0d1;   /* 7.74:1 */
-
-    color-scheme: dark;
-  }
-}
-
-/* Explicit dark choice wins in both directions. */
+/* Dark theme. The inline script in app/layout.tsx always stamps data-theme,
+   using the system setting until the reader picks one, so one block covers
+   both ways of arriving here. */
 :root[data-theme='dark'] {
     /* Night - the same rock after dark */
   --limestone:        #171214;
@@ -367,9 +326,6 @@ body {
 
 /* The noise texture is far too strong over a dark ground. */
 :root[data-theme='dark'] body { background-blend-mode: overlay; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) body { background-blend-mode: overlay; }
-}
 
 ::selection {
   background: var(--stain);
@@ -717,11 +673,6 @@ body {
 }
 .wine-plate {
   background: color-mix(in srgb, var(--tint) 22%, var(--paper-sunk));
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) .wine-plate {
-    background: color-mix(in srgb, var(--tint) 34%, var(--paper-sunk));
-  }
 }
 :root[data-theme='dark'] .wine-plate {
   background: color-mix(in srgb, var(--tint) 34%, var(--paper-sunk));
@@ -1327,11 +1278,6 @@ body {
   background: var(--paper);
   border-bottom: 0.9rem solid;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) .shelf__row {
-    background: color-mix(in srgb, var(--tint) 26%, var(--paper-sunk));
-  }
-}
 :root[data-theme='dark'] .shelf__row {
   background: color-mix(in srgb, var(--tint) 26%, var(--paper-sunk));
 }
@@ -1470,11 +1416,6 @@ body {
   border-bottom: 0.9rem solid var(--place-bg);
 }
 .place .bottle__img { height: clamp(9.5rem, 14vw, 12.5rem); }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) .place__row {
-    background: color-mix(in srgb, var(--place-bg) 26%, var(--paper-sunk));
-  }
-}
 :root[data-theme='dark'] .place__row {
   background: color-mix(in srgb, var(--place-bg) 26%, var(--paper-sunk));
 }
