@@ -86,14 +86,14 @@ export default function CellarNav() {
       <div className="nav-frame h-full flex items-center gap-1">
         {LINKS.map((l) => {
           /* The cellar's own link stays lit anywhere inside it, so you can
-             always see which half you are in. Cellarbook lights on its
-             index and on the tool pages, which belong to the book. Home
-             only lights on an exact match. */
+             always see which half you are in. Cellarbook does the same for
+             its index, every chapter and the tool pages, which all belong
+             to the book. Home only lights on an exact match. */
           const active =
             l.href === '/cellar'
               ? route.startsWith('/cellar')
               : l.href === '/course'
-                ? route === '/course' || isToolRoute(route)
+                ? route.startsWith('/course') || isToolRoute(route)
                 : route === l.href;
 
           /* The mark colours itself from its variant, so the bar only
