@@ -310,9 +310,9 @@
     --schist-soft:      #a89fa0;   /*  6.78:1  AA                       */
     --scree:            #9c9496;   /*  5.8:1   AA, clear of the tinted bands */
 
-    --garnet:           #d2576c;   /*  4.56:1  AA  deeper than the      */
-                               /*  usual lifted pink; full garnet   */
-                               /*  #78202F is 1.75:1 and vanishes   */
+    --garnet:           #d45e72;   /*  4.98:1 page, 4.58:1 on raised    */
+                               /*  panels (#d2576c was 4.31 there). */
+                               /*  Full garnet #78202F is 1.75:1    */
     --pounamu:          #dcc66e;   /*  6.77:1  AA                       */
     --tussock:          #d7a95e;   /*  8.33:1  AAA — passes, so the     */
     --tussock-deep:     #d7a95e;   /*  same value serves fill and text  */
@@ -352,9 +352,9 @@
   --schist-soft:      #a89fa0;   /*  6.78:1  AA                       */
   --scree:            #9c9496;   /*  5.8:1   AA, clear of the tinted bands */
 
-  --garnet:           #d2576c;   /*  4.56:1  AA  deeper than the      */
-                               /*  usual lifted pink; full garnet   */
-                               /*  #78202F is 1.75:1 and vanishes   */
+  --garnet:           #d45e72;   /*  4.98:1 page, 4.58:1 on raised    */
+                               /*  panels (#d2576c was 4.31 there). */
+                               /*  Full garnet #78202F is 1.75:1    */
   --pounamu:          #dcc66e;   /*  6.77:1  AA                       */
   --tussock:          #d7a95e;   /*  8.33:1  AAA — passes, so the     */
   --tussock-deep:     #d7a95e;   /*  same value serves fill and text  */
