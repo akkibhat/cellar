@@ -55,16 +55,8 @@ function wedgePath(startDeg: number, endDeg: number) {
   ].join(' ');
 }
 
-/** The wheel plus the selected family's descriptor chips, optionally pickable. */
-export default function AromaWheel({
-  onPick,
-  selected = [],
-}: {
-  /** Optional: called when a descriptor chip is clicked. */
-  onPick?: (descriptor: string) => void;
-  /** Optional: descriptors to show as already chosen. */
-  selected?: string[];
-}) {
+/** The wheel plus the selected family's descriptors, shown as plain labels. */
+export default function AromaWheel() {
   const [active, setActive] = useState<string>(AROMA_FAMILIES[0].slug);
   const family = AROMA_FAMILIES.find((f) => f.slug === active)!;
   const step = 360 / AROMA_FAMILIES.length;
@@ -180,21 +172,15 @@ export default function AromaWheel({
 
         <div className="flex flex-wrap gap-1.5">
           {family.descriptors.map((d) => (
-            <button
+            /* Reference only, so a span with the chip look, the same way
+               GrapeExplorer shows a grape's aromas. */
+            <span
               key={d}
               className="chip"
-              aria-pressed={selected.includes(d)}
-              onClick={() => onPick?.(d)}
-              // Without a picker attached the chips are reference only.
-              style={{
-                cursor: onPick ? 'pointer' : 'default',
-                ...(selected.includes(d)
-                  ? { background: family.colour, borderColor: family.colour }
-                  : {}),
-              }}
+              style={{ cursor: 'default', pointerEvents: 'none' }}
             >
               {d}
-            </button>
+            </span>
           ))}
         </div>
       </div>
