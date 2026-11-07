@@ -1,13 +1,13 @@
 /**
  * Reference facts about grapes, and the registry's tasting profiles.
  *
- * GENERATED-ISH - gathered from Cellarion over MCP on 2026-08-31, by hand
+ * GENERATED-ISH - gathered from Cellarion's API on 2026-08-31, by hand
  * rather than by script. That is not laziness, it is a limitation worth
  * writing down: `scripts/pull-cellar.mjs` reads Cellarion's *export*, and
  * the export only carries your own data - bottles, ratings, notes. The
  * tasting profile and the grape reference belong to Cellarion's shared
  * registry, which the export does not include at all. So this file is
- * refreshed by asking Cellarion's MCP tools directly:
+ * refreshed from Cellarion's API directly:
  *
  *   describe_grape   -> GRAPES
  *   get_bottle       -> PROFILES (wine.tasting_profile)

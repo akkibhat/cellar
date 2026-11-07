@@ -13,9 +13,8 @@
  *
  * HOW TO REFRESH
  *
- *   1. In Cellarion (or by asking an assistant connected to its MCP
- *      server) run an export of the cellar. You get a download link that
- *      is valid for 60 minutes.
+ *   1. In Cellarion, run an export of the cellar. You get a download link
+ *      that is valid for 60 minutes.
  *   2. Download it, then:
  *
  *        node scripts/pull-cellar.mjs <path-to-export.json>
