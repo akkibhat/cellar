@@ -210,7 +210,7 @@
 
   /* Accents */
   --garnet:           #78202f;   /*  8.56:1  AAA  primary               */
-  --pounamu:          #775f12;   /* straw: the white-wine accent */
+  --straw:            #775f12;   /* the white-wine accent */
   --tussock:          #b3823a;   /*  2.84:1  FILL ONLY - never text     */
   --tussock-deep:     #89632c;   /*  4.51:1  AA   the text weight       */
 
@@ -243,16 +243,16 @@
 
   /* ---- The mark --------------------------------------------------- */
   /* The book mark draws a cover and an open page, so it carries both
-     accents: pounamu for the cover, garnet for the page and the "book"
-     suffix. The door mark is one shape in pounamu, and its "door" suffix
+     accents: straw for the cover, garnet for the page and the "book"
+     suffix. The door mark is one shape in straw, and its "door" suffix
      follows it.
 
-     --logo-cover and --logo-door need no dark-mode value: pounamu already
+     --logo-cover and --logo-door need no dark-mode value: straw already
      has one and these references pick it up. */
-  --logo-cover:   var(--pounamu);        /* the cover, and the spine    */
+  --logo-cover:   var(--straw);          /* the cover, and the spine    */
   --logo-page:    var(--garnet);         /* the open page               */
   --logo-word:    var(--garnet);         /* same value; garnet passes   */
-  --logo-door:    var(--pounamu);        /* the door, and its suffix    */
+  --logo-door:    var(--straw);          /* the door, and its suffix    */
 
   /* The height of the section bar. Declared here rather than measured,
      because the course sidebar sticks directly beneath it and the two
@@ -278,7 +278,7 @@
     --garnet:           #d45e72;   /*  4.98:1 page, 4.58:1 on raised    */
                                /*  panels (#d2576c was 4.31 there). */
                                /*  Full garnet #78202F is 1.75:1    */
-    --pounamu:          #dcc66e;   /*  6.77:1  AA                       */
+    --straw:            #dcc66e;   /*  6.77:1  AA                       */
     --tussock:          #d7a95e;   /*  8.33:1  AAA - passes, so the     */
     --tussock-deep:     #d7a95e;   /*  same value serves fill and text  */
 
@@ -320,7 +320,7 @@
   --garnet:           #d45e72;   /*  4.98:1 page, 4.58:1 on raised    */
                                /*  panels (#d2576c was 4.31 there). */
                                /*  Full garnet #78202F is 1.75:1    */
-  --pounamu:          #dcc66e;   /*  6.77:1  AA                       */
+  --straw:            #dcc66e;   /*  6.77:1  AA                       */
   --tussock:          #d7a95e;   /*  8.33:1  AAA - passes, so the     */
   --tussock-deep:     #d7a95e;   /*  same value serves fill and text  */
 

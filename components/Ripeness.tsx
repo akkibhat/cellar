@@ -71,10 +71,10 @@ export default function Ripeness() {
         <path
           d={`M${X0} ${TOP} C ${at(0.35)} ${TOP + 18}, ${at(0.6)} ${BASE - 26}, ${X1} ${BASE - 6}`}
           fill="none"
-          stroke="var(--pounamu)"
+          stroke="var(--straw)"
           strokeWidth="2.5"
         />
-        <text x={X0 + 6} y={TOP - 6} className="t-micro" fill="var(--pounamu)">
+        <text x={X0 + 6} y={TOP - 6} className="t-micro" fill="var(--straw)">
           acid
         </text>
 

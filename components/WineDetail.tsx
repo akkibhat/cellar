@@ -276,7 +276,7 @@ export default function WineDetail({
                         href={g.facts.url}
                         target="_blank"
                         rel="noreferrer"
-                        style={{ color: 'var(--pounamu)' }}
+                        style={{ color: 'var(--straw)' }}
                       >
                         {g.name}
                       </a>

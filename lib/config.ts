@@ -59,9 +59,9 @@ export type SectionKey = 'course' | 'cellar';
  * Everything that differs between the two halves, in one table.
  *
  * `accent` is a CSS custom property rather than a colour, so a section can
- * be recoloured by editing this line alone. The Cellar carries pounamu so
+ * be recoloured by editing this line alone. The Cellar carries straw so
  * you can tell which half you are in before reading a word. Note the
- * drink-window `early` pill (STATUS_COLOUR in lib/cellar.ts) is pounamu
+ * drink-window `early` pill (STATUS_COLOUR in lib/cellar.ts) is straw
  * too, so the two currently share a colour.
  */
 export const SECTIONS: Record<
@@ -86,7 +86,7 @@ export const SECTIONS: Record<
   },
   cellar: {
     href: '/cellar',
-    accent: 'var(--pounamu)',
+    accent: 'var(--straw)',
     suffix: 'door',
     brand: 'Cellardoor',
     label: 'The cellar',

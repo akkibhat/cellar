@@ -169,9 +169,9 @@ export default function DesignPage() {
           <p className="t-base mb-4" style={{ color: 'var(--ink-soft)' }}>
             Rendered as the same mock twice, differing in one token, so tab
             marker, primary button, active chip, numerals and badges all moved
-            together. Garnet for the book, pounamu for the cellar.
+            together. Garnet for the book, straw for the cellar.
           </p>
-          <Swatches title="What shipped" tokens={['--garnet', '--pounamu', '--tussock-deep']} />
+          <Swatches title="What shipped" tokens={['--garnet', '--straw', '--tussock-deep']} />
         </Round>
       </section>
 

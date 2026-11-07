@@ -71,9 +71,9 @@ export default function Fermentation() {
 
         {/* ---- the yeast, budding as yeast does ------------------ */}
         <g>
-          <ellipse cx="182" cy="66" rx="30" ry="26" fill="none" stroke="var(--pounamu)" strokeWidth="2" />
-          <ellipse cx="208" cy="44" rx="11" ry="10" fill="none" stroke="var(--pounamu)" strokeWidth="2" />
-          <text x="182" y="70" textAnchor="middle" className="t-micro" fill="var(--pounamu)">
+          <ellipse cx="182" cy="66" rx="30" ry="26" fill="none" stroke="var(--straw)" strokeWidth="2" />
+          <ellipse cx="208" cy="44" rx="11" ry="10" fill="none" stroke="var(--straw)" strokeWidth="2" />
+          <text x="182" y="70" textAnchor="middle" className="t-micro" fill="var(--straw)">
             yeast
           </text>
           <text x="182" y="112" textAnchor="middle" className="t-micro" fill="var(--ink-faint)">

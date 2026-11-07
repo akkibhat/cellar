@@ -56,7 +56,7 @@ export default function Dosage() {
       >
         {/* ---- the bands ------------------------------------------ */}
         {BANDS.map((b, i) => {
-          const colour = b.odd ? 'var(--wine)' : 'var(--pounamu)';
+          const colour = b.odd ? 'var(--wine)' : 'var(--straw)';
           return (
             <g key={b.term}>
               <text

@@ -46,9 +46,9 @@ export const STATUS_LABEL: Record<DrinkStatus, string> = {
 /** The colour for each status, mostly from the semantic tokens. */
 export const STATUS_COLOUR: Record<DrinkStatus, string> = {
   /* Blue says wait, green (--ok) says at its best. `early` is drinkable but
-     still improving, so it takes the quieter pounamu rather than the green. */
+     still improving, so it takes the quieter straw rather than the green. */
   young: 'var(--info)',
-  early: 'var(--pounamu)',
+  early: 'var(--straw)',
   ready: 'var(--ok)',
   closing: 'var(--caution)',
   past: 'var(--alert)',

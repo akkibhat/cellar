@@ -61,7 +61,7 @@ export default function TwoBanks() {
           </pattern>
           {/* Clay: flat, dense, layered, holding its water. */}
           <pattern id="bx-clay" width="14" height="9" patternUnits="userSpaceOnUse">
-            <line x1="0" y1="4" x2="14" y2="4" stroke="var(--pounamu)" strokeWidth="1.3" />
+            <line x1="0" y1="4" x2="14" y2="4" stroke="var(--straw)" strokeWidth="1.3" />
           </pattern>
         </defs>
 
@@ -77,7 +77,7 @@ export default function TwoBanks() {
             ],
             [
               `M${MOUTH[0]} 22 L${MOUTH[0]} ${MOUTH[1]} L${JOIN[0]} ${JOIN[1]} L${DORDOGNE[0]} ${DORDOGNE[1]} L462 22 Z`,
-              'var(--pounamu)',
+              'var(--straw)',
               0.32,
               'url(#bx-clay)',
               0.3,
@@ -107,7 +107,7 @@ export default function TwoBanks() {
         />
         <path
           d={[250, 282, 314].map((x) => vine(x, 110)).join(' ')}
-          stroke="var(--pounamu)"
+          stroke="var(--straw)"
           strokeWidth="1.5"
           fill="none"
           opacity="0.9"
@@ -192,7 +192,7 @@ export default function TwoBanks() {
         </text>
 
         {/* ---- Right Bank: clay, north of the Dordogne ------------ */}
-        <text x="456" y="44" textAnchor="end" className="t-micro" fill="var(--pounamu)">
+        <text x="456" y="44" textAnchor="end" className="t-micro" fill="var(--straw)">
           RIGHT BANK · CLAY
         </text>
         <text x="456" y="76" textAnchor="end" className="t-micro" fill="var(--ink)">
@@ -214,7 +214,7 @@ export default function TwoBanks() {
         <text x="36" y="290" className="t-micro" fill="var(--ink)">
           Gravel drains hard and holds warmth, so Cabernet Sauvignon can ripen fully
         </text>
-        <rect x="18" y="299" width="10" height="10" rx="2" fill="var(--pounamu)" opacity="0.55" />
+        <rect x="18" y="299" width="10" height="10" rx="2" fill="var(--straw)" opacity="0.55" />
         <text x="36" y="308" className="t-micro" fill="var(--ink)">
           Cold wet clay cannot, so it plants Merlot, which ripens weeks earlier
         </text>

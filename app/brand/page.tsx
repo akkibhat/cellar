@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 /* Token names for each swatch group, read live by <Swatches>. */
 const GROUND = ['--limestone', '--limestone-raised', '--limestone-sunk'];
 const INK = ['--schist', '--schist-soft', '--scree'];
-const ACCENT = ['--garnet', '--pounamu', '--tussock', '--tussock-deep'];
+const ACCENT = ['--garnet', '--straw', '--tussock', '--tussock-deep'];
 const RULE = ['--pumice', '--pumice-strong'];
 const SEMANTIC = ['--ok', '--caution', '--alert', '--info'];
 const AROMA = [
@@ -70,8 +70,8 @@ export default function BrandPage() {
         <h2 className="hand t-h2 mb-1">The wordmark</h2>
         <p className="t-base mb-6" style={{ color: 'var(--ink-soft)' }}>
           Two names, one mark, drawn twice. The book shows a cover and an open
-          page, so it carries both accents - pounamu for the cover, garnet for
-          the page. The door is one shape and takes garnet alone. Green is
+          page, so it carries both accents - straw for the cover, garnet for
+          the page. The door is one shape and takes straw alone. Garnet is
           therefore the thing only the book has, which is what tells the two
           apart at sidebar size, where the shapes themselves are nearly the
           same silhouette.
