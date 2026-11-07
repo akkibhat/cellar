@@ -26,7 +26,7 @@ export const LAST_CHAPTER_KEY = 'cellar.lastChapter';
 
 /**
  * Fired after any write so that separate components mounted at the same
- * time (the sidebar and the chapter body, say) stay in agreement without
+ * time (the contents and a chapter's footer, say) stay in agreement without
  * needing a shared context provider.
  */
 const CHANGE_EVENT = 'wine:storage';

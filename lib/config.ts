@@ -23,9 +23,9 @@ export const QUIZZES_ENABLED: boolean = false;
  * Whether to track and show reading progress.
  *
  * Off for now: a course that counts how much of itself you have finished
- * asks to be finished rather than dipped into. The sidebar meter, the
- * contents counters and the "mark complete" control at the foot of each
- * chapter all hide behind this.
+ * asks to be finished rather than dipped into. The contents counters and
+ * the "mark complete" control at the foot of each chapter both hide behind
+ * this.
  *
  * Nothing is deleted. `useProgress` still works, anything already stored
  * under `wine.progress.v1` in localStorage is left untouched, and turning
@@ -96,18 +96,6 @@ export const SECTIONS: Record<
 /** The display name of one half, under whatever naming is in force. */
 export function sectionName(key: SectionKey): string {
   return SECTION_NAMING === 'suffix' ? SECTIONS[key].brand : SECTIONS[key].label;
-}
-
-/**
- * Which half a path belongs to.
- *
- * Only the cellar's own routes count. The guided tasting and the journal
- * are top-level tools that wear the course's sidebar, so they count as
- * course; otherwise the masthead would read Cellardoor over a page
- * carrying the course's furniture.
- */
-export function sectionFor(pathname: string): SectionKey {
-  return pathname.startsWith('/cellar') ? 'cellar' : 'course';
 }
 
 /**

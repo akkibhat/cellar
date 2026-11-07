@@ -4,7 +4,7 @@
    THE NOTEBOOK DESIGN SYSTEM
 
    The visual language is a kept journal: warm paper, ink, wine stains.
-   The application furniture - sidebar, stepper, chips, sliders - is
+   The application furniture - nav, stepper, chips, sliders - is
    rendered in that same language rather than in standard UI chrome, so
    the tools feel like part of the notebook instead of a panel bolted on.
 
@@ -255,8 +255,8 @@
   --logo-door:    var(--straw);          /* the door, and its suffix    */
 
   /* The height of the section bar. Declared here rather than measured,
-     because the course sidebar sticks directly beneath it and the two
-     numbers have to agree; CellarNav sets its own height from this, so
+     because the chapter rail sticks just beneath it and the two numbers
+     have to agree; CellarNav sets its own height from this, so
      there is one value rather than a guess in each file. */
   --nav-h: 3.7rem;
 
@@ -598,7 +598,7 @@ body {
 
    Keyed on the pathname in Shell, so React replaces the <main> on every
    navigation and the animation runs again. It is a short rise and fade
-   rather than a slide: the sidebar and masthead stay put across a
+   rather than a slide: the top bar and tools row stay put across a
    navigation, so anything larger would make the page look like it was
    moving relative to furniture that is not.
 
@@ -1135,6 +1135,64 @@ body {
   display: inline-block;
   color: var(--ink-faint);
   margin-left: 0.3rem;
+}
+/* Each group is a label column with its tools wrapping beside it, so a
+   long group wraps under its own tools rather than under the label. */
+.index-tools + .index-tools { margin-top: 0.6rem; }
+.index-tools--group {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: 0 0.75rem;
+}
+.index-tools__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+}
+
+/* The tools row under the top bar on the tool pages. It scrolls sideways
+   on a phone rather than wrapping into a block of links above the page. */
+.tools-row {
+  font-family: var(--font-archivo), system-ui, sans-serif;
+}
+.tools-row__inner {
+  position: relative; /* so a link's offsetLeft is measured from the row */
+  display: flex;
+  gap: 0.4rem 2.25rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-block: 0.7rem;
+}
+.tools-row__group {
+  display: flex;
+  align-items: baseline;
+  gap: 1.1rem;
+  white-space: nowrap;
+}
+.tools-row__link {
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  text-underline-offset: 5px;
+}
+.tools-row__link:hover { color: var(--ink); }
+/* The way back to the chapters, set apart from the tools by a rule. */
+.tools-row__back {
+  white-space: nowrap;
+  color: var(--ink);
+  padding-right: 2.25rem;
+  margin-right: -0.5rem;
+  border-right: 1px solid var(--rule);
+}
+/* Not pulled out like the top bar's first link (it has no highlight box),
+   so it lines up with the Home icon above it. */
+.tools-row__inner > a.tools-row__back:first-child { margin-left: 0; }
+.tools-row__link[aria-current='page'] {
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--wine);
+  text-decoration-thickness: 2px;
 }
 
 .band {

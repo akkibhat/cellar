@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { TOOL_GROUPS } from '@/lib/tools';
 import { PARTS } from '@/lib/content/parts';
 import { PART_COLOURS, FALLBACK } from '@/lib/content/partColours';
 import { CHAPTERS, CHAPTER_COUNT, chaptersInPart } from '@/lib/content/course';
@@ -57,6 +58,9 @@ export default function Contents({
   const resume = CHAPTERS.find((m) => !done.includes(m.slug)) ?? CHAPTERS[0];
   const started = done.length > 0;
 
+  /* The item counts shown beside the tools that have them. */
+  const counts: Record<string, number> = { '/glossary': glossaryCount, '/grapes': grapeCount };
+
   return (
     <>
       {/* ---- The head ------------------------------------------- */}
@@ -75,17 +79,26 @@ export default function Contents({
             learn, but you can start anywhere.
             {started && ` You have finished ${done.length}.`}
           </p>
-          <div className="index-tools">
-            <Link href="/glossary" className="index-tool">
-              Glossary <span>{glossaryCount}</span>
-            </Link>
-            <Link href="/grapes" className="index-tool">
-              Grape explorer <span>{grapeCount}</span>
-            </Link>
-            <Link href="/aromas" className="index-tool">
-              Aroma wheel
-            </Link>
-            {started && (
+          {/* Every tool, in the same two groups as the row on the tool
+              pages. The two reference lists show how much is in them. */}
+          {TOOL_GROUPS.map((group) => (
+            <div key={group.label} className="index-tools index-tools--group">
+              <span className="label-ui">{group.label}</span>
+              <div className="index-tools__links">
+                {group.tools.map((t) => {
+                  const count = counts[t.href];
+                  return (
+                    <Link key={t.href} href={t.href} className="index-tool">
+                      {t.label}
+                      {count !== undefined && <span>{count}</span>}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+          {started && (
+            <div className="index-tools">
               <button
                 className="index-tool"
                 onClick={() => {
@@ -94,8 +107,8 @@ export default function Contents({
               >
                 Reset progress
               </button>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </header>
 

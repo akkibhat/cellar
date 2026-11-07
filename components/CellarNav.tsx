@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { LogoMark } from './Logo';
 import ThemeToggle from './ThemeToggle';
 import { LOCKUP } from '@/lib/mark';
+import { isToolRoute } from '@/lib/tools';
 
 /**
  * The top navigation bar: Home, Cellarbook and Cellardoor, plus the theme
@@ -85,12 +86,15 @@ export default function CellarNav() {
       <div className="nav-frame h-full flex items-center gap-1">
         {LINKS.map((l) => {
           /* The cellar's own link stays lit anywhere inside it, so you can
-             always see which half you are in; the others only light on an
-             exact match. */
+             always see which half you are in. Cellarbook lights on its
+             index and on the tool pages, which belong to the book. Home
+             only lights on an exact match. */
           const active =
             l.href === '/cellar'
               ? route.startsWith('/cellar')
-              : route === l.href;
+              : l.href === '/course'
+                ? route === '/course' || isToolRoute(route)
+                : route === l.href;
 
           /* The mark colours itself from its variant, so the bar only
              needs the accent for the word beside it. */
