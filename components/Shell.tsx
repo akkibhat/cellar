@@ -207,7 +207,8 @@ export default function Shell({ children }: { children: React.ReactNode }) {
                   <span className="label-ui">{part.title}</span>
                 </div>
                 {mods.map((m) => {
-                  const active = pathname === `/course/${m.slug}`;
+                  /* No "current chapter" highlight: on a chapter page the
+                     sidebar isn't shown at all (see the early return above). */
                   const done =
                     PROGRESS_ENABLED && ready && progress.done.includes(m.slug);
                   return (
@@ -216,25 +217,14 @@ export default function Shell({ children }: { children: React.ReactNode }) {
                       href={`/course/${m.slug}`}
                       onClick={closeDrawer}
                       className="flex items-center gap-2.5 px-3 py-1.5 rounded transition-colors"
-                      style={{
-                        background: active ? 'var(--paper-raised)' : undefined,
-                        color: active ? 'var(--ink)' : 'var(--ink-soft)',
-                        fontWeight: active ? 600 : 400,
-                      }}
+                      style={{ color: 'var(--ink-soft)' }}
                     >
                       <span
                         className="shrink-0 rounded-full"
                         style={{
                           width: 7,
                           height: 7,
-                          background: done
-                            ? 'var(--gold)'
-                            : active
-                              ? 'var(--wine)'
-                              : 'var(--rule-strong)',
-                          boxShadow: active
-                            ? '0 0 0 3px var(--stain)'
-                            : undefined,
+                          background: done ? 'var(--gold)' : 'var(--rule-strong)',
                         }}
                         suppressHydrationWarning
                       />
@@ -259,7 +249,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
               {group.label}
             </span>
             {group.tools.map((t) => {
-              const active = pathname === t.href;
+              const active = route === t.href;
               return (
                 <Link
                   key={t.href}

@@ -98,13 +98,14 @@ serve.
 
 It goes to Cloudflare Workers at <https://cellar.pi.co.nz>, as a
 static-assets Worker that serves `out/` (see `wrangler.jsonc`). The repo is
-connected in the Cloudflare dashboard, so a push to main builds and deploys:
+connected to Workers Builds in the Cloudflare dashboard, so a push to main
+builds and deploys:
 
 | | |
 |---|---|
 | Build command | `npm run build` |
-| Output directory | `out` |
-| Node version | 20 or newer |
+| Deploy command | `npx wrangler deploy` |
+| Assets folder | `out`, set in `wrangler.jsonc` (not in the dashboard) |
 
 Building from the repo rather than from a working copy is deliberate: two
 design previews in `public/` are git-ignored, so a repo build leaves them
