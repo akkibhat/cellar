@@ -1,30 +1,19 @@
 /**
- * The reference the bottle form types against.
+ * Ageing archetypes and appellations, used to estimate a drinking window
+ * when Cellarion has not supplied one (see windowFor in lib/cellar.ts).
  *
- * WHY THIS IS LOCAL DATA RATHER THAN AN API
- *
- * There is no free, legitimate source for "look up this wine and give me
- * its details and drinking window". Vivino publishes no API and scraping
- * it breaches their terms. Wine-Searcher's is paid and B2B. CellarTracker
- * needs the user's own credentials and restricts redistributing community
- * data. Critic drink windows - Vinous, Decanter, Jancis Robinson - are
- * all behind paywalls.
- *
- * So the useful move is not a lookup but a model. A drinking window is
- * largely predictable from what the wine *is*: Marlborough Sauvignon is
- * drunk inside three years and a classed-growth Bordeaux inside thirty,
- * and neither fact needs a network call. What follows is a table of
- * ageing archetypes, a set of appellations that map onto them, and enough
- * producers to make the form autocomplete usefully.
- *
- * Everything here is an estimate and is labelled as one in the UI. A
- * window is a starting point to correct, not an answer.
+ * Local data rather than an API because there is no free, legitimate
+ * lookup for drinking windows (Vivino has no API, the others are paid or
+ * paywalled). A window is largely predictable from what the wine *is*:
+ * Marlborough Sauvignon inside three years, classed-growth Bordeaux inside
+ * thirty. Everything here is an estimate and is labelled as one in the UI.
  */
 
 /* ===================================================================== *
  * Ageing archetypes
  * ===================================================================== */
 
+/** One ageing archetype: a window in years after the vintage, plus a note. */
 export type AgeingStyle = {
   key: string;
   label: string;
@@ -205,6 +194,7 @@ export const STYLES: AgeingStyle[] = [
   },
 ];
 
+/** The archetypes indexed by key, for lookups from an appellation's `style`. */
 export const STYLE_BY_KEY: Record<string, AgeingStyle> = Object.fromEntries(
   STYLES.map((s) => [s.key, s]),
 );
@@ -213,19 +203,20 @@ export const STYLE_BY_KEY: Record<string, AgeingStyle> = Object.fromEntries(
  * Appellations
  * ===================================================================== */
 
+/** A wine region, with its usual grapes and ageing archetype. */
 export type Appellation = {
   name: string;
   country: string;
-  /** Typical grapes, used to prefill and to infer a style. */
+  /** Typical grapes. Reference only; nothing reads this field now. */
   grapes: string;
   /** The archetype a wine from here usually follows. */
   style: string;
 };
 
 /**
- * Weighted toward New Zealand and France, matching the course. This is a
- * starting list rather than a gazetteer - it exists to save typing and to
- * propose a window, and anything missing can simply be typed.
+ * Weighted toward New Zealand and France, matching the course. A starting
+ * list rather than a gazetteer: a region missing here just means the
+ * window falls back to a guess from the grapes.
  */
 export const APPELLATIONS: Appellation[] = [
   /* --- New Zealand --- */
@@ -320,16 +311,13 @@ export const APPELLATIONS: Appellation[] = [
  * Producers
  * ===================================================================== */
 
+/** A producer and the appellation it is filed under. */
 export type Producer = { name: string; appellation: string };
 
 /**
- * Enough to make the form autocomplete useful, not a directory. Picking
- * one fills in its region, which in turn proposes grapes and a window -
- * so most bottles need a producer, a wine and a vintage typed and
- * nothing else.
- *
- * Anything not here is simply typed, and typing a region that *is* here
- * gets the same benefit.
+ * Producers for the old add-a-bottle form's autocomplete. That form is
+ * gone (Cellarion holds the bottles now), and nothing in the site reads
+ * this list or searchProducers any more.
  */
 export const PRODUCERS: Producer[] = [
   /* New Zealand */
@@ -445,16 +433,19 @@ function matches(haystack: string, q: string): boolean {
   return h.startsWith(n) || h.includes(` ${n}`) || h.includes(`-${n}`);
 }
 
+/** Producers whose name matches the query (at least two characters). */
 export function searchProducers(q: string, limit = 6): Producer[] {
   if (fold(q).length < 2) return [];
   return PRODUCERS.filter((p) => matches(p.name, q)).slice(0, limit);
 }
 
+/** Appellations whose name matches the query (at least two characters). */
 export function searchAppellations(q: string, limit = 6): Appellation[] {
   if (fold(q).length < 2) return [];
   return APPELLATIONS.filter((a) => matches(a.name, q)).slice(0, limit);
 }
 
+/** The appellation with exactly this name, ignoring accents and case. */
 export function findAppellation(name: string): Appellation | undefined {
   return APPELLATIONS.find((a) => fold(a.name) === fold(name));
 }
@@ -464,7 +455,7 @@ export function findAppellation(name: string): Appellation | undefined {
  * ===================================================================== */
 
 /**
- * Guess an ageing archetype from whatever the form already knows.
+ * Guess an ageing archetype from a wine's region and grapes.
  *
  * The appellation is trusted first, since it carries both grape and
  * climate. Grapes are the fallback, and are much weaker on their own: a
@@ -505,8 +496,8 @@ export function inferStyle(
     ['merlot', 'bordeaux-blend'],
     ['semillon', 'sweet'],
   ];
-  /* Longest match wins, so "cabernet franc" is not caught by "cabernet"
-     before a more specific rule has had a chance. */
+  /* Longest match wins, so a more specific needle (say a future
+     "cabernet franc") beats a shorter one it contains ("cabernet"). */
   const hit = guess
     .filter(([needle]) => g.includes(needle))
     .sort((a, b) => b[0].length - a[0].length)[0];

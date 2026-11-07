@@ -1,26 +1,17 @@
 /**
  * Bottle photographs, keyed by `producer|wine`.
  *
- * Kept apart from the generated snapshot on purpose. Cellarion is where the
- * photos are meant to live - they attach with `attach_bottle_image`, which
- * background-removes them and shows them on every bottle of that wine - but
- * the export only bundles images as a ZIP, and only once a week, which is a
- * poor thing for a build to depend on. So this map is the site's own index.
+ * Kept apart from the generated snapshot on purpose: Cellarion's export only
+ * bundles images as a weekly ZIP, which is a poor thing for a build to
+ * depend on, so this map is the site's own index.
  *
- * Every value is a path under `public/`. The files there are built from the
- * hand-cut masters in `_bottles/` by `scripts/optimise-bottles.py`, and
- * `_bottles/SOURCES.md` records where each photograph came from and what is
- * still wrong with it.
+ * Every value is a path under `public/`, built from the hand-cut masters in
+ * `_bottles/` by `scripts/optimise-bottles.py`. `_bottles/SOURCES.md` says
+ * where each photograph came from.
  *
- * Keyed by wine and not by bottle, which is what makes the two Grand Maynes
- * one entry: the labels of a 2017 and a 2021 differ by two digits and one
- * photograph is honest enough for both.
- *
- * A wine missing from here falls back to a bottle silhouette coloured by
- * type, which is not a placeholder standing in for nothing: it still carries
- * the one fact a glance should give you. One wine is missing - Maison
- * Galhaud's Moulin-Galhaud 2016, whose producer has almost no web presence
- * and no bottle shot that could be found.
+ * Keyed by wine, not bottle, so two vintages of one wine share a photo.
+ * A wine missing here falls back to a bottle silhouette coloured by type.
+ * Currently missing: Maison Galhaud's Moulin-Galhaud (no bottle shot found).
  */
 export const PHOTOS: Record<string, string> = {
   /* Still here. */

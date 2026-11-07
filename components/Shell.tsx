@@ -11,25 +11,17 @@ import Logo from './Logo';
 import CellarNav from './CellarNav';
 
 /**
- * The application shell: a persistent sidebar carrying the whole course as
- * a progress checklist, plus the tools, wrapped around the page content.
+ * The application shell: the top bar (CellarNav) on every page except the
+ * landing page, plus, on the tool pages, a sidebar listing the course and
+ * the tools.
  *
- * The sidebar is the main navigation on desktop and collapses behind a
- * button below 1024px, where it becomes an overlay drawer.
+ * The sidebar is sticky on desktop and collapses behind a button below
+ * 1024px, where it becomes an overlay drawer.
  */
 
 /**
- * The standalone tools.
- *
- * These were split into "Course tools" and "The cellar" on the grounds
- * that one set is looked up while reading and the other is used with a
- * glass in front of you. That split has stopped earning its place: the
- * cellar has its own half of the site and its own navigation now, so the
- * sidebar no longer has to advertise it - and all seven of these are the
- * same kind of thing, a page you keep open beside whatever you are doing.
- *
- * They are course-side, which is what `sectionFor` says and what the
- * sidebar around them already was.
+ * The standalone tool pages listed in the sidebar. They all count as
+ * course-side, which is what `sectionFor` says too.
  */
 const TOOL_GROUPS: {
   label: string;
@@ -56,6 +48,7 @@ const TOOL_GROUPS: {
   },
 ];
 
+/** Wraps every page in the right navigation for its route. */
 export default function Shell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { progress, ready } = useProgress();
@@ -70,46 +63,31 @@ export default function Shell({ children }: { children: React.ReactNode }) {
   const closeDrawer = () => setDrawerOpen(false);
 
   /**
-   * Which half of the site is on screen. The wordmark swaps its suffix and
-   * its accent to match, so the shell itself tells you where you are -
-   * which is the whole reason the two halves are separately named.
+   * Which half of the site is on screen. The sidebar wordmark swaps its
+   * suffix and accent to match, so the shell tells you where you are.
    */
   const here = SECTIONS[sectionFor(pathname)];
 
+  /* Chapters finished, and that as a percentage for the progress bar. */
   const doneCount = ready ? progress.done.length : 0;
   const pct = Math.round((doneCount / CHAPTER_COUNT) * 100);
 
   /**
-   * The landing page renders bare. It is the one route whose job is to
-   * show that there are two halves, and wrapping it in one half's
-   * navigation would answer the question before it was asked.
+   * The landing page renders bare: its job is to show the two halves, so
+   * it shouldn't sit inside either one's navigation.
    *
-   * This sits after every hook, so the hook order is identical on both
-   * branches and React stays happy.
+   * This must stay after every hook, so the hook order is the same on all
+   * branches.
    */
   if (pathname === '/') return <>{children}</>;
 
-  /* The cellar is the other half of the site, not a subsection of the
-     course, so it does not get the course's sidebar. What it does share
-     is the bar across the top: the three-link switcher is how you move
-     between halves, and having it on only one of them meant the course
-     could be left through the browser's back button alone.
-
-     So CellarNav sits above both, and the course keeps its sidebar under
-     it. The sidebar is sticky, and now sticks below the bar rather than
-     under it. --nav-h is the bar's own height, set on :root in
-     globals.css and used by CellarNav to size itself, so the offset here
-     cannot drift away from the thing it is offsetting. */
-  /* The brand page is a reference sheet rather than part of the reading,
-     so the chapter sidebar beside it would be furniture belonging to
-     something else. It keeps the bar across the top, which is how you
-     leave. */
-  /* trailingSlash is on, so a route arrives as "/brand/" and an equality
-     test against "/brand" silently never matches. Compare on the trimmed
-     path. */
+  /* trailingSlash is on, so a route arrives as "/brand/" and would never
+     equal "/brand". Compare on the trimmed path. */
   const route = pathname.replace(/\/+$/, '') || '/';
-  /* A chapter has its own rail in the page, and the index page is the
-     contents itself, so neither gets the 25-chapter sidebar beside it. */
+
+  /* These routes get the top bar only, no sidebar: a chapter has its own
+     rail, the course index is the contents itself, the cellar is the other
+     half of the site, and /brand and /design are reference sheets. */
   const isChapter = route.startsWith('/course/') || route === '/course';
   if (isChapter || route.startsWith('/cellar') || route === '/brand' || route === '/design') {
     return (
@@ -124,6 +102,9 @@ export default function Shell({ children }: { children: React.ReactNode }) {
 
   return (
     <>
+      {/* The sidebar sticks below the bar: --nav-h is the bar's height, set
+          on :root in globals.css and used by CellarNav too, so the offset
+          can't drift from the bar it's offsetting. */}
       <CellarNav />
       <div className="lg:grid lg:grid-cols-[16.5rem_1fr] lg:min-h-[calc(100vh_-_var(--nav-h))]">
       {/* ---- Mobile top bar -------------------------------------- */}
@@ -131,9 +112,6 @@ export default function Shell({ children }: { children: React.ReactNode }) {
         className="lg:hidden flex items-center justify-end px-5 py-2 sunk border-b"
         style={{ borderColor: 'var(--rule)' }}
       >
-        {/* The wordmark that used to sit here is in the bar above now,
-            where it is also a link home. Two of them, one above the
-            other, was the same thing said twice. */}
         <button
           className="btn"
           onClick={() => setDrawerOpen((v) => !v)}
@@ -155,12 +133,10 @@ export default function Shell({ children }: { children: React.ReactNode }) {
         ].join(' ')}
         style={{ borderColor: 'var(--rule)' }}
       >
-        {/* Wordmark, desktop only - mobile has it in the top bar.
-
-            It goes to the book's own contents rather than to the front
-            door: this is the book's sidebar, and a mark reading Cellarbook
-            should land you in Cellarbook. The bar above already has Home
-            for leaving entirely. */}
+        {/* Wordmark, desktop only (on mobile the top bar already names the
+            halves). It links to the book's contents, not the front door:
+            a mark reading Cellarbook should land you in Cellarbook, and the
+            bar above has Home for leaving. */}
         <div
           className="hidden lg:block px-6 pt-6 pb-4 border-b"
           style={{ borderColor: 'var(--rule)' }}
@@ -272,9 +248,8 @@ export default function Shell({ children }: { children: React.ReactNode }) {
             );
           })}
 
-          {/* Tools, in two groups. Seven in one list read as a pile;
-              split, the heading says which question each one answers -
-              something to look up, or something to use with a glass. */}
+          {/* Tools, in two groups: something to look up, or something to
+              use with a glass. */}
           {TOOL_GROUPS.map((group) => (
           <div key={group.label} className="mb-4">
             <span

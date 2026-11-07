@@ -1,22 +1,18 @@
 /**
  * The marks that were drawn and not chosen.
  *
- * Lifted out of the exploration documents rather than screenshotted, so the
- * record can draw them at any size - which matters, because the size is what
- * decided most of them. Every one is on the same 120x160 viewBox the shipped
- * mark uses, so the comparison is honest.
+ * Stored as shapes rather than screenshots, so /design can draw them at any
+ * size, since size is what decided most of them. Every one is on the same
+ * 120x160 viewBox the shipped mark uses, so the comparison is honest.
  *
- * Colours are the literal hexes they were drawn in, not tokens: these were
- * made against paper, and remapping them to follow the theme inverted the
- * light shapes into the dark ground and lost them.
+ * Colours are literal hexes, not tokens: these were made against paper,
+ * and following the theme would lose the light shapes in the dark ground.
+ * `clip` is the arch several of them fill against, so the fill stays inside.
  *
- * `clip` is the arch several of them fill against - without it the fill
- * spills past the shape it is supposed to be inside.
- *
- * GENERATED from the working documents in _previews/, which are git-ignored.
- * This is the part of them worth keeping.
+ * Generated from the git-ignored working documents in _previews/.
  */
 
+/** One SVG element of a mark, with only the attributes its tag needs. */
 export type Shape = {
   tag: 'path' | 'rect' | 'circle' | 'ellipse';
   d?: string;
@@ -35,6 +31,7 @@ export type Shape = {
   clip?: boolean;
 };
 
+/** A whole candidate mark: its caption, its shapes and an optional clip path. */
 export type Mark = { label: string; shapes: Shape[]; clip?: string };
 
 /** Round one: nine ideas, all on one arch so they read as a family. */

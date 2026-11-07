@@ -5,11 +5,6 @@ import Link from 'next/link';
 import { GLOSSARY } from '@/lib/glossary';
 import { headingsOf } from '@/lib/headings';
 
-/**
- * Renders a chapter's body: an ordered list of blocks, each mapped to its
- * own presentation. Keeping this in one place means the authoring format
- * stays small and every chapter looks consistent.
- */
 /** The glossary entry a bold phrase names, if it names one. */
 function termFor(phrase: string) {
   const k = phrase.trim().toLowerCase();
@@ -39,6 +34,11 @@ function marginNotes(body: Block[]): Map<number, ReturnType<typeof termFor>> {
   return out;
 }
 
+/**
+ * Renders a chapter's body: an ordered list of blocks, each mapped to its
+ * own presentation. Keeping this in one place means the authoring format
+ * stays small and every chapter looks consistent.
+ */
 export default function ChapterBody({ body }: { body: Block[] }) {
   const ids = headingsOf(body);
   const notes = marginNotes(body);
@@ -67,6 +67,7 @@ export default function ChapterBody({ body }: { body: Block[] }) {
   );
 }
 
+/** One block of chapter content, drawn according to its `kind`. */
 function BlockView({
   block,
   headingId,
@@ -98,7 +99,6 @@ function BlockView({
       return (
         <div className="mt-8 mb-3">
           <h2 id={headingId} className="hand t-h2 mb-1 scroll-mt-24">{block.text}</h2>
-          {/* Alternate the rule shape so repeated headings do not look stamped. */}
         </div>
       );
 

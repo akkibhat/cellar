@@ -1,17 +1,10 @@
 /**
  * Port and Fino, drawn as one ferment with two interruptions.
  *
- * The chapter says the timing of the spirit is the whole trick, and then
- * has to say it twice - once for Port, once for Fino - because prose can
- * only describe one moment at a time. Drawn, it is a single falling sugar
- * line with two arrows on it, and the two wines stop being two facts to
- * remember and start being one fact with two answers.
- *
- * The height of the line where each arrow lands is the sweetness of the
- * finished wine, which is the part that is hard to hold in words: stop it
- * early and the sugar that has not been eaten yet is what you taste.
- *
- * No motion. The diagram is about two instants, not a process to watch.
+ * A single falling sugar line with two "spirit in" arrows: Port early,
+ * Fino at the end. The height of the line where each arrow lands is the
+ * sweetness of the finished wine, because whatever sugar the yeast hasn't
+ * eaten yet is what you taste. No motion: it's about two instants.
  */
 
 const X0 = 74; // start of the ferment
@@ -27,9 +20,10 @@ const CUT = 0.42;
  * while there is plenty to eat and slows as it poisons itself.
  */
 const sugarY = (t: number) => TOP + (BASE - TOP) * Math.pow(t, 0.72);
+/* Fraction of the way through the ferment to an x coordinate. */
 const sugarX = (t: number) => X0 + (X1 - X0) * t;
 
-/** The falling line, sampled. */
+/** SVG path for the sugar line between two fractions, sampled in 24 steps. */
 const curve = (from: number, to: number) => {
   const steps = 24;
   return Array.from({ length: steps + 1 }, (_, i) => {
@@ -38,6 +32,7 @@ const curve = (from: number, to: number) => {
   }).join(' ');
 };
 
+/** The fortification figure, with Port's cut point worked out from CUT. */
 export default function Fortification() {
   const cutX = sugarX(CUT);
   const cutY = sugarY(CUT);

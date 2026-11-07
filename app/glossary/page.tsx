@@ -9,6 +9,7 @@ export const metadata: Metadata = {
     'The tasting vocabulary, searchable by meaning as well as by name.',
 };
 
+/* The /glossary page: header plus the searchable glossary. */
 export default function GlossaryPage() {
   return (
     <div className="relative mx-auto max-w-[52rem] px-6 sm:px-10 lg:px-12 py-12 lg:py-16">

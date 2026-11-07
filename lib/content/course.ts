@@ -12,8 +12,10 @@ import { BODY } from './chapters/body';
 /**
  * The assembled course, in reading order.
  *
- * Chapter files are kept separate by part so each stays editable on its
- * own; this file is the only place that knows about all of them.
+ * Chapter files are kept separate (mostly one per part; body.ts belongs to
+ * the practice part) so each stays editable on its own. This file is the
+ * only place that knows about all of them, and the spread order below is
+ * what scripts/reading-order.mjs reads as the reading order.
  */
 export const CHAPTERS: Chapter[] = [
   ...FOUNDATIONS,

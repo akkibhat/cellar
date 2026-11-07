@@ -7,17 +7,12 @@ import ThemeToggle from './ThemeToggle';
 import { LOCKUP } from '@/lib/mark';
 
 /**
- * The cellar's own navigation.
+ * The top navigation bar: Home, Cellarbook and Cellardoor, plus the theme
+ * switch.
  *
- * The course sidebar is wrong here. It carries thirty-three chapters and
- * the reference tools, none of which have anything to do with a rack of
- * bottles - and wrapping the cellar in the course's furniture made it
- * read as a subsection of the course rather than the other half of the
- * site.
- *
- * So this half gets three ways out and nothing else: back to the front
- * door, to the top of this half, or across to the other one. That is the
- * whole map, because the whole site is only three places deep.
+ * Deliberately just three links. The course's chapter list has nothing to
+ * do with a rack of bottles, and wrapping the cellar in it made the cellar
+ * read as a subsection of the course instead of the other half of the site.
  */
 
 /* Nav glyph size. The lift below is derived from it, so they cannot
@@ -69,11 +64,11 @@ const LINKS = [
   { href: '/cellar', label: 'Cellardoor', variant: 'door' as const },
 ];
 
+/** The sticky bar itself, lighting the link for the section you're in. */
 export default function CellarNav() {
   const pathname = usePathname();
-  /* trailingSlash: true means this arrives as '/course/', so comparing it
-     to '/course' never matched and only Cellardoor - which tests with
-     startsWith - ever lit up. Normalise once, here. */
+  /* trailingSlash: true means this arrives as '/course/', which would never
+     equal '/course'. Strip the trailing slash once, here. */
   const route = pathname.replace(/\/+$/, '') || '/';
 
   /* Inside a chapter, the Cellarbook link goes back to that chapter's row
@@ -149,10 +144,9 @@ export default function CellarNav() {
           );
         })}
 
-        {/* Inside the centred row, not beside it: the nav itself is a block,
-            so a sibling here got no flex context, ml-auto did nothing and
-            the switch dropped onto its own line at the far left. In the row
-            it aligns right against the same column the links use. */}
+        {/* Must sit inside the flex row, not beside it: as a sibling of the
+            row it gets no flex context, ml-auto does nothing and the switch
+            drops onto its own line at the far left. */}
         <ThemeToggle className="ml-auto" />
       </div>
     </nav>

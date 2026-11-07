@@ -7,8 +7,8 @@ import type { Grape } from '@/lib/types';
 /**
  * The grape explorer.
  *
- * Filter by colour and climate, search by name or alias, and sort by any
- * of the three structural scales. The sorting is the pedagogically useful
+ * Filter by colour and climate, search by name, alias, region or aroma, and
+ * sort by any of the three structural scales. The sorting is the useful
  * part: ordering the whites by acidity produces almost exactly the order
  * of how well they handle food and how long they will live, which is a
  * point the grape chapters make in prose and this makes visible.
@@ -25,6 +25,7 @@ const SORTS: { id: Sort; label: string }[] = [
 
 const CLIMATES = ['cool', 'moderate', 'warm'] as const;
 
+/** The explorer: search and filter controls, then the matching grape cards. */
 export default function GrapeExplorer({
   compact = false,
   only,
@@ -43,6 +44,7 @@ export default function GrapeExplorer({
   const [sort, setSort] = useState<Sort>('name');
   const [openSlug, setOpenSlug] = useState<string | null>(null);
 
+  /* The grapes that pass every filter and the search, in the chosen order. */
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
 
@@ -64,6 +66,7 @@ export default function GrapeExplorer({
     );
   }, [query, colour, climates, sort]);
 
+  /* Add or remove one climate from the filter. */
   const toggleClimate = (c: string) =>
     setClimates((cur) =>
       cur.includes(c) ? cur.filter((x) => x !== c) : [...cur, c],

@@ -26,12 +26,14 @@ export default function Quiz({
   );
   const [finished, setFinished] = useState(false);
 
+  /* How many are answered, and how many of those are right. */
   const answeredCount = answers.filter((a) => a !== null).length;
   const score = answers.reduce<number>(
     (n, a, i) => n + (a === questions[i].answer ? 1 : 0),
     0,
   );
 
+  /* Record option `oi` for question `qi`; on the last answer, save the score. */
   const choose = (qi: number, oi: number) => {
     // Answers are final once given, so the reasoning stays attached to
     // the choice the reader actually made.
@@ -50,6 +52,7 @@ export default function Quiz({
     }
   };
 
+  /* Clear every answer for another go (the saved best score stays). */
   const reset = () => {
     setAnswers(questions.map(() => null));
     setFinished(false);

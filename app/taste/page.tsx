@@ -8,6 +8,7 @@ export const metadata: Metadata = {
     'Walk the three stages of tasting with a real glass. Your note assembles itself as you go.',
 };
 
+/* The /taste page: header plus the guided tasting tool. */
 export default function TastePage() {
   return (
     <div className="relative mx-auto max-w-[48rem] px-6 sm:px-10 lg:px-12 py-12 lg:py-16">

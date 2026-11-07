@@ -1,17 +1,12 @@
 /**
  * Colour is time on the skins, drawn as one axis.
  *
- * Chapter two describes white, rosé and red as three categories and then
- * has to explain, three separate times, that the difference is how long the
- * juice sat with the skins. They are not three categories. They are three
- * points on one dial, and orange is the fourth - white grapes given the red
- * treatment - which is the thing that makes the seventh-category note land.
+ * White, rosé and red aren't three categories: they're points on one dial
+ * of how long the juice sat with the skins. Orange wine is white grapes
+ * given the red treatment, shown as a branch off the dial.
  *
- * The swatches are literal wine colours rather than theme tokens, because
- * they are depicting the liquid rather than decorating the page. They read
- * against paper and against the dark theme equally.
- *
- * No motion. It is a dial, not a process.
+ * The swatches are literal wine colours, not theme tokens, because they
+ * depict the liquid. They read on both the light and dark theme. No motion.
  */
 
 type Stop = {
@@ -33,8 +28,10 @@ const X0 = 84;
 const X1 = 404;
 const AXIS = 118;
 
+/* Fraction along the axis to an x coordinate. */
 const at = (t: number) => X0 + (X1 - X0) * t;
 
+/** The skin-contact figure: the colour dial, its four settings, and the orange-wine branch. */
 export default function SkinContact() {
   return (
     <figure className="card px-5 py-5 my-6 max-w-[40rem]">

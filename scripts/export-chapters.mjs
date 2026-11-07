@@ -1,34 +1,19 @@
 /**
- * Write the chapters out as one Markdown file for editing.
+ * Write the chapters out as Markdown for editing, one file per part.
  *
  *   node scripts/export-chapters.mjs
  *
- * WHY
+ * The prose lives as strings inside typed TypeScript arrays, where a stray
+ * apostrophe breaks the build. So it comes out to `_previews/chapters/`
+ * (01-foundations.md and so on), gets edited there, and goes back in with
+ * `scripts/import-chapters.mjs`. Nothing is retyped by hand.
  *
- * The prose lives as strings inside typed block arrays, which is the right
- * shape for the site and the wrong shape for writing. Editing it there means
- * working around quoting and escapes, and a stray apostrophe breaks a build
- * rather than a sentence.
+ * Every editable block is preceded by an anchor comment naming the chapter,
+ * the block's position and its kind, e.g. `<!-- what-wine-is:4:p -->`.
+ * Leave them alone: the importer matches on them and refuses to guess.
  *
- * So the writing comes out to `_previews/chapters.md`, gets edited there,
- * and goes back in with `scripts/import-chapters.mjs`. The round trip is
- * the point: nothing is retyped by hand on the way home.
- *
- * THE ANCHORS
- *
- * Every editable block is preceded by an HTML comment naming the chapter,
- * its position in that chapter's body, and its kind:
- *
- *     <!-- what-wine-is:4:p -->
- *
- * They do not render, so the file reads as an ordinary document. Leave them
- * alone. The importer matches on them and refuses to guess: move or delete
- * one and it stops rather than writing a paragraph into the wrong chapter.
- *
- * Embedded tools come out read-only. Tables do round-trip, but a cell
- * containing a pipe would gain a column on the way home, so the importer
- * checks every row against the header width and refuses the table if they
- * disagree.
+ * Embedded tools come out read-only. Tables round-trip, but a pipe inside a
+ * cell would add a column, so the importer rejects rows of the wrong width.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -60,9 +45,11 @@ async function readChapters(name) {
   }
 }
 
+/** Build the hidden anchor comment that marks where a block belongs. */
 const anchor = (slug, i, kind, extra = '') =>
   `<!-- ${slug}:${i}:${kind}${extra ? ' ' + extra : ''} -->`;
 
+/** Append one body block to `out` as Markdown, preceded by its anchor. */
 function renderBlock(slug, i, b, out) {
   switch (b.kind) {
     case 'p':
@@ -134,8 +121,8 @@ const preamble = [
 const OUT_DIR = path.join(ROOT, '_previews', 'chapters');
 fs.mkdirSync(OUT_DIR, { recursive: true });
 
-/* Anything left from a part that has since been renamed or merged would
-   otherwise sit there being imported for ever. */
+/* Clear out old files first, or one from a renamed or merged part would
+   sit there being imported for ever. */
 for (const stale of fs.readdirSync(OUT_DIR)) {
   if (stale.endsWith('.md')) fs.rmSync(path.join(OUT_DIR, stale));
 }

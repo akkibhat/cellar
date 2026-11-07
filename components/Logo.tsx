@@ -11,22 +11,17 @@ import {
  * The Cellarbook mark: an arch split down a spine, so it reads as both a
  * cellar doorway and an open book.
  *
- * The mark is *responsive*, which is the whole trick. Drawn at one fixed
- * geometry it fails below about 22px: the gaps either side of the spine
- * are 1.5 units in a 120-unit viewBox, so at 14px they land on roughly a
- * sixth of a pixel and disappear, welding the spine to the left page and
- * collapsing the whole thing into a two-tone arch.
+ * The geometry changes with size (three tiers, see tierFor in lib/mark).
+ * At one fixed geometry the thin gaps beside the spine vanish below about
+ * 22px and the mark collapses into a two-tone arch. So as it shrinks the
+ * pages draw apart and the spine thickens, and at the smallest tier the
+ * spine is dropped for a single wide gap. Each tier keeps its narrowest
+ * feature above one rendered pixel.
  *
- * So there are three tiers. As the mark shrinks the pages draw apart and
- * the spine thickens, until at the smallest size the spine is dropped
- * entirely and the split is carried by a single wide gap. Each tier is
- * tuned so its narrowest feature stays above one rendered pixel.
- *
- * Colours come from theme tokens rather than fixed values, so the mark
- * inverts with the rest of the interface, and the gaps are transparent so
- * it sits on any surface.
+ * Colours are theme tokens, so it inverts with the theme; gaps are transparent.
  */
 
+/** Just the drawn mark (book or door variant), sized by height. */
 export function LogoMark({
   size = 32,
   variant = 'book',
@@ -95,15 +90,12 @@ export function LogoMark({
 /**
  * The mark locked up with the wordmark.
  *
- * The suffix takes the accent colour, so the word acts as a key to the
- * drawing: the dark half is Cellar, the coloured half is the suffix. And
- * because the accent differs per section, the same lockup says which half
- * of the site you are in twice over - by the word and by the colour.
+ * The suffix takes the section's accent colour, so the lockup says which
+ * half of the site you're in by both word and colour.
  *
- * It cannot be the *same* gold in daylight. Tussock fails WCAG at 2.84:1
- * on limestone, so text uses the deeper weight at 4.51:1 while the mark's
- * page keeps the bright one - a fill carries no contrast requirement. On
- * dark the two match exactly, since the lifted gold already passes.
+ * In light mode the suffix text uses a deeper gold (--logo-word) than the
+ * mark's page: the bright tussock fails WCAG text contrast (2.84:1) on the
+ * paper, while a fill has no contrast requirement. On dark the two match.
  */
 export default function Logo({
   size = 32,
@@ -114,10 +106,8 @@ export default function Logo({
   size?: number;
   wordmark?: boolean;
   /**
-   * The half of the word that changes. `book` is the course, `door` is
-   * the cellar - Cellar is the constant root, and the suffix says which
-   * room you are in. The mark itself never changes, which is the point:
-   * it already reads as both a book and a doorway.
+   * The half of the word that changes: `book` is the course, `door` is
+   * the cellar. It also picks which mark variant is drawn.
    */
   suffix?: 'book' | 'door';
   className?: string;
@@ -126,14 +116,11 @@ export default function Logo({
     return <LogoMark size={size} variant={suffix} className={className} />;
 
   /**
-   * The wordmark is sized from the mark rather than from the type scale,
-   * and the gap with it likewise. That is deliberate: this is a lockup,
-   * so its proportions have to hold at any size the mark is used at. The
-   * two ratios come from `LOCKUP` in lib/mark.ts, so the masthead - which
-   * has to build its own lockup for the morph - cannot drift from this one.
-   * Snapping the text to a scale step would break the relationship the
-   * moment the mark changed size. It is the one sanctioned exception to
-   * the scale, and the only off-scale size the app renders.
+   * The wordmark size and gap are ratios of the mark size, not type-scale
+   * steps, so the lockup's proportions hold at any size. The ratios live in
+   * `LOCKUP` (lib/mark.ts) so the masthead, which builds its own lockup for
+   * the morph, can't drift from this one. This is the one deliberate
+   * off-scale font size in the app.
    */
   return (
     <span

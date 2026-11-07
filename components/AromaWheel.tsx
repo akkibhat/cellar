@@ -31,6 +31,7 @@ const INNER = 74;
  */
 function polar(radius: number, degrees: number) {
   const radians = ((degrees - 90) * Math.PI) / 180;
+  /* Round to three decimals (see above). */
   const round = (n: number) => Math.round(n * 1000) / 1000;
   return {
     x: round(CENTRE + radius * Math.cos(radians)),
@@ -54,6 +55,7 @@ function wedgePath(startDeg: number, endDeg: number) {
   ].join(' ');
 }
 
+/** The wheel plus the selected family's descriptor chips, optionally pickable. */
 export default function AromaWheel({
   onPick,
   selected = [],
@@ -88,14 +90,10 @@ export default function AromaWheel({
               key={f.slug}
               className={`aroma-family${isActive ? ' is-active' : ''}`}
             >
-              {/* Colour is set through the CSS `fill` property rather than
-                  the SVG attribute, because attributes do not resolve
-                  var(). And every wedge is drawn at full opacity: the
-                  inactive state used to be 42%, which lightened the fill
-                  far enough that the pale label on top of it stopped
-                  clearing contrast. The active wedge is distinguished by a
-                  wider separating stroke instead, which costs no
-                  legibility. */}
+              {/* Colour goes through the CSS `fill` property, not the SVG
+                  attribute, because attributes don't resolve var(). Every
+                  wedge stays at full opacity so the pale label keeps its
+                  contrast; the active one gets a wider stroke instead. */}
               <path
                 className="aroma-wedge"
                 d={wedgePath(start, end)}

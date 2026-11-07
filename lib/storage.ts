@@ -3,25 +3,20 @@
 import { useCallback, useSyncExternalStore } from 'react';
 
 /**
- * Browser-local persistence for the two things the course remembers:
- * which chapters you have finished, and the tasting notes you have saved.
+ * Browser-local persistence: which chapters you have finished, the tasting
+ * notes you have saved, and the theme. Everything lives in localStorage,
+ * so there is no account or backend, at the cost of not following you
+ * between devices.
  *
- * Everything lives in localStorage. Nothing is sent anywhere, there is no
- * account, and clearing site data resets the course. That is a deliberate
- * trade: the site works offline and needs no backend, at the cost of not
- * following you between devices.
+ * localStorage is read through useSyncExternalStore rather than loaded
+ * into state in an effect, so React renders the server snapshot first and
+ * swaps to the real value after hydrating, with no mismatch.
  *
- * localStorage is an external store, so it is read through
- * useSyncExternalStore rather than by loading into state inside an effect.
- * That gives correct hydration for free - React renders the server
- * snapshot first and swaps to the real value after hydrating, with no
- * mismatch and no cascading render.
- *
- * Every read and write is wrapped, because localStorage throws rather
- * than returning null in private browsing modes and when a browser is
- * configured to block site data.
+ * Every read and write is wrapped, because localStorage throws (rather
+ * than returning null) in private browsing and when site data is blocked.
  */
 
+/* localStorage keys. The .v1 suffix leaves room to change the shape later. */
 const PROGRESS_KEY = 'wine.progress.v1';
 const JOURNAL_KEY = 'wine.journal.v1';
 
@@ -93,12 +88,14 @@ export function readNow<T>(key: string, fallback: T): T {
   return typeof window === 'undefined' ? fallback : snapshot(key, fallback);
 }
 
+/* Nothing to listen to for useHydrated; only the snapshot differs. */
+const noopSubscribe = () => () => {};
+
 /**
  * True once the component has hydrated on the client, false during server
  * rendering and the hydrating render. Lets the UI distinguish "storage
  * not loaded yet" from "storage loaded and empty".
  */
-const noopSubscribe = () => () => {};
 export function useHydrated(): boolean {
   return useSyncExternalStore(
     noopSubscribe,
@@ -237,16 +234,11 @@ export function useJournal() {
  * Theme
  * ------------------------------------------------------------------ */
 
+/* THEME_KEY must match the key the inline script in app/layout.tsx reads. */
 const THEME_KEY = 'wine.theme';
 const THEME_EVENT = 'wine:theme';
 
-/**
- * The active theme, read from the attribute the layout's inline script
- * stamps on the root element, falling back to the system preference.
- *
- * Read as an external store for the same reason as everything else here:
- * it lives in the DOM and in localStorage, not in React.
- */
+/** Re-read the theme when it is toggled here or the system preference changes. */
 function themeSubscribe(onChange: () => void): () => void {
   const media = window.matchMedia('(prefers-color-scheme: dark)');
   window.addEventListener(THEME_EVENT, onChange);
@@ -257,6 +249,7 @@ function themeSubscribe(onChange: () => void): () => void {
   };
 }
 
+/** The theme stamped on <html>, falling back to the system preference. */
 function themeSnapshot(): 'light' | 'dark' {
   const stamped = document.documentElement.getAttribute('data-theme');
   if (stamped === 'dark' || stamped === 'light') return stamped;
@@ -265,6 +258,12 @@ function themeSnapshot(): 'light' | 'dark' {
     : 'light';
 }
 
+/**
+ * The active theme, read from the attribute the layout's inline script
+ * stamps on the root element, plus a toggle that flips and saves it.
+ * Read as an external store because it lives in the DOM and localStorage,
+ * not in React.
+ */
 export function useTheme() {
   const theme = useSyncExternalStore(
     themeSubscribe,
@@ -273,6 +272,7 @@ export function useTheme() {
     () => 'light' as const,
   );
 
+  /* Flip the theme on <html> and remember the choice. */
   const toggle = useCallback(() => {
     const next = themeSnapshot() === 'dark' ? 'light' : 'dark';
     document.documentElement.setAttribute('data-theme', next);

@@ -8,6 +8,7 @@ export const metadata: Metadata = {
     'What a pour actually comes to, in the units of four different countries.',
 };
 
+/* The /units page: the standard-drinks calculator and why countries disagree. */
 export default function UnitsPage() {
   return (
     <div className="relative mx-auto max-w-[50rem] px-6 sm:px-10 lg:px-12 py-12 lg:py-16">

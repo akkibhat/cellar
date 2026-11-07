@@ -96,8 +96,9 @@ The build is a static export - no server, no API routes, nothing rendered
 per request - so `npm run build` writes a plain `out/` that any host will
 serve.
 
-It goes to Cloudflare Pages at <https://cellar.pi.co.nz>. Connect the repo
-in the Cloudflare dashboard and it builds on push:
+It goes to Cloudflare Workers at <https://cellar.pi.co.nz>, as a
+static-assets Worker that serves `out/` (see `wrangler.jsonc`). The repo is
+connected in the Cloudflare dashboard, so a push to main builds and deploys:
 
 | | |
 |---|---|
@@ -119,7 +120,7 @@ npx wrangler login
 npm run deploy
 ```
 
-Pages supports a `public/_redirects` file if an address ever needs to move.
+Workers static assets support a `public/_redirects` file if an address ever needs to move.
 There is none: the slugs that changed during drafting were never published,
 so nothing has ever pointed at them.
 

@@ -29,10 +29,12 @@ const SCALES = {
   sweetness: ['Bone dry', 'Dry', 'Off-dry', 'Medium sweet', 'Sweet'],
 };
 
+/** The journal page: comparison table (when two or more are picked), then every note. */
 export default function Journal() {
   const { notes, ready, deleteNote } = useJournal();
   const [compare, setCompare] = useState<string[]>([]);
 
+  /* Add or remove a note from the comparison; a fourth pick drops the oldest. */
   const toggleCompare = (id: string) =>
     setCompare((cur) =>
       cur.includes(id)
@@ -44,6 +46,7 @@ export default function Journal() {
           : [...cur, id],
     );
 
+  /* The picked notes, in journal order (newest first). */
   const compared = notes.filter((n) => compare.includes(n.id));
 
   if (!ready) {

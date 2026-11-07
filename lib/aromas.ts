@@ -4,12 +4,10 @@ import type { AromaFamily } from './types';
  * The six aroma families, each expanded with
  * the specific descriptors that sit under it.
  *
- * Colours are token references rather than literals. The values are
- * derived in globals.css at a single target luminance so the six differ
- * only in hue, and each clears 3:1 against both grounds while still
- * taking a readable label. The set that used to live here as hexes had
- * never been checked against the dark ground and two of the six failed
- * on it.
+ * Colours are token references rather than literals. The values live in
+ * globals.css at a single target luminance, so the six differ only in
+ * hue and each clears 3:1 against both the light and dark grounds while
+ * still taking a readable label.
  */
 export const AROMA_FAMILIES: AromaFamily[] = [
   {

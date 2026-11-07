@@ -19,6 +19,7 @@ type Read = { token: string; hex: string; ratio: number };
 
 /** sRGB relative luminance, per WCAG. */
 function luminance([r, g, b]: number[]): number {
+  /* One 0-255 channel to its linear-light value. */
   const f = (v: number) => {
     const c = v / 255;
     return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
@@ -46,9 +47,11 @@ function parse(token: string): number[] | null {
   return m && m.length >= 3 ? m.slice(0, 3).map(Number) : null;
 }
 
+/* An [r, g, b] triple to a #rrggbb string. */
 const hexOf = ([r, g, b]: number[]) =>
   '#' + [r, g, b].map((v) => Math.round(v).toString(16).padStart(2, '0')).join('');
 
+/** One titled row of swatches, each showing its token, hex and contrast ratio. */
 export default function Swatches({
   title,
   tokens,
@@ -64,6 +67,7 @@ export default function Swatches({
   const [reads, setReads] = useState<Read[]>([]);
 
   useEffect(() => {
+    /* Read every token's live colour and its contrast against `against`. */
     const measure = () => {
       const bg = parse(against);
       setReads(

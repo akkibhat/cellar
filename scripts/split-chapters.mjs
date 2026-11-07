@@ -3,18 +3,17 @@
  *
  *   node scripts/split-chapters.mjs [--dry-run]
  *
- * The inverse of merge-chapters, and needed for the same reason: a merge
- * that looked right as a description can read badly as a chapter, and the
- * way to find out is to try it. The Rhône, the Loire and the South folded
- * into Burgundy came to 1,325 words with five region headings and no
- * hierarchy, which is a list rather than a chapter.
+ * The inverse of merge-chapters, for when a merged chapter reads badly.
  *
  * Describe the split in SPLITS below. `at` is the text of the heading the
  * second chapter should begin with; everything from that block onwards goes
  * to it. `dropLeadingHeading` removes the first block of the first chapter,
  * for when it is a heading that now just repeats the chapter title.
+ * `quizToFirst` is how many quiz questions stay with the first chapter.
  *
- * It does not renumber - renumber-chapters does that afterwards.
+ * SPLITS still holds the France split, which has already been run
+ * (`rest-of-france` no longer exists), so it stops with an error as is.
+ * It does not renumber; run renumber-chapters afterwards.
  */
 import { emit, readChapters } from './reading-order.mjs';
 
@@ -57,6 +56,7 @@ for (const s of SPLITS) {
   if (cut === -1) throw new Error(`no heading "${s.at}" in ${s.from}`);
 
   const head = src.body.slice(0, cut);
+  // Build a new chapter from a spec, keeping the original's number and part.
   const make = (spec, body) => ({
     slug: spec.slug,
     n: src.n,
@@ -77,6 +77,7 @@ for (const s of SPLITS) {
   b.quiz = src.quiz.slice(s.quizToFirst);
 
   const next = [...chapters.slice(0, at), a, b, ...chapters.slice(at + 1)];
+  // Rough word count of a chapter's body, for the summary line.
   const words = (c) =>
     c.body.reduce((n, x) => n + (x.text ?? x.items?.join(' ') ?? '').split(/\s+/).length, 0);
   console.log(

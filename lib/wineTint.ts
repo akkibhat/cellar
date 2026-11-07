@@ -9,6 +9,7 @@ import type { CellarWine } from './content/cellar-snapshot';
  */
 export type WineTint = 'red' | 'white' | 'rose' | 'gold';
 
+/** Map a wine's type to its tint; anything not red, white or rosé is gold. */
 export function tintOf(type: CellarWine['type']): WineTint {
   switch (type) {
     case 'red':

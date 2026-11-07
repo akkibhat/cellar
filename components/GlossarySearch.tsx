@@ -21,6 +21,7 @@ export default function GlossarySearch() {
   const [category, setCategory] = useState<GlossaryCategory | 'all'>('all');
   const [flash, setFlash] = useState<string | null>(null);
 
+  /* Terms in the chosen category whose term, definition or etymology match. */
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
     return GLOSSARY_SORTED.filter((t) => {
@@ -48,6 +49,7 @@ export default function GlossarySearch() {
     });
   };
 
+  /* Every category, in the order CATEGORY_LABELS lists them. */
   const categories = Object.keys(CATEGORY_LABELS) as GlossaryCategory[];
 
   return (

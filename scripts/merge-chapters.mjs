@@ -3,24 +3,19 @@
  *
  *   node scripts/merge-chapters.mjs [--dry-run]
  *
- * WHY A SCRIPT
- *
- * Merging by hand means splicing one `body: [...]` array into another
- * across a few hundred lines of formatted TypeScript, which is exactly the
- * kind of edit that silently truncates an array - it has already happened
- * twice in this project. So the chapters are read as data, merged as data,
- * and the file is written out fresh.
- *
- * HOW TO USE IT
+ * Splicing one `body: [...]` array into another by hand is easy to get
+ * wrong (an array silently truncated), so the chapters are read as data,
+ * merged as data, and the file is written out fresh.
  *
  * Describe each merge in MERGES below and run it once. `into` is the slug
- * that survives, and keeps its position in the file; `absorb` lists the
- * slugs folded into it, in order, each preceded by a heading if `headings`
- * names one. Notes listed in `drop` are removed, which is usually how you
- * deal with two chapters that each ended on the same admission.
+ * that survives and keeps its place; `absorb` lists the slugs folded into
+ * it, in order, each preceded by a heading if `headings` names one. Notes
+ * whose titles are listed in `drop` are removed.
  *
- * It does not renumber. `n` is corrected afterwards by renumber-chapters,
- * so the two concerns stay separable and a merge can be reverted on its own.
+ * MERGES still holds the last restructure, which has already been run: most
+ * of its source slugs no longer exist, so running it again would stop
+ * partway, after rewriting some files. Replace it before reusing.
+ * It does not renumber; run renumber-chapters afterwards.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -109,6 +104,7 @@ const MERGES = [
 
 /* ---- reading and re-emitting TypeScript -------------------------- */
 
+/** Load one chapter file as data (types stripped, imported from a temp file). */
 async function read(name) {
   const src = fs
     .readFileSync(path.join(ROOT, 'lib', 'content', 'chapters', `${name}.ts`), 'utf8')
@@ -128,6 +124,7 @@ async function read(name) {
 
 for (const m of MERGES) {
   const chapters = await read(m.file);
+  // Look up a chapter in this file by slug, or stop if it is missing.
   const find = (s) => {
     const c = chapters.find((x) => x.slug === s);
     if (!c) throw new Error(`${m.file}.ts has no chapter ${s}`);
@@ -136,6 +133,7 @@ for (const m of MERGES) {
   const base = find(m.into);
   const absorbed = m.absorb.map(find);
 
+  // A chapter's body minus dropped notes, led by its heading if one is set.
   const bodyOf = (c) => {
     const h = m.headings?.[c.slug];
     const kept = (c.body ?? []).filter(

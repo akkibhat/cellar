@@ -5,7 +5,7 @@ import { useState } from 'react';
 /**
  * Serving temperature reference.
  *
- * Styles are laid out along a shared 4-20 C scale so the relationships
+ * Styles are laid out along a shared 4-22 C scale so the relationships
  * are visible at a glance - in particular that the gap between a light
  * red and a full white is much smaller than most people assume, and that
  * the fridge and a heated room both sit outside the useful range.
@@ -41,6 +41,7 @@ function pct(t: number) {
   return ((t - SCALE_MIN) / (SCALE_MAX - SCALE_MIN)) * 100;
 }
 
+/** The temperature card: reference scale on top, one clickable bar per style. */
 export default function TemperatureGuide() {
   const [open, setOpen] = useState<string | null>(null);
 
@@ -64,9 +65,8 @@ export default function TemperatureGuide() {
       </p>
 
       {/* Reference markers ---------------------------------------- */}
-      {/* The rows below are `name | track | range`, and the scale belongs
-          over the track alone - drawn across the whole card it ran past
-          both ends of every bar it was supposed to be measuring. The two
+      {/* The rows below are `name | track | range`, and the scale must sit
+          over the track alone or it won't line up with the bars. The two
           spacers hold the same widths the rows use. */}
       <div className="flex items-start gap-3">
         <span className="shrink-0" style={{ width: 'var(--temp-name)' }} />

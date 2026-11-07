@@ -7,19 +7,11 @@ import { CELLAR, PULLED_AT } from '@/lib/cellar';
 export const metadata: Metadata = { title: sectionName('cellar') };
 
 /**
- * The Cellar: the half of the site you use with a glass in front of you
- * rather than the half you read.
+ * The /cellar page: the half of the site you use with a glass in front of
+ * you rather than the half you read.
  *
- * The list is the page. There was a landing here whose entire body was a
- * single card pointing at /cellar/bottles - a hop with nothing to choose
- * between, which put the bottles two clicks from the nav instead of one.
- * The cellar has only ever held one thing, so the index and the thing it
- * indexed are the same route now.
- *
- * That is the same collapse as the one inside the list, a level up:
- * owned and drunk were separate routes and are one page with a filter
- * now, because two bottles on their own read as an empty site and "what
- * have I had" is a single question.
+ * The bottle list is the page itself, with owned and drunk on one page
+ * behind a filter, because "what have I had" is a single question.
  *
  * The page carries the Cellar's accent as a local custom property, taken
  * from the section table, so recolouring this half is a one-line edit in

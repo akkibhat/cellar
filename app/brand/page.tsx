@@ -12,18 +12,13 @@ export const metadata: Metadata = {
 /**
  * The brand guidelines, as a page rather than a document.
  *
- * These lived in a static HTML file alongside the design explorations, with
- * every hex typed out by hand. That is fine until a token changes, at which
- * point the guidelines quietly describe a site that no longer exists - and
- * a colour reference that is wrong is worse than none, because it is used
- * to justify decisions.
- *
- * So the swatches read the live custom properties out of the page they are
- * rendered on. Change `--garnet` in globals.css and this page changes with
- * it, including the contrast figures, which are measured rather than
- * remembered.
+ * The swatches read the live custom properties out of the page they are
+ * rendered on, so hand-typed hexes can never drift from the real tokens.
+ * Change `--garnet` in globals.css and this page changes with it, including
+ * the contrast figures, which are measured rather than remembered.
  */
 
+/* Token names for each swatch group, read live by <Swatches>. */
 const GROUND = ['--limestone', '--limestone-raised', '--limestone-sunk'];
 const INK = ['--schist', '--schist-soft', '--scree'];
 const ACCENT = ['--garnet', '--pounamu', '--tussock', '--tussock-deep'];
@@ -38,6 +33,7 @@ const AROMA = [
   '--aroma-balsamic',
 ];
 
+/* The type scale, smallest to largest, with what each step is for. */
 const SCALE = [
   ['--t-micro', 'Small-caps labels, eyebrows'],
   ['--t-caption', 'Captions, chips, aliases'],
@@ -51,6 +47,7 @@ const SCALE = [
   ['--t-display', 'Page titles'],
 ];
 
+/* One bullet in a list of usage rules, set in the soft ink. */
 function Rule({ children }: { children: React.ReactNode }) {
   return (
     <li className="t-base mb-2" style={{ color: 'var(--ink-soft)' }}>
@@ -59,6 +56,7 @@ function Rule({ children }: { children: React.ReactNode }) {
   );
 }
 
+/* The /brand page: wordmark, colour, type scale and motion tokens. */
 export default function BrandPage() {
   return (
     <div className="relative mx-auto max-w-[52rem] px-6 sm:px-10 lg:px-12 py-12 lg:py-16">

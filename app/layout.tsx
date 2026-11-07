@@ -10,10 +10,10 @@ import './globals.css';
  *
  * Young Serif sets the wordmark and every heading; Crimson Pro sets the
  * body; Archivo sets the interface and, at its heaviest, the front door.
- * The handwriting face that used to carry the headings is gone: a whole
- * site in a pen hand reads as a theme, and the headings are better as
- * type.
+ * There is deliberately no handwriting face: a whole site in a pen hand
+ * reads as a theme, and the headings are better as type.
  */
+
 /**
  * The heading and wordmark face: heavy, steady and warm, so the brand and
  * the chapter titles are the same voice.
@@ -26,17 +26,13 @@ const youngSerif = Young_Serif({
 });
 
 /**
- * The interface face - labels, chips, buttons, figures.
+ * The interface face: labels, chips, buttons, figures.
  *
- * Previously unspecified, so it resolved to the system stack and rendered
- * as a different typeface on every platform while the other three were
- * chosen deliberately.
- *
- * Archivo is a grotesque with more character than a neutral UI face - the
- * uppercase is tighter and the letterforms have some grip to them, which
- * suits small-caps labels sitting under handwritten headings. It carries
- * real tabular numerals, which matters here because the content is full
- * of hectares, caudalies and percentages sitting in aligned columns.
+ * Named explicitly so it does not fall back to the system stack and look
+ * different on every platform. Archivo is a grotesque with tight uppercase
+ * that suits small-caps labels, and it carries real tabular numerals, which
+ * matters because the content is full of hectares, caudalies and
+ * percentages sitting in aligned columns.
  */
 const archivo = Archivo({
   subsets: ['latin'],
@@ -45,6 +41,7 @@ const archivo = Archivo({
   display: 'swap',
 });
 
+/** The body face for chapter prose, with italics for emphasis. */
 const crimson = Crimson_Pro({
   subsets: ['latin'],
   weight: ['400', '600'],
@@ -53,6 +50,7 @@ const crimson = Crimson_Pro({
   display: 'swap',
 });
 
+/* The default page title and description, reused for the social cards. */
 const TITLE = "Akki's Cellar - what I have learned, and what I have tasted";
 const DESCRIPTION =
   'What I have worked out about wine, and the bottles it came from. '
@@ -106,6 +104,7 @@ const THEME_SCRIPT = `
 })();
 `;
 
+/** The root layout: fonts, the theme script, and the Shell around every page. */
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {

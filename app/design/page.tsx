@@ -21,6 +21,7 @@ export const metadata: Metadata = {
  * of it.
  */
 
+/** One round of a decision: a small label, a heading, and what was shown. */
 function Round({
   n,
   title,
@@ -53,6 +54,7 @@ function Response({ children }: { children: React.ReactNode }) {
   );
 }
 
+/** The /design page: the mark, colour, naming and voice decisions in order. */
 export default function DesignPage() {
   return (
     <div className="relative mx-auto max-w-[52rem] px-6 sm:px-10 lg:px-12 py-12 lg:py-16">

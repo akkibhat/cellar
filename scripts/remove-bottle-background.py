@@ -25,6 +25,7 @@ from PIL import Image, ImageFilter
 
 
 def _sweep(reach, cand, axis, rev):
+    """One directional pass: extend `reach` along rows/columns through unbroken `cand` pixels."""
     r, c = (reach, cand) if not rev else (np.flip(reach, axis), np.flip(cand, axis))
     if axis == 0:
         r, c = r.T, c.T
@@ -59,6 +60,7 @@ def flood_from_border(cand, max_sweeps=64):
 
 
 def cut(path, tol=None):
+    """Cut the bottle out of one image; return (RGBA image, alpha array), or (None, None) if no background found."""
     im = Image.open(path).convert("RGBA")
     flat = Image.new("RGBA", im.size, "#ffffff")
     flat.alpha_composite(im)            # composite onto WHITE: an RGBA source
@@ -107,6 +109,7 @@ def cut(path, tol=None):
 
 
 def main():
+    """Cut out each input, save it as PNG in the output folder and flag suspicious results."""
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("inputs", nargs="+")

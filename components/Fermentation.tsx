@@ -1,22 +1,14 @@
 /**
  * What fermentation does, drawn.
  *
- * One molecule of glucose goes into a yeast cell and two of ethanol and two
- * of carbon dioxide come out. That is the whole of chapter one's first
- * sentence, and it is the sort of thing a drawing says faster than a
- * paragraph: the two-for-one is the part people are surprised by, and it is
- * invisible in prose.
+ * One glucose goes into a yeast cell; two ethanol and two carbon dioxide
+ * come out. The two-for-one is the surprising part, and a drawing shows it
+ * faster than prose.
  *
- * WHY THE MOTION IS ONLY DECORATION
- *
- * globals.css freezes every animation on the site under
- * prefers-reduced-motion, so anything load-bearing that moved would simply
- * be lost for those readers. So the diagram is complete standing still:
- * every labelled part is drawn at full opacity in its final position, and
- * the only thing that moves is a second set of bubbles drifting up behind
- * the static ones. Turn the motion off and you lose nothing but the drift.
- *
- * No state and no controls - it is a diagram, not a tool.
+ * The motion is only decoration. globals.css freezes every animation under
+ * prefers-reduced-motion, so the diagram must be complete standing still:
+ * every labelled part is static, and the only thing that moves is a second
+ * set of bubbles drifting up behind the static ones.
  */
 export default function Fermentation() {
   /* Three drifting bubbles, staggered so the column never empties. */

@@ -8,20 +8,15 @@ import { bottlesFor, photoFor, stars, type CellarWine } from '@/lib/cellar';
 /**
  * The end of a place chapter: the bottles in the cellar from there.
  *
- * The book is what I have learned and the cellar is what I have drunk, and
- * the two halves of the site were only joined from the bottle's side (a
- * wine links to its chapter). This is the other direction. A chapter that
- * says the producer matters more than the name on the label ends by
- * showing two Châteauneuf-du-Pape from different producers, and opening
- * one is the same panel the shelf uses.
- *
- * It stands on the shelf's own board: bottles on the paper with the edge
- * they stand on in the colour of the place, so it reads as a piece of the
- * Cellardoor shelf set into the chapter and not as a new component. It
- * draws nothing when no bottle belongs to the chapter.
+ * A wine already links to its chapter; this is the other direction, from
+ * chapter to bottles. Opening one uses the same detail panel as the shelf,
+ * and it's styled like a piece of the Cellardoor shelf, with the edge the
+ * bottles stand on in the place's colour. Draws nothing when no bottle
+ * belongs to the chapter.
  */
 type Field = { bg: string; ink: string };
 
+/** The "Bottles from here" row for chapter `slug`. */
 export default function PlaceBottles({
   slug,
   field,

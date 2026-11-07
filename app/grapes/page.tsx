@@ -9,6 +9,7 @@ export const metadata: Metadata = {
     'Filter and sort the grape varieties by colour, climate, body, acidity and tannin.',
 };
 
+/* The /grapes page: header plus the grape explorer. */
 export default function GrapesPage() {
   return (
     <div className="relative mx-auto max-w-[52rem] px-6 sm:px-10 lg:px-12 py-12 lg:py-16">

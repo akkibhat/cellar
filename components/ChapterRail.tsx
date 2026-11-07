@@ -7,15 +7,11 @@ import type { Heading } from '@/lib/headings';
 /**
  * The left rail of a chapter: the sections of this chapter, the one you
  * are in marked, then the other chapters of the same part, then a way back
- * to the full contents.
- *
- * It replaces the permanent 25-chapter sidebar on chapter pages. That list
- * answered "what else is in the book" on every screen and left no answer
- * to the question a long chapter actually raises, which is "where am I in
- * this one". The whole book is still one click away through the contents.
+ * to the full contents. It answers "where am I in this chapter", which a
+ * full book sidebar can't; the whole book is one click away.
  *
  * The marked section follows the scroll: the last heading that has passed
- * a line a little below the top of the screen.
+ * a line 140px below the top of the screen.
  */
 export default function ChapterRail({
   headings,
@@ -42,12 +38,14 @@ export default function ChapterRail({
     }
   }, [currentSlug]);
 
+  /* Track which heading is current as the page scrolls. */
   useEffect(() => {
     const els = headings
       .map((h) => document.getElementById(h.id))
       .filter((e): e is HTMLElement => Boolean(e));
     if (els.length === 0) return;
 
+    /* Mark the last heading whose top has passed 140px from the top. */
     const onScroll = () => {
       let current = els[0].id;
       for (const el of els) {

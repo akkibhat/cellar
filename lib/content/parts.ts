@@ -1,13 +1,15 @@
 import type { Part } from '../types';
 
 /**
- * The nine parts of the course, in reading order.
+ * The eight parts of the course, in reading order.
  *
- * The shape of the syllabus: foundations first, then the grapes, then two
- * deep regional sections - France and New Zealand - because those are the
- * two places worth knowing properly rather than surveying. The rest of the
- * wine world gets one solid part. Technique, tasting and practice follow,
- * and the course closes on what alcohol actually does to a body.
+ * Foundations, grapes, tasting and winemaking come first. Then two deep
+ * regional parts, France and New Zealand, because those are the two places
+ * worth knowing properly, and one part for the rest of the wine world.
+ * In practice comes last, and its closing chapters (lib/content/chapters/
+ * body.ts) cover what alcohol actually does to a body.
+ *
+ * scripts/reading-order.mjs reads this array to number and export parts.
  */
 export const PARTS: Part[] = [
   {

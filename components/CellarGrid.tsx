@@ -18,26 +18,16 @@ import {
  * The cellar, set as a shelf.
  *
  * Every wine stands at full height on a band in the colour of what is in
- * it: reds on garnet, whites on straw, and the rosé and sweet wines on
- * blush. It reads like a wine rack, and the colour of the wine is the
- * structure of the page rather than a tint behind a card.
+ * it: reds on garnet, whites on straw, rosé and sweet wines on blush. The
+ * photograph is the star, so each bottle is big enough to read the label,
+ * and clicking it opens the detail panel.
  *
- * An earlier version was a grid of identical cards, small photographs in a
- * narrow column. The photograph is the best thing here, so the card has
- * gone: the bottle stands on the band at a size you can read the label,
- * with its name, producer and vintage beneath it, and opens into the same
- * panel as before.
+ * Bottles still in the cellar carry a "Still here" tag, and the filter
+ * narrows the shelf to them or to the tasted ones; an empty band is not
+ * drawn. With no photograph, the bottle silhouette stands in, coloured by
+ * the wine, so a glance still tells you what it was.
  *
- * The two bottles still in the cellar carry a "Still here" tag, and the
- * filter above narrows the shelf to them or to the tasted ones; a band
- * with nothing left in it is not drawn.
- *
- * Where there is no photograph yet, the bottle silhouette stands in at the
- * same height, coloured by what was in it. That is not decoration filling
- * a hole - it still carries the one fact a glance should give you.
- *
- * `children` is the page's own introduction, set beside the filter in the
- * head, so the filter and the words that explain it sit together.
+ * `children` is the page's own introduction, set beside the filter.
  */
 
 type Filter = 'all' | 'cellar' | 'tasted';
@@ -77,10 +67,12 @@ function placesLine(entries: Entry[]): string {
   return places.slice(0, 5).join(', ');
 }
 
+/** The cellar page body: head with filter chips, the colour bands, and the detail panel. */
 export default function CellarGrid({ children }: { children?: ReactNode }) {
   const [filter, setFilter] = useState<Filter>('all');
   const [open, setOpen] = useState<Entry | null>(null);
 
+  /* Every wine, cellar first then tasted, each tagged with whether it's gone. */
   const all = useMemo<Entry[]>(
     () => [
       ...CELLAR.map((w) => ({ wine: w, drunk: false })),
@@ -89,6 +81,7 @@ export default function CellarGrid({ children }: { children?: ReactNode }) {
     [],
   );
 
+  /* The wines that pass the current filter chip. */
   const shown = all.filter(
     (x) =>
       filter === 'all' ||
@@ -211,6 +204,7 @@ function Bottle({ entry, onOpen }: { entry: Entry; onOpen: () => void }) {
   );
 }
 
+/** A filter toggle in the head; aria-pressed marks the one that's on. */
 function Chip({
   on,
   onClick,

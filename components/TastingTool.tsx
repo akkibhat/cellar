@@ -55,6 +55,7 @@ const STEPS = [
   { n: '03', title: 'The palate', hint: 'Structure, then length' },
 ];
 
+/** The three-step tasting form, its live note, and the save button. */
 export default function TastingTool({ compact = false }: { compact?: boolean }) {
   const { saveNote } = useJournal();
 

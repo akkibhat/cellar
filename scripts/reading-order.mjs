@@ -1,16 +1,12 @@
 /**
  * Where the reading order lives, for the scripts that need it.
  *
- * Three scripts used to keep their own copy of the part order and the file
- * list, which is fine until the order changes: moving Tasting from seventh
- * to third left the exporter and the renumberer both numbering chapters
- * against the old sequence, silently. So they ask here instead, and here
- * reads the two files that actually decide it - the spread order in
- * course.ts, and PARTS.
+ * The order is read from the two files that actually decide it (the spread
+ * order in lib/content/course.ts, and PARTS in lib/content/parts.ts), so
+ * the scripts never keep their own copy that could drift when parts move.
  *
- * It also holds the emitter, because merging and splitting chapters both
- * have to write a chapter file back out and there is no reason for two
- * copies of that to drift apart.
+ * It also holds the shared chapter loader and the emitter that writes a
+ * chapter file back out (used by merge-chapters and split-chapters).
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -51,7 +47,10 @@ export async function parts() {
   }
 }
 
-/** One chapter file, read as data. */
+/**
+ * One chapter file, read as data: the type import and annotation are
+ * stripped and the rest imported as plain JavaScript from a temp file.
+ */
 export async function readChapters(name) {
   const src = fs
     .readFileSync(path.join(ROOT, 'lib', 'content', 'chapters', `${name}.ts`), 'utf8')
@@ -69,9 +68,11 @@ export async function readChapters(name) {
 
 /* ---- writing a chapter file back out ------------------------------ */
 
+/** A value as a TS string literal: single-quoted, or JSON if it has a quote. */
 const str = (v) =>
   v.includes("'") ? JSON.stringify(v) : `'${v.replace(/\\/g, '\\\\')}'`;
 
+/** One body block as TypeScript source; headings and simple tools on one line. */
 function block(b, pad = '      ') {
   const p = pad + '  ';
   if (b.kind === 'h' || (b.kind === 'tool' && !b.only)) {
@@ -95,6 +96,7 @@ function block(b, pad = '      ') {
   return lines.join('\n');
 }
 
+/** One quiz question as TypeScript source. */
 const question = (q) => [
   '      {',
   `        q: ${str(q.q)},`,
@@ -107,6 +109,7 @@ const question = (q) => [
   '      },',
 ].join('\n');
 
+/** One whole chapter object as TypeScript source. */
 const chapter = (c) => [
   '  {',
   `    slug: ${str(c.slug)},`,

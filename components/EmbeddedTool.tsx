@@ -19,16 +19,10 @@ import TwoBanks from './TwoBanks';
  * Keeping the mapping here means chapter content only ever names a tool as
  * a string, and the content files stay free of imports and JSX.
  *
- * WHY THE FOOTER LINK
- *
- * Five of these are pages in their own right, and a reader who meets one
- * inside a chapter had no way of knowing that. The embedded copy is where
- * somebody is actually using the thing, which makes it the one place worth
- * telling them it has a permanent home - so each of those five carries a
- * line back to its own page.
- *
- * The diagrams do not, because they have nowhere to go. They illustrate the
- * paragraph above them and only make sense there.
+ * The tools that are also pages in their own right (listed in HOME) get a
+ * footer link to that page, so a reader using one inside a chapter learns
+ * it has a permanent home. The diagrams don't, since they only make sense
+ * next to the paragraph they illustrate.
  */
 
 type Tool =
@@ -53,6 +47,7 @@ const HOME: Partial<Record<Tool, { href: string; label: string }>> = {
   grapeFilter: { href: '/grapes', label: 'Open the full grape explorer' },
 };
 
+/** Returns the component for a tool name, or null for an unknown one. */
 function render(tool: Tool, only?: 'white' | 'red') {
   switch (tool) {
     case 'tasting':
@@ -82,6 +77,7 @@ function render(tool: Tool, only?: 'white' | 'red') {
   }
 }
 
+/** Renders the named tool, plus a link to its own page when it has one. */
 export default function EmbeddedTool({
   tool,
   only,

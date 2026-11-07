@@ -11,16 +11,12 @@ import type { Mark } from '@/lib/design-marks';
 
 /**
  * The marks keep the colours they were drawn in, and sit on a fixed light
- * ground rather than the page's.
- *
- * Mapping their fills onto tokens looked tidier and was wrong: these were
- * drawn against paper, so on the dark theme every light shape inverted and
- * disappeared into the card behind it - the vault lost its interior and
- * read as a plain arch. A record of what was drawn has to show what was
- * drawn, in both themes.
+ * ground, not the page's. They were drawn against paper, so with theme
+ * tokens their light shapes vanished into the card on the dark theme.
  */
 const GROUND = '#efeae0';
 
+/** One mark drawn as SVG at the given height, from its recorded shapes. */
 function Draw({
   mark,
   size,
@@ -67,6 +63,7 @@ function Draw({
   );
 }
 
+/** The row of mark cards, each drawn large and at 22px, with kept ones outlined. */
 export default function MarkGrid({
   marks,
   large = 70,

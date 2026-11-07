@@ -11,6 +11,7 @@ import type { Block } from './types';
  */
 export type Heading = { id: string; text: string };
 
+/** Turn heading text into a URL-safe id: lower case, no markup, hyphens. */
 function slugify(text: string): string {
   return (
     text

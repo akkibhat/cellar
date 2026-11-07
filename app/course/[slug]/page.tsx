@@ -17,6 +17,7 @@ export function generateStaticParams() {
   return CHAPTERS.map((m) => ({ slug: m.slug }));
 }
 
+/** Page title and description for a chapter: its title and standfirst. */
 export async function generateMetadata({
   params,
 }: {
@@ -28,6 +29,7 @@ export async function generateMetadata({
   return { title: mod.title, description: mod.standfirst };
 }
 
+/** A /course/[slug] chapter: opener, side rail, body, place bottles and footer. */
 export default async function ChapterPage({
   params,
 }: {

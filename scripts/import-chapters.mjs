@@ -1,57 +1,24 @@
 /**
- * Write `_previews/chapters.md` back into the chapter files.
+ * Write the edited Markdown in `_previews/chapters/` back into the chapter
+ * files. The other half of `scripts/export-chapters.mjs`.
  *
- *   node scripts/import-chapters.mjs           # apply
- *   node scripts/import-chapters.mjs --dry-run # list what would change
+ *   node scripts/import-chapters.mjs             # apply every part
+ *   node scripts/import-chapters.mjs --dry-run   # list what would change
+ *   node scripts/import-chapters.mjs FILE.md     # import just one file
  *
- * The other half of `scripts/export-chapters.mjs`. Edit the prose in the
- * Markdown, run this, and the strings in `lib/content/chapters/` are
- * updated in place. Nothing is retyped, so nothing is mistyped.
+ * It never rewrites a file wholesale: each changed block's old string
+ * literal must appear exactly once in its file, and is swapped in place.
+ * Anything ambiguous (missing anchor, literal not found or found twice) is
+ * reported and skipped, never guessed at.
  *
- * HOW IT IS KEPT SAFE
+ * Extra moves, written into the anchor:
+ *   - Delete a block:  `<!-- what-wine-is:7:unsure DELETE -->`
+ *   - Add a block:     `<!-- marlborough:new:note AFTER 12 -->`
+ *   - A list whose bullet count changed has its whole items array rewritten.
  *
- * It never rewrites a file wholesale. For each block it builds the exact
- * string literal the source currently holds, checks that literal appears
- * once and only once in that file, and swaps it. A block whose text has
- * not changed is not touched at all, so the diff is only ever the edits.
- *
- * If an anchor has gone missing, or a literal is not found, or is found
- * twice, that block is reported and skipped rather than guessed at. The
- * failure mode is doing nothing, which is recoverable; writing a paragraph
- * into the wrong chapter is not.
- *
- * DELETING A BLOCK
- *
- * Write DELETE into a block's anchor - `<!-- what-wine-is:7:unsure DELETE -->`
- * - and the block is removed from the chapter rather than rewritten.
- * Deletions happen after every text swap and run from the last block
- * backwards, so removing one cannot shift the next out from under itself.
- *
- * A LIST THAT CHANGES LENGTH
- *
- * Item-by-item swapping cannot say "five bullets became four", so when the
- * count differs the whole items array is rewritten in place. The block
- * itself stays where it is; only its contents change.
- *
- * ADDING A BLOCK
- *
- * Give it an anchor whose index is `new` and say where it goes:
- *
- *     <!-- marlborough:new:note AFTER 12 -->
- *
- * and the block is built and inserted after block 12 of that chapter.
- * Several may share a chapter; they are placed from the bottom up so an
- * earlier insertion cannot move a later one.
- *
- * Both adding and deleting renumber every block after them, which the
- * Markdown does not know about, so either forces a re-export. The script
- * says so rather than letting the next run write a paragraph into the
- * wrong place.
- *
- * Straight apostrophes become typographic ones on the way in. The chapter
- * files are single-quoted strings that currently contain no escapes at all,
- * and keeping it that way means an apostrophe typed in the Markdown can
- * never break a build.
+ * Adding or deleting shifts the block numbers after it, so re-export before
+ * editing again (the script reminds you). Straight apostrophes become
+ * typographic ones on the way in, so the source never needs escapes.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -62,15 +29,9 @@ const DRY = process.argv.includes('--dry-run');
 const given = process.argv.slice(2).find((a) => !a.startsWith('--'));
 
 /**
- * The Markdown to read back in.
- *
- * The export is one file per part, so the default is all of them together.
- * Anchors carry the chapter slug, so a block is found by name rather than
- * by position and it makes no difference which file it arrived in.
- *
- * Passing a path reads just that file, which is how you import one part
- * without touching the rest - or try a candidate without disturbing the
- * working copy.
+ * The Markdown files to read back in: every part file by default, or just
+ * the one path given on the command line. Anchors carry the chapter slug,
+ * so it does not matter which file a block arrives in.
  */
 const SOURCES = (() => {
   if (given) return [path.resolve(given)];
@@ -86,11 +47,16 @@ const SOURCES = (() => {
     .map((f) => path.join(dir, f));
 })();
 
+/* Every chapter file to check. Order does not matter here. */
 const FILES = [
   'foundations', 'grapes', 'france', 'newzealand',
   'world', 'making', 'tasting', 'practice', 'body',
 ];
 
+/**
+ * Load one chapter file as data, by stripping its type annotations and
+ * importing it as plain JavaScript from a temp file.
+ */
 async function readChapters(name) {
   const src = fs
     .readFileSync(path.join(ROOT, 'lib', 'content', 'chapters', `${name}.ts`), 'utf8')
@@ -158,6 +124,7 @@ for (const line of lines) {
 /** Turn the collected lines back into the shape the block had. */
 function parse(b) {
   const lines = b.lines.map((l) => l.trimEnd());
+  // All non-blank lines joined into one tidied string.
   const text = () => tidy(lines.filter(Boolean).join(' '));
 
   switch (b.kind) {
@@ -208,11 +175,7 @@ function parse(b) {
   }
 }
 
-/**
- * Replace a list block's items array wholesale, for when the number of
- * bullets has changed. Finds the block by a string it still owns, then
- * swaps everything between its brackets.
- */
+/** Index of the `]` that closes the array opening at `openAt`. */
 function endOfArray(src, openAt) {
   let depth = 0;
   for (let i = openAt; i < src.length; i++) {
@@ -225,6 +188,11 @@ function endOfArray(src, openAt) {
   return -1;
 }
 
+/**
+ * Replace a list block's items array wholesale, for when the number of
+ * bullets has changed. Finds the block by a string it still owns, then
+ * swaps everything between its brackets.
+ */
 function rewriteItems(src, owned, items) {
   const at = src.indexOf(`'${owned}'`);
   if (at === -1) return null;
@@ -241,6 +209,7 @@ function rewriteItems(src, owned, items) {
  * six spaces to the brace, eight to each field, trailing commas.
  */
 function renderBlock(kind, parsed) {
+  // Wrap a value in single quotes as a TS string literal.
   const q = (v) => `'${v}'`;
   const rows = [`        kind: ${q(kind)},`];
   if (parsed.title) rows.push(`        title: ${q(parsed.title)},`);
@@ -299,6 +268,7 @@ function rewriteTable(src, owned, head, rows) {
   if (open === -1) return null;
   const close = endOfArray(src, src.indexOf('[', src.indexOf('rows: [', open)));
   if (close === -1) return null;
+  // One table row as a comma-separated list of quoted cells.
   const cells = (r) => r.map((c) => `'${c}'`).join(', ');
   const out =
     `head: [${cells(head)}],` +
@@ -314,8 +284,7 @@ function rewriteTable(src, owned, head, rows) {
  * Finds a string the block owns, walks back to the brace that opens the
  * object and forward to the one that closes it, then removes the whole
  * thing with its trailing comma and line. Safe because no authored string
- * in these files contains a brace - checked before this was written - so
- * prose cannot throw the depth count.
+ * in these files contains a brace, so prose cannot throw the depth count.
  */
 function cutBlock(src, owned) {
   if (!owned) return null;

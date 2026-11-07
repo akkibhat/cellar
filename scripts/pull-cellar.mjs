@@ -1,15 +1,10 @@
 /**
  * Turn a Cellarion export into the site's committed cellar snapshot.
  *
- * WHY A SNAPSHOT RATHER THAN A LIVE FETCH
- *
- * Cellarion holds the truth, but the site is static and public. Fetching
- * from the browser would mean shipping a personal API token to every
- * visitor, and Cellarion's export links are signed and expire in an hour,
- * so they cannot be baked into a build either. So the data is pulled
- * deliberately, committed, and served as part of the site - which also
- * means the cellar renders instantly, works offline, and is diffable in
- * git when a bottle is opened.
+ * Why a snapshot: the site is static and public, so fetching live would
+ * ship a personal API token to every visitor, and Cellarion's export links
+ * expire in an hour so they cannot be baked into a build. Pulling and
+ * committing also makes changes diffable in git.
  *
  * HOW TO REFRESH
  *
@@ -58,34 +53,9 @@ const clean = (obj) =>
   );
 
 /**
- * A bottle's rating, out of five.
- *
- * Cellarion records a rating in two different places and both count:
- *
- *   rating          what you thought while you still had it - a Coravin
- *                   pour, an impression, a score carried in from Vivino
- *   consumedRating  the verdict recorded at the moment you drank it
- *
- * An earlier version of this script read only the first, which quietly
- * lost Valli's five out of five - the bottle was rated as it was drunk, so
- * the score lived in the second field and the site showed it as unrated.
- * The drinking verdict wins where both exist, on the grounds that it was
- * formed with the whole bottle rather than a taste of it.
- *
- * Either can arrive on a 5, 20 or 100 point scale, so both are normalised
- * here rather than in the component.
- */
-/**
- * A bottle's drinking window, as Cellarion's sommelier notes give it.
- *
- * Three bands rather than one span - early, peak and late - which is more
- * than a from/to can carry and worth keeping, because the difference
- * between a wine that is drinkable and one that is at its best is the
- * question you are actually asking when you look at a rack.
- *
- * Registry windows only exist for vintages a sommelier has reviewed. Where
- * there is none, the site falls back to inferring one from region, grapes
- * and vintage; see `windowFor` in lib/cellar.ts.
+ * A bottle's drinking window from Cellarion's sommelier notes, as three
+ * bands (early, peak, late). Undefined when no sommelier has set one; the
+ * site then infers a window instead (see `windowFor` in lib/cellar.ts).
  */
 function maturityOf(b) {
   const m = b.maturity;
@@ -101,6 +71,16 @@ function maturityOf(b) {
   });
 }
 
+/**
+ * A bottle's rating, out of five.
+ *
+ * Cellarion stores two: `rating` (an impression while you still had it,
+ * e.g. a Coravin pour or a Vivino score) and `consumedRating` (the verdict
+ * when you drank it). Both count, and the drinking verdict wins where both
+ * exist. Reading only `rating` once lost a 5/5 that was recorded on drinking.
+ *
+ * Either can be on a 5, 20 or 100 point scale, so it is normalised here.
+ */
 function ratingOf(b) {
   const pick =
     b.consumedRating !== undefined && b.consumedRating !== null

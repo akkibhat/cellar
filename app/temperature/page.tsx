@@ -8,6 +8,7 @@ export const metadata: Metadata = {
     'Every style on one scale, and why the fridge and a heated room are both wrong.',
 };
 
+/* The /temperature page: the serving-temperature scale and the 20 minute rule. */
 export default function TemperaturePage() {
   return (
     <div className="relative mx-auto max-w-[50rem] px-6 sm:px-10 lg:px-12 py-12 lg:py-16">

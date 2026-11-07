@@ -7,17 +7,10 @@ import { useTheme } from '@/lib/storage';
  * the root element; the inline script in the layout replays it on the next
  * load before paint.
  *
- * WHY AN ICON
- *
- * It used to read "Lamplight" and "Daylight", which is the book's voice
- * applied to a piece of interface furniture. Naming a control invites the
- * reader to work out what the name means, and there is nothing to work out
- * here - it is the switch every site has. So it shows the theme you would
- * get by pressing it, and says the rest to a screen reader.
- *
- * It lived inside the book's sidebar, which is why the cellar had no way
- * to change theme at all. It is a component now so both halves can carry
- * it: the book in its sidebar, the cellar in the bar across the top.
+ * It's a plain icon, not a named control, because it's the switch every
+ * site has. The icon shows the theme you'd get by pressing it, and the
+ * aria-label says it in words. Used in the top bar (CellarNav) and on the
+ * landing page.
  */
 export default function ThemeToggle({ className = '' }: { className?: string }) {
   const { theme, toggle } = useTheme();

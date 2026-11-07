@@ -9,8 +9,8 @@ import { useState } from 'react';
  * drinks it represents in each of four countries, because the same glass
  * of wine is a different number depending on who is counting.
  *
- * The point it exists to make: a generous restaurant pour of a strong red
- * is roughly two and a half times the 10 g reference unit,
+ * The point it exists to make: a 175 ml restaurant pour of a 14% red is
+ * nearly two 10 g standard drinks, and a 250 ml glass close to three,
  * which is why counting glasses is misleading.
  */
 
@@ -35,6 +35,7 @@ const PRESETS = [
 /** The density of ethanol, needed to convert millilitres to grams. */
 const ETHANOL_DENSITY = 0.789;
 
+/** The calculator card: pour presets, two sliders, and the per-country table. */
 export default function UnitsCalculator() {
   const [ml, setMl] = useState(175);
   const [abv, setAbv] = useState(14);
@@ -154,9 +155,9 @@ export default function UnitsCalculator() {
         </tbody>
       </table>
 
-      {/* This used to print the New Zealand weekly and per-occasion limits.
-          Converting a pour into units is arithmetic; telling somebody how
-          many they should have is not the job of this site. */}
+      {/* Deliberately no drinking-limit guidance: converting a pour is
+          arithmetic, but telling somebody how many to have isn't this
+          site's job. */}
       <p className="t-caption mt-4" style={{ color: 'var(--ink-soft)' }}>
         The same pour is a different number of drinks in each row. Nothing
         about the wine changes - only who is counting.

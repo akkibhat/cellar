@@ -1,39 +1,15 @@
 /**
- * Why Bordeaux plants what it plants, on the map that causes it.
+ * Why Bordeaux plants what it plants, on a schematic map.
  *
- * This was a cross-section first, which showed the causation and none of the
- * geography, so the names in the chapter had nowhere to sit. The region is
- * really one Y of water: the Gironde running north-west to the Atlantic,
- * splitting at Bec d'Ambès into the Garonne, which runs south past the city,
- * and the Dordogne, which runs east. Left Bank and Right Bank are literally
- * the banks of that Y, and once it is drawn every appellation in the chapter
- * has an address.
+ * The region is one Y of water: the Gironde running north-west to the
+ * Atlantic, splitting at Bec d'Ambès into the Garonne (south past the city)
+ * and the Dordogne (east). Left and Right Bank are the banks of that Y.
+ * Rivers are straightened and regions are blocks, but the arrangement is real.
  *
- * Schematic rather than surveyed - the rivers are straightened and the
- * regions are blocks - but the arrangement is the real one: Médoc down the
- * west side of the estuary, Graves and Sauternes south of the city on the
- * Garonne, Saint-Émilion and Pomerol north of the Dordogne, and
- * Entre-Deux-Mers in the wedge its name describes.
- *
- * THE SOIL, AS TEXTURE
- *
- * The two soils are drawn as pattern fills - loose round gravel on one side,
- * flat dense layers on the other - rather than scattered shapes placed by
- * hand. A pattern covers its whole region, tells the banks apart without
- * relying on the reader seeing colour, and sits underneath every label by
- * construction, so no amount of text can collide with it.
- *
- * WHAT THE LEGEND HAS TO SAY
- *
- * That Cabernet ripens late is only interesting because of what it is racing.
- * Bordeaux is Atlantic and its autumn is wet, so the season has a hard end
- * that arrives whether the fruit is ready or not. Warm free-draining gravel
- * buys enough of a head start for a late grape to finish; cold wet clay does
- * not, so that side plants the grape that finishes sooner. Without the rain
- * in the legend, "ripens late" is a fact about a grape rather than the reason
- * the map looks the way it does.
- *
- * No motion.
+ * The soils are pattern fills, not hand-placed shapes: a pattern covers its
+ * whole region, tells the banks apart without relying on colour, and sits
+ * under every label so text can't collide with it. The legend names the
+ * autumn rain, because that's what makes "Cabernet ripens late" matter.
  */
 
 /* The water, as three straight runs meeting at the confluence. */
@@ -42,12 +18,14 @@ const JOIN = [248, 168]; // Bec d'Ambès
 const GARONNE = [286, 250]; // upstream, heading south past the city
 const DORDOGNE = [432, 120]; // upstream, heading east
 
+/* SVG path for a straight river run from point a to point b. */
 const run = (a: number[], b: number[]) => `M${a[0]} ${a[1]} L${b[0]} ${b[1]}`;
 
 /** A vine: a trunk with two arms trained off it. */
 const vine = (x: number, base: number, h = 20) =>
   `M${x} ${base} V${base - h} M${x} ${base - h} l -7 -7 M${x} ${base - h} l 7 -7`;
 
+/** The Bordeaux map figure: banks, rivers, labels and the legend. */
 export default function TwoBanks() {
   return (
     <figure className="card px-5 py-5 my-6 max-w-[40rem]">

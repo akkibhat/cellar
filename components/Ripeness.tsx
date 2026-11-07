@@ -1,18 +1,10 @@
 /**
- * The trade-off the whole book keeps returning to.
+ * The ripeness trade-off the whole book keeps returning to.
  *
- * Chapter one says acid falls as grapes ripen and alcohol rises, and calls
- * the second "the direct trade off against acid". Said in two bullet points
- * they are two facts. Drawn as two lines going opposite ways they are one
- * fact, which is what makes chapter six's cool/warm table predictable rather
- * than memorisable, and what chapters thirteen and fifteen lean on when they
- * explain why New Zealand plants where it does.
- *
- * The shaded band is the point of the chapter's own standfirst - deciding
- * when to stop. There is no correct moment on this axis, only a window
- * where both numbers are still acceptable, and picking is choosing inside it.
- *
- * No motion. The lines are the argument.
+ * As grapes ripen, acid falls and sugar (so alcohol) rises. Drawn as two
+ * lines going opposite ways, that's one fact instead of two. The shaded band
+ * is the picking window: there's no single right moment, only a range where
+ * both numbers are still acceptable. No motion.
  */
 
 const X0 = 76;
@@ -23,8 +15,10 @@ const BASE = 132;
 /* The picking window, as fractions along the ripeness axis. */
 const PICK = [0.42, 0.68];
 
+/* Fraction along the ripeness axis to an x coordinate. */
 const at = (t: number) => X0 + (X1 - X0) * t;
 
+/** The ripeness figure: acid and sugar curves, picking window, and what each end tastes like. */
 export default function Ripeness() {
   return (
     <figure className="card px-5 py-5 my-6 max-w-[40rem]">

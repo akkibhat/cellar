@@ -3,24 +3,13 @@
  *
  *   node scripts/reading-times.mjs [--dry-run]
  *
- * WHY
+ * Hand-set times drifted badly (two "8 minute" chapters could differ three
+ * times in length), so `minutes` is derived from the words instead.
  *
- * `minutes` was set by feel, one chapter at a time, and drifted badly: the
- * figures implied anywhere from 45 to 130 words a minute, so two chapters
- * both claiming 8 minutes could differ by a factor of three in length. A
- * number that does not rank is worse than no number, because a reader uses
- * it to choose.
- *
- * THE RATE
- *
- * 200 words a minute, which is a normal pace for prose you are reading to
- * take something in rather than to skim. Everything a reader actually reads
- * counts - the standfirst, the paragraphs, list items and table cells.
- * Interactive tools do not, since the time those take is up to the reader
- * and would inflate a chapter that has one.
- *
- * The floor is two minutes. Below that the number stops being useful and
- * starts looking like a boast about brevity.
+ * The rate is 200 words a minute, a normal pace for reading to take
+ * something in. Everything a reader reads counts: standfirst, paragraphs,
+ * list items, table cells. Interactive tools count as zero, since the time
+ * they take is up to the reader. The floor is two minutes.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -31,8 +20,10 @@ const DRY = process.argv.includes('--dry-run');
 const WPM = 200;
 const FLOOR = 2;
 
+/** Number of words in a string (0 for empty or missing). */
 const words = (s) => (s ?? '').trim().split(/\s+/).filter(Boolean).length;
 
+/** Words a reader actually reads in one body block. */
 function countBlock(b) {
   switch (b.kind) {
     case 'table':

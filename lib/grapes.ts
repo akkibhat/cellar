@@ -3,15 +3,13 @@ import type { Grape } from './types';
 /**
  * The grape varieties worth knowing first.
  *
- * Chosen on two criteria: the ones you meet constantly on a wine list
- * anywhere in the world, and the eight that make Bordeaux - since that is
- * where this course started. New Zealand's signature varieties are all
- * here too.
+ * Chosen as the ones you meet constantly on a wine list anywhere, plus
+ * the Bordeaux varieties (where this course started) and New Zealand's
+ * signature grapes.
  *
- * The 1-5 scales are deliberately coarse. They exist so the explorer can
- * filter and so the meters give a shape at a glance; they are not
- * measurements, and any individual bottle can sit a point either side of
- * its variety's typical value.
+ * The 1-5 scales are deliberately coarse: they let the explorer filter
+ * and the meters show a shape at a glance. They are not measurements,
+ * and any bottle can sit a point either side of its variety's value.
  */
 export const GRAPES: Grape[] = [
   /* ================================================================ *
@@ -426,7 +424,7 @@ export const GRAPES: Grape[] = [
   },
 ];
 
-/** Convenience splits, used by the explorer's default groupings. */
+/** The grapes split by colour; /grapes uses them for its counts. */
 export const WHITE_GRAPES = GRAPES.filter((g) => g.colour === 'white');
 export const RED_GRAPES = GRAPES.filter((g) => g.colour === 'red');
 
@@ -436,8 +434,8 @@ export function findGrape(slug: string): Grape | undefined {
 }
 
 /**
- * The eight varieties permitted in red and white Bordeaux, called out
- * separately because the Bordeaux chapter needs exactly this subset.
+ * The nine varieties permitted in red and white Bordeaux (six red, three
+ * white), as grape slugs.
  */
 export const BORDEAUX_GRAPES = [
   'cabernet-sauvignon',

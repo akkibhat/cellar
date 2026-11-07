@@ -1,29 +1,18 @@
 /**
  * Reference facts about grapes, and the registry's tasting profiles.
  *
- * GENERATED-ISH - gathered from Cellarion's API on 2026-08-31, by hand
- * rather than by script. That is not laziness, it is a limitation worth
- * writing down: `scripts/pull-cellar.mjs` reads Cellarion's *export*, and
- * the export only carries your own data - bottles, ratings, notes. The
- * tasting profile and the grape reference belong to Cellarion's shared
- * registry, which the export does not include at all. So this file is
- * refreshed from Cellarion's API directly:
+ * Filled in by hand from Cellarion's API (2026-08-31), not by a script:
+ * `scripts/pull-cellar.mjs` reads Cellarion's export, which only carries
+ * your own bottles, ratings and notes. Grape facts and tasting profiles
+ * live in Cellarion's shared registry, so refresh them from the API:
  *
  *   describe_grape   -> GRAPES
  *   get_bottle       -> PROFILES (wine.tasting_profile)
  *
- * WHAT IS DELIBERATELY MISSING: Cellarion also returns a written paragraph
- * for each grape and region. It is good writing, and it is theirs. Pasting
- * it here would repeat the mistake this site spent a fortnight undoing
- * with the museum text, so only the *facts* are kept - a characteristic is
- * a fact, a well-turned sentence about it is not - and each entry carries
- * the public URL so the prose can be linked to rather than absorbed.
- *
- * Region prose is missing for a second reason: Cellarion returns nothing
- * structured for a region (`styles`, `typical_grapes` and `classification`
- * all come back empty), so there were no facts to keep. The course covers
- * these places already, so a wine links to the chapter about where it grew
- * instead. See `courseLinksFor` in lib/cellar.ts.
+ * Cellarion's written paragraphs about each grape are theirs, so only the
+ * facts are kept here, with a URL to link to the prose. Regions have no
+ * structured facts at all, so a wine links to its course chapter instead
+ * (see `courseLinksFor` in lib/cellar.ts).
  */
 
 /* ===================================================================== *
@@ -168,17 +157,12 @@ export const GRAPES: Record<string, GrapeFacts> = {
 /**
  * A wine's measured structure, as Cellarion's registry holds it.
  *
- * All 22 wines have one. That was not true when this file was first
- * written, and the reason is timing: the snapshot in `cellar-snapshot.ts`
- * was pulled at 00:22 on 31 August 2026, and a curator went through the
- * registry between 04:46 and 06:04 the same morning. So the site spent a
- * few days showing two profiles and a blank for the other twenty while
- * Cellarion held the lot. These were read back out on 1 September 2026.
+ * All 22 wines have one, read from the registry on 1 September 2026.
  *
- * The wording is the registry's, copied rather than rewritten: the panel
- * attributes this section to Cellarion, and a paraphrase under that
- * heading would be putting words in someone else's mouth. Only the
- * apostrophes were changed, to the typographic ones this file uses.
+ * The wording is the registry's, copied and not rewritten: the panel
+ * credits this section to Cellarion, so a paraphrase under that heading
+ * would be putting words in someone else's mouth. Only the apostrophes
+ * were changed, to the typographic ones this file uses.
  */
 export type TastingProfile = {
   body: string;

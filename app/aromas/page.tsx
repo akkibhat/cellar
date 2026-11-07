@@ -9,6 +9,7 @@ export const metadata: Metadata = {
     'Six aroma families and the descriptors beneath them. Sort before you name.',
 };
 
+/* The /aromas page: header, the aroma wheel and a note on training the nose. */
 export default function AromasPage() {
   const total = AROMA_FAMILIES.reduce((n, f) => n + f.descriptors.length, 0);
 

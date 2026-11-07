@@ -1,13 +1,10 @@
 /**
  * The two colours each part of the book opens in.
  *
- * Colour here means a place. The three parts that are about somewhere
- * (France, New Zealand, the wider world) each take a colour of wine; every
- * other part, which is about a subject and not a place, is the same dark
- * neutral. So a coloured band on the contents page says "this is a country",
- * and a chapter opens in the colour of the place it is about. Before this,
- * eight parts cycled through four colours in order, which looked like a
- * rainbow and told the reader nothing.
+ * Colour here means a place. The three parts about somewhere (France, New
+ * Zealand, the wider world) each take a colour of wine; every other part is
+ * about a subject, so it gets the same dark neutral. A coloured band on the
+ * contents page therefore says "this is a country".
  *
  * Text on each is chosen against that field, not against the page, so
  * these are fixed values and do not follow the theme.
@@ -22,6 +19,7 @@ const BLUSH: Field = { bg: '#e8b7ae', ink: '#5b1a2a' };
 const SUBJECT: Field = { bg: '#2a2024', ink: '#efe6d2' };
 const SUBJECT_SIDE: Field = { bg: '#ebe6da', ink: '#2a2024' };
 
+/** Main and side colours for each part, keyed by part slug. */
 export const PART_COLOURS: Record<string, { main: Field; side: Field }> = {
   foundations: { main: SUBJECT, side: SUBJECT_SIDE },
   grapes: { main: SUBJECT, side: SUBJECT_SIDE },
@@ -33,4 +31,5 @@ export const PART_COLOURS: Record<string, { main: Field; side: Field }> = {
   practice: { main: SUBJECT, side: SUBJECT_SIDE },
 };
 
+/** Used for any part slug missing from the map above. */
 export const FALLBACK = { main: SUBJECT, side: SUBJECT_SIDE };

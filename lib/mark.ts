@@ -1,22 +1,15 @@
 /**
- * The mark's geometry, in one place.
- *
- * Two components draw it: `Logo` renders it statically at every size in
- * the app, and `FrontDoor` animates it between the two states on the
- * landing page. They have to agree exactly, or the masthead would settle
- * on a mark subtly different from the one in the sidebar - so the shapes
- * live here and neither component owns them.
- *
- * Everything is expressed in the 120x160 viewBox.
+ * The mark's geometry, in one place, so every drawing of it agrees.
+ * `Logo` renders it at every size, and `CellarNav` borrows the lockup
+ * ratios. Everything is expressed in the 120x160 viewBox.
  *
  * The two marks are the same arch:
  *
  *   the book   that arch split into halves that have swung apart
  *   the door   the arch whole, with bottles punched through
  *
- * which is why closing the book *is* the door, and why the morph needs
- * no path-matching - both halves keep identical path commands and only
- * their numbers move.
+ * so closing the book *is* the door, and a morph between them needs no
+ * path-matching: both halves keep identical path commands.
  */
 
 /* ===================================================================== *
@@ -37,15 +30,12 @@ export type Tier = {
  * What actually holds the split together, per tier.
  *
  * The mark is drawn with `height` set and its width left to the aspect
- * ratio, so one user unit is `size / 160` - not `size / 120`. An earlier
- * version of this note divided by the width and overstated every figure
- * below by a third.
+ * ratio, so one user unit is `size / 160`, not `size / 120`.
  *
- * Corrected, the gaps either side of the spine are sub-pixel at every
- * size the app uses - 0.375px in both the compact and the full tier.
- * They are shading, not structure. What carries the split is the spine,
- * and in the micro tier the single wide gap left when the spine is
- * dropped. Each clears one rendered pixel at its tier's lower bound:
+ * The gaps either side of the spine are sub-pixel at every size (0.375px),
+ * so they are shading, not structure. What carries the split is the spine,
+ * or in the micro tier the single wide gap left when the spine is dropped.
+ * Each clears one rendered pixel at its tier's lower bound:
  *
  *   micro    14-unit gap   @ 12px  =  1.05px   spine dropped
  *   compact   8-unit spine @ 20px  =  1.00px   gaps have gone sub-pixel
@@ -72,11 +62,9 @@ export function tierFor(size: number): Tier {
  * The wordmark's proportions against the mark, as ratios of its rendered
  * height.
  *
- * They live here for the same reason the paths do: `Logo` and
- * `FrontDoor` both build the lockup, and while FrontDoor carried its own
- * literals it drifted to 0.30 and 0.74 - a wordmark 5% small on the
- * largest surface in the app. Ratios rather than sizes, because a lockup
- * has to hold at every size the mark is used at.
+ * They live here for the same reason the paths do: `Logo` and `CellarNav`
+ * both build the lockup, and copied literals drift. Ratios rather than
+ * sizes, because a lockup has to hold at every size the mark is used at.
  */
 export const LOCKUP = {
   /** Gap between the mark and the word. */
@@ -85,22 +73,13 @@ export const LOCKUP = {
   word: 0.78,
   /**
    * How far to lift the mark so its ink sits level with the letterforms.
+   * It is the sum of two downward offsets, both proportional, so one
+   * constant holds at every size:
    *
-   * Two separate offsets, both downward, which is why the mark read low
-   * even after the first was corrected.
-   *
-   * The art sits at y=20 with a height of 130 in a 160-tall viewBox, so
-   * there is twice as much air above it as below, and centring the box
-   * leaves the ink five units low: 5/160, or 0.031 of the mark.
-   *
-   * Then the word. "Cellarbook" and "Cellardoor" have ascenders and no
-   * descender to speak of - measured, 29 units of ink above the baseline
-   * and 1 below - so the visible letters sit high in a line box that
-   * reserves descender space anyway. At line-height 1 the letterform
-   * centre lands 0.042 of the font size above the box centre, which is
-   * 0.033 of the mark once LOCKUP.word is applied.
-   *
-   * Both are proportional, so one constant holds at every size.
+   *   0.031  the art sits at y=20, height 130, in a 160-tall box, so
+   *          centring the box leaves the ink 5/160 low.
+   *   0.033  the words have ascenders but no descenders, so the letters
+   *          sit 0.042 of the font size high in their line box (x 0.78).
    */
   lift: 0.064,
 } as const;
@@ -114,11 +93,14 @@ export const LOCKUP = {
  * different heights, so the book sits slightly open rather than
  * symmetrical - that asymmetry is what stops it reading as a bisected
  * arch rather than a book.
+ *
+ * coverPath is the left half (the cover), cut off at the tier's `coverTo`.
  */
 export function coverPath(t: Tier): string {
   return `M15,150 V65 A45,45 0 0 1 ${t.coverTo},20.4 V143 Z`;
 }
 
+/** The right half (the open page), starting at the tier's `pageFrom`. */
 export function pagePath(t: Tier): string {
   return `M105,150 V72 A38,38 0 0 0 ${t.pageFrom},34 V150 Z`;
 }
@@ -162,19 +144,15 @@ export function doorHoles(size: number): string {
  * ===================================================================== */
 
 /**
- * Every state the mark can be in, as numbers.
- *
- * Both halves are rebuilt from these on each frame. Because the path
- * commands are identical in both states there is nothing to match up -
- * it is arithmetic:
+ * Every state the mark can be in, as numbers. Both halves are rebuilt
+ * from these on each frame, so the morph is plain arithmetic:
  *
  *   cover   M15,150  V cy  A cr,cr 0 0 1  cx,cty  V cbot Z
  *   page    M105,150 V py  A pr,pr 0 0 0  px,pty  V 150  Z
  *
- * In the book the halves have swung apart: the cover stops short at
- * x=56 and the page springs from a shallower arc, leaving a gap down the
- * middle. In the door they meet at the apex (60,20) on one shared
- * radius, which closes the book into a single arch.
+ * In the book the cover stops short at x=56 and the page springs from a
+ * shallower arc, leaving a gap. In the door both meet at the apex (60,20)
+ * on one shared radius, closing into a single arch.
  */
 export type MarkState = {
   cy: number; cr: number; cx: number; cty: number; cbot: number;
@@ -192,6 +170,7 @@ export const BOOK_STATE: MarkState = {
   spine: 1, holes: 0,
 };
 
+/** The closed door: one arch, bottles showing, no spine. */
 export const DOOR_STATE: MarkState = {
   cy: 65, cr: 45, cx: 60, cty: 20, cbot: 150,
   py: 65, pr: 45, px: 60, pty: 20,

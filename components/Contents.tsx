@@ -9,22 +9,15 @@ import { useProgress } from '@/lib/storage';
 import { PROGRESS_ENABLED } from '@/lib/config';
 
 /**
- * The Cellarbook index: the whole book on one page, set as eight bands.
+ * The Cellarbook index: the whole book on one page, one band per part.
  *
- * Each part is a band in the colour its chapters open in, with the part's
- * numeral, title and blurb on the coloured side and its chapters, with
- * read times, on the paper beside it. Reading it top to bottom is reading
- * the shape of the book; and because a chapter opens in the same colour
- * as its band, going in and coming back out feels like one place.
+ * Each band is in the colour its chapters open in, with the part's numeral,
+ * title and blurb on the coloured side and its chapters beside it. Every
+ * chapter row carries its slug as an id, so a chapter's "All chapters" link
+ * (`/course/#<slug>`) lands back on that row.
  *
- * Every chapter row carries its slug as an id. A chapter's "All chapters"
- * link points at `/course/#<slug>`, so it lands on that chapter's own row
- * and the browser's :target highlight marks it, instead of dropping you at
- * the top of the page to hunt for where you were.
- *
- * Progress (completion ticks and a "continue here" marker that sits at the
- * first unfinished chapter) is kept for when PROGRESS_ENABLED is turned
- * on; with it off, `done` is empty and everything reads as unstarted.
+ * Progress ticks and the "Continue here" marker only work when
+ * PROGRESS_ENABLED is on; with it off, `done` is empty and all reads unstarted.
  */
 export default function Contents({
   glossaryCount,
@@ -43,6 +36,7 @@ export default function Contents({
     /* The address wins ("All chapters" sets it). With no #chapter on it
        the reader may have come back by the browser's back button, so the
        last chapter they opened is used instead. */
+    /* Work out which chapter row to mark, from the hash or session storage. */
     const read = () => {
       const fromHash = window.location.hash.replace(/^#/, '');
       let last: string | null = null;
@@ -58,6 +52,7 @@ export default function Contents({
     return () => window.removeEventListener('hashchange', read);
   }, []);
 
+  /* Finished chapter slugs, the first unfinished chapter, and whether any are done. */
   const done = PROGRESS_ENABLED && ready ? progress.done : [];
   const resume = CHAPTERS.find((m) => !done.includes(m.slug)) ?? CHAPTERS[0];
   const started = done.length > 0;
@@ -139,9 +134,7 @@ export default function Contents({
                   >
                     {/* Where to begin: a marker just above the first chapter,
                         or above the next unread one once progress is on and
-                        started. It replaces a button in the head, which sent
-                        you away from the list to a chapter you could see
-                        further down anyway. */}
+                        started. */}
                     {m.slug === resume.slug && (
                       <span className="band__start" suppressHydrationWarning>
                         {started ? 'Continue here' : 'Start here'}

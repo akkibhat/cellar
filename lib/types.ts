@@ -33,7 +33,7 @@ export type Part = {
  * prose without any HTML parsing.
  */
 export type Block =
-  /** A paragraph of body text. Supports the light markup described in `lib/markup.ts`. */
+  /** A paragraph of body text. Supports the light markup described in `lib/markup.tsx`. */
   | { kind: 'p'; text: string }
   /** A sub-heading inside a chapter. */
   | { kind: 'h'; text: string }
@@ -49,8 +49,7 @@ export type Block =
    * Something not yet settled - a figure whose sources disagree, a claim
    * that has not been checked, a question still open.
    *
-   * It exists because this is one person learning in public rather than
-   * a reference work, and a project like that is allowed gaps provided
+   * This is one person learning in public, which is allowed gaps provided
    * it marks them. Rendered with a dashed border, which reads as
    * provisional in a way `note`'s solid rule does not.
    */
@@ -119,6 +118,7 @@ export type Chapter = {
  */
 export type Scale = 1 | 2 | 3 | 4 | 5;
 
+/** One grape variety, as shown in the grape explorer. */
 export type Grape = {
   slug: string;
   name: string;
@@ -145,6 +145,7 @@ export type Grape = {
  * Glossary
  * ------------------------------------------------------------------ */
 
+/** The groups the glossary can be filtered by. */
 export type GlossaryCategory =
   | 'appearance'
   | 'nose'
@@ -154,6 +155,7 @@ export type GlossaryCategory =
   | 'making'
   | 'label';
 
+/** One glossary entry. */
 export type GlossaryTerm = {
   slug: string;
   term: string;

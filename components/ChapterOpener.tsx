@@ -3,9 +3,8 @@ import { FALLBACK, PART_COLOURS } from '@/lib/content/partColours';
 /**
  * The top of a chapter: a field of the part's colour with the title set
  * large on it, and a narrower block of a second colour carrying the part's
- * numeral. It replaces a grey eyebrow, a title and a rule that were the
- * same on every one of 25 chapters; the colour now says which stretch of
- * the book you are in.
+ * numeral, part name and read time. The colour says which part of the
+ * book you're in.
  */
 export default function ChapterOpener({
   partSlug,

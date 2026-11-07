@@ -12,13 +12,9 @@ import { estimateWindow, inferStyle, type AgeingStyle } from './wineref';
 /**
  * Reading the cellar.
  *
- * This chapter used to be a localStorage CRUD app - add a bottle, edit it,
- * open it. That is gone. Cellarion holds the bottles now, the site shows
- * them, and a visitor has no edit controls at all: this is Akki's cellar
- * as content, not a tool for strangers to keep their own in.
- *
- * Which means everything here is pure derivation over a committed
- * snapshot, so the pages render statically with no client JavaScript.
+ * Cellarion holds the bottles; the site only shows them, with no edit
+ * controls. Everything here is pure derivation over the committed snapshot
+ * in lib/content/cellar-snapshot.ts, so the pages render statically.
  */
 
 export { CELLAR, PULLED_AT, TASTED };
@@ -28,6 +24,7 @@ export type { CellarWine, GrapeFacts, TastingProfile };
  * Drinking windows
  * ===================================================================== */
 
+/** Where a bottle sits in its drinking window this year. */
 export type DrinkStatus =
   | 'young'
   | 'early'
@@ -36,6 +33,7 @@ export type DrinkStatus =
   | 'past'
   | 'unknown';
 
+/** The full wording for each status, as shown in the bottle panel. */
 export const STATUS_LABEL: Record<DrinkStatus, string> = {
   young: 'Too young',
   early: 'Drinkable, still improving',
@@ -45,9 +43,8 @@ export const STATUS_LABEL: Record<DrinkStatus, string> = {
   unknown: 'No window',
 };
 
-/** Semantic colours, not brand ones - these mean something. */
 /**
- * The same five states, short enough for a pill.
+ * The same states, short enough for a pill.
  *
  * A card is read at a glance and has about two words of room; the panel
  * has a sentence. "Drinkable, still improving" is the right answer in the
@@ -62,10 +59,10 @@ export const STATUS_SHORT: Record<DrinkStatus, string> = {
   unknown: 'No window',
 };
 
+/** The colour for each status, mostly from the semantic tokens. */
 export const STATUS_COLOUR: Record<DrinkStatus, string> = {
-  /* Blue says wait, green says drink. `early` is drinkable, so it is green -
-     a muted one, because `ready` is the wine at its best and should be the
-     brighter of the two. */
+  /* Blue says wait, green (--ok) says at its best. `early` is drinkable but
+     still improving, so it takes the quieter pounamu rather than the green. */
   young: 'var(--info)',
   early: 'var(--pounamu)',
   ready: 'var(--ok)',
@@ -74,6 +71,7 @@ export const STATUS_COLOUR: Record<DrinkStatus, string> = {
   unknown: 'var(--ink-faint)',
 };
 
+/** A drinking window as a span of years, inclusive. */
 export type Window = {
   from: number;
   to: number;
@@ -174,6 +172,7 @@ export function cellarByUrgency(year: number): CellarWine[] {
  * Display helpers
  * ===================================================================== */
 
+/** Producer and wine name joined, skipping whichever is missing. */
 export function label(w: CellarWine): string {
   return [w.producer, w.wine].filter(Boolean).join(' ').trim();
 }
@@ -190,6 +189,7 @@ export function fullName(w: CellarWine): string {
   return label(w);
 }
 
+/** Display names for each wine type (dessert reads as "Sweet"). */
 export const TYPE_LABEL: Record<CellarWine['type'], string> = {
   red: 'Red',
   white: 'White',
@@ -216,8 +216,8 @@ export function detailLine(w: CellarWine): string {
  *
  * Rounded to the nearest half rather than the nearest whole. Rounding 4.5
  * up to five filled pips awards a perfect score the bottle did not get,
- * and on a list where only seven wines are rated at all, the difference
- * between "the best thing here" and "very good" is most of the signal.
+ * and with only a handful of wines rated, the difference between "the
+ * best thing here" and "very good" is most of the signal.
  */
 export function stars(rating: number): string {
   const halves = Math.round(rating * 2);
@@ -251,6 +251,7 @@ export function placeOf(w: CellarWine): string | undefined {
  * Summary
  * ===================================================================== */
 
+/** Headline numbers for the cellar as a whole. */
 export type Counts = {
   cellar: number;
   tasted: number;
@@ -259,6 +260,7 @@ export type Counts = {
   byStatus: Record<DrinkStatus, number>;
 };
 
+/** Count bottles owned and tasted, countries, ratings, and owned bottles by status. */
 export function counts(year: number): Counts {
   const byStatus: Record<DrinkStatus, number> = {
     young: 0, early: 0, ready: 0, closing: 0, past: 0, unknown: 0,
@@ -279,20 +281,17 @@ export function counts(year: number): Counts {
  * ===================================================================== */
 
 /*
- * Everything below exists to keep four very different kinds of statement
- * from being mistaken for each other on the page.
+ * Everything below keeps different kinds of statement from being mistaken
+ * for each other on the page.
  *
- * The measurement that forced this: on the only two wines where both a
- * wine-level profile and a grape-level one exist, the grape predicted
- * just 33% and 17% of the wine's actual flavours, and 25% of its food
- * pairings. What it missed was not random - the grape gives you fruit and
- * structure, the site gives you the things that are not fruit (Grand
- * Mayne's chalky mineral, Valli's wild herbs and dried thyme) and the
- * cellar gives you the rest (cocoa, tobacco, black tea, spice). So a
- * grape descriptor is genuinely not a description of the bottle, and the
+ * A grape descriptor is not a description of the bottle: when checked
+ * against wine-level profiles, the grape predicted only a fraction of the
+ * wine's actual flavours. The grape gives fruit and structure; the site
+ * and the cellar give the rest (mineral, herbs, cocoa, tobacco). So the
  * page must never let one stand where the other belongs.
  */
 
+/** Who a statement on the bottle panel comes from. */
 export type Level =
   | 'wine' /* Cellarion's registry, about this exact wine */
   | 'grape' /* about the variety anywhere in the world */
@@ -300,6 +299,7 @@ export type Level =
   | 'mine' /* my own rating or note */
   | 'estimate'; /* computed here, from style and vintage */
 
+/** The attribution line printed beside each kind of statement. */
 export const LEVEL_NOTE: Record<Level, string> = {
   wine: 'About this wine',
   grape: 'About the grape, not this bottle',
@@ -316,8 +316,8 @@ function profileKey(w: CellarWine): string {
 /**
  * Cellarion's tasting profile for this wine, if one exists.
  *
- * Two of twenty-two do. Everything else returns undefined, and the page
- * falls back to the grape - clearly labelled as the grape.
+ * Where none exists this returns undefined, and the page falls back to
+ * the grape, clearly labelled as the grape.
  */
 export function profileFor(w: CellarWine): TastingProfile | undefined {
   return PROFILES[profileKey(w)];
@@ -333,10 +333,10 @@ export function grapesFor(w: CellarWine): { name: string; facts: GrapeFacts }[] 
 /**
  * Which course chapter covers where this wine grew.
  *
- * Ordered longest-key-first at lookup so "Loire Valley" does not lose to a
- * shorter accidental match. Appellations resolve up to their parent
- * because that is the level the course writes at - and, as it happens,
- * the only level Cellarion has anything to say about either.
+ * Looked up by exact key, the appellation first and then the region, so
+ * both spellings of a name need their own entry. Appellations resolve up
+ * to their parent region's chapter because that is the level the course
+ * writes at.
  */
 const REGION_CHAPTER: Record<string, string> = {
   'Châteauneuf-du-Pape': 'rhone-loire-south',
@@ -358,6 +358,7 @@ const REGION_CHAPTER: Record<string, string> = {
   'Primitivo di Manduria': 'rest-of-the-world',
 };
 
+/** One link from a bottle into the course: visible text and target. */
 export type CourseLink = { label: string; href: string };
 
 /**
@@ -409,6 +410,7 @@ export function courseLinksFor(w: CellarWine): CourseLink[] {
  * shows nothing for it rather than an empty shelf.
  */
 export function bottlesFor(slug: string): { wine: CellarWine; drunk: boolean }[] {
+  /* Does this wine link to the chapter? */
   const mine = (w: CellarWine) =>
     courseLinksFor(w).some((l) => l.href === `/course/${slug}`);
   return [
@@ -433,6 +435,7 @@ const IMPORT_BREADCRUMBS = [
   'Vivino recorded no vintage for this bottle.',
 ];
 
+/** The bottle's notes field, unless it is only an import breadcrumb. */
 export function labelNote(w: CellarWine): string | undefined {
   const n = w.notes?.trim();
   if (!n || IMPORT_BREADCRUMBS.includes(n)) return undefined;

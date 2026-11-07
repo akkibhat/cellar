@@ -26,23 +26,17 @@ import {
 /**
  * One wine, opened up.
  *
- * A panel rather than a page because a bottle is something you glance
- * into and close again, not somewhere you navigate to - and because 22
- * wines do not justify 22 routes.
+ * A modal panel, not a page: a bottle is something you glance into and
+ * close again. The organising rule is attribution, since the claims here
+ * aren't equally reliable:
  *
- * The organising rule here is attribution. Four different kinds of claim
- * appear in this panel and they are not equally reliable:
- *
- *   about this wine   Cellarion's registry, for the two wines that have it
+ *   about this wine   Cellarion's registry profile, where there is one
  *   about the grape   true of the variety anywhere, not of this bottle
  *   off the label     what I read on the bottle
  *   mine              my rating, my note
  *
- * They get separate sections with their own headings, and the grape
- * section says out loud that it is not about the bottle. That is not
- * excessive caution: on the two wines where both levels exist, the grape
- * predicted only a third and a sixth of the actual flavours. Blending
- * them into one tidy list would be inventing a tasting note.
+ * Each gets its own headed section. Blending grape facts into the wine's
+ * profile would be inventing a tasting note.
  */
 export default function WineDetail({
   wine,
@@ -67,11 +61,10 @@ export default function WineDetail({
   /* Escape closes, and the panel takes focus on open so a keyboard user
      lands inside it rather than back at the top of the grid. */
   useEffect(() => {
-    /* preventScroll, because focusing an element scrolls it into view and
-       this one is a tall panel in a fixed overlay - the browser was
-       scrolling the page behind it to reach something already on screen,
-       so opening the first card jumped the grid to the middle. */
+    /* preventScroll: focusing a tall panel in a fixed overlay otherwise
+       makes the browser scroll the page behind it, jumping the shelf. */
     panel.current?.focus({ preventScroll: true });
+    /* Close on Escape. */
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
@@ -79,7 +72,8 @@ export default function WineDetail({
     return () => document.removeEventListener('keydown', onKey);
   }, [onClose]);
 
-  /* The page behind must not scroll while the panel is open, or a phone
+  /* Lock body scroll while open, restoring the old value on close. The
+     page behind must not scroll while the panel is open, or a phone
      scrolls the grid instead of the panel's own overflow. */
   useEffect(() => {
     const prev = document.body.style.overflow;
@@ -89,13 +83,11 @@ export default function WineDetail({
     };
   }, []);
 
-  /* Rendered into <body> rather than where it sits in the tree.
-     A `fixed` element resolves against the viewport only while no ancestor
-     has a transform, filter, contain or translate - any of which silently
-     makes itself the containing block. The page-arrival animation put a
-     translate on <main>, and the overlay stopped being 100vh and started
-     being the full height of the page, 8000px down. Portalling to body
-     means no ancestor can do that again, whatever gets styled later. */
+  /* Portalled into <body>. A `fixed` element is only relative to the
+     viewport while no ancestor has a transform, filter, contain or
+     translate; any of those becomes the containing block instead. The
+     page-in animation translates <main>, which made the overlay as tall as
+     the whole page. Portalling means no ancestor style can break it. */
   return createPortal(
     <div
       className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-6"
@@ -162,12 +154,8 @@ export default function WineDetail({
 
         <div className="px-5 sm:px-7 py-6 flex flex-col gap-7">
           {/* ---- Mine ----------------------------------------------
-
-              Only when there is something of mine to show. It used to
-              render regardless and fill itself with "No tasting note yet",
-              which put an absence at the top of every panel and pushed the
-              wine's actual details below it. A heading over nothing is
-              worse than no heading. */}
+              Only when there's a rating or note to show; a heading over
+              nothing would push the real details down. */}
           {(wine.rating !== undefined || mine) && (
             <Section title="Mine" level="mine">
               {wine.rating !== undefined && (
@@ -208,9 +196,8 @@ export default function WineDetail({
               level="estimate"
               note={win?.curated ? 'From the registry' : LEVEL_NOTE.estimate}
             >
-              {/* The verdict is what this section is for, and as a line of
-                  body text it read like a caption. Given the status colour
-                  as a tinted field it carries the weight the section has. */}
+              {/* The verdict, set on a tint of its status colour so it
+                  carries the section's weight. */}
               <div
                 className="inline-flex items-baseline gap-2.5 rounded px-3 py-2"
                 style={{
@@ -368,18 +355,13 @@ function Section({
   level: keyof typeof LEVEL_NOTE;
   /** Overrides the level's note, or drops it entirely with null. */
   note?: string | null;
-  /** Starts a new band - see the panel's ordering note. */
+  /** Draws a rule above, starting a new band of sections. */
   divider?: boolean;
   children: React.ReactNode;
 }) {
-  /* Every level already has a sentence saying where its content came from;
-     only the grape one was ever shown. Showing them all is the whole
-     hierarchy: the panel mixes what I thought, what is printed on the
-     bottle, what the registry holds and what this site worked out, and
-     read as one stack they all carry the same authority.
-
-     Where the note would only repeat the heading - "Mine" under "Mine",
-     "About this wine" under "About this wine" - it is left off. */
+  /* Every level's note says where its content came from, so the sections
+     don't all read with the same authority. It's left off where it would
+     only repeat the heading ("Mine" under "Mine"). */
   const note = noteOverride === undefined ? LEVEL_NOTE[level] : noteOverride;
   const showNote = !!note && note.toLowerCase() !== title.toLowerCase();
 
@@ -403,17 +385,10 @@ function Section({
   );
 }
 
-/** One structural reading - body, tannin, acidity, sweetness. */
 /**
- * The steps each measure runs through, low end first.
- *
- * All four are ordinal, and printed as bare words they could only be read
- * one at a time - "medium, low, high, dry" tells you nothing about the
- * shape of the wine until you have parsed all four. Drawn on their scale
- * they can be taken in at a glance and compared against the next bottle.
- *
- * Sweetness is included even though it is not a quality: dry to sweet is
- * still an order, and it is the axis people most often want placed.
+ * The steps each measure runs through, low end first. Drawn as a pip row
+ * so the four readings can be taken in at a glance instead of parsed word
+ * by word.
  */
 const SCALES: Record<string, string[]> = {
   Body: ['light', 'medium', 'full'],
@@ -422,16 +397,15 @@ const SCALES: Record<string, string[]> = {
   Sweetness: ['dry', 'off-dry', 'medium', 'sweet'],
 };
 
+/** One structural reading (body, tannin, acidity or sweetness): the word plus its pip row. */
 function Measure({ name, value }: { name: string; value: string | null }) {
-  /* A measure the registry has not set is left out rather than shown
-     empty: Paritua's Pinot Gris has no tannin figure, and a blank under a
+  /* A measure the registry hasn't set is left out, since a blank under a
      heading reads as a value of none. */
   if (!value) return null;
 
   const scale = SCALES[name] ?? [];
-  /* An unrecognised wording still gets its word - the registry is free to
-     say something this list has not met, and a missing pip row is better
-     than a wrong one. */
+  /* A wording not in the scale still shows its word, just without pips:
+     no pip row is better than a wrong one. */
   const at = scale.indexOf(value.trim().toLowerCase());
 
   return (

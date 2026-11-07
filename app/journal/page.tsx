@@ -8,6 +8,7 @@ export const metadata: Metadata = {
     'Every tasting note you have saved, kept in this browser, with side-by-side comparison.',
 };
 
+/* The /journal page: saved tasting notes, plus a note that they stay in this browser. */
 export default function JournalPage() {
   return (
     <div className="relative mx-auto max-w-[48rem] px-6 sm:px-10 lg:px-12 py-12 lg:py-16">

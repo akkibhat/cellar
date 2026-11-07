@@ -9,8 +9,8 @@
  * them. The cost is that any merge, insert or reorder leaves the numbers
  * wrong, so this puts them back.
  *
- * Reading order is the order of PARTS, then the order chapters appear
- * within their file - the same order lib/content/course.ts assembles.
+ * Reading order is the order lib/content/course.ts assembles the chapter
+ * files in, then the order chapters appear within each file.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -20,6 +20,7 @@ import { files } from './reading-order.mjs';
 const ROOT = path.resolve(import.meta.dirname, '..');
 const DRY = process.argv.includes('--dry-run');
 
+/** Load one chapter file as data (types stripped, imported from a temp file). */
 async function read(name) {
   const src = fs
     .readFileSync(path.join(ROOT, 'lib', 'content', 'chapters', `${name}.ts`), 'utf8')

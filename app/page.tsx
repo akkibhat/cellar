@@ -3,34 +3,21 @@ import ThemeToggle from '@/components/ThemeToggle';
 import { CHAPTER_COUNT } from '@/lib/content/course';
 
 /**
- * The front door, set as a poster.
+ * The front door, set as a poster: flat fields of wine colour (garnet,
+ * straw, blush), the heaviest type on the site, and cut-out bottle photos
+ * tilted on the colour. One statement, one action, then the two halves as
+ * two fields of colour, each with its own sentence.
  *
- * Whole fields of flat wine colour (garnet, straw, blush), the heaviest
- * type the site has, and the bottle photographs cut out and stood on the
- * colour, tilted a few degrees. The colour is the idea: every other page
- * tints itself by the wine it is about, and this one lays the three
- * colours side by side.
- *
- * It replaces a centred lockup over two identical cards. There is one
- * statement, one action, and then the two halves as two fields of colour
- * each carrying its own sentence, so the choice between them is made by
- * reading, not by comparing two panels.
- *
- * There is no strip of figures and no oversized wordmark at the foot: both
- * were stock landing-page furniture, and the chapter count already appears
- * once, on the Cellarbook half. There is also deliberately no count of
- * bottles anywhere on this page: reporting how many are left would turn a
- * doorway into a dashboard.
- *
- * The bottle photographs are the same files the cellar grid shows, named
- * here so the poster does not depend on which wines happen to be first in
- * the list. It renders without the sidebar (`Shell` steps aside on this
- * route) and carries its own plain header: the name, the two halves, the
- * theme switch. No script of its own beyond the switch.
+ * Deliberately no count of bottles: that would turn a doorway into a
+ * dashboard. The photos are named here so the poster does not depend on
+ * which wines come first in the list. `Shell` steps aside on this route,
+ * so the page carries its own header (name, two halves, theme switch).
  */
 
+/* Folder the cut-out bottle photographs are served from. */
 const BOTTLES = '/bottles/';
 
+/* The / page: the poster front door. */
 export default function Home() {
   return (
     <div className="poster">
