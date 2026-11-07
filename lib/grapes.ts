@@ -427,24 +427,3 @@ export const GRAPES: Grape[] = [
 /** The grapes split by colour; /grapes uses them for its counts. */
 export const WHITE_GRAPES = GRAPES.filter((g) => g.colour === 'white');
 export const RED_GRAPES = GRAPES.filter((g) => g.colour === 'red');
-
-/** Look up a single variety by slug. */
-export function findGrape(slug: string): Grape | undefined {
-  return GRAPES.find((g) => g.slug === slug);
-}
-
-/**
- * The nine varieties permitted in red and white Bordeaux (six red, three
- * white), as grape slugs.
- */
-export const BORDEAUX_GRAPES = [
-  'cabernet-sauvignon',
-  'merlot',
-  'cabernet-franc',
-  'petit-verdot',
-  'malbec',
-  'carmenere',
-  'sauvignon-blanc',
-  'semillon',
-  'muscadelle',
-];

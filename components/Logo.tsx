@@ -118,8 +118,8 @@ export default function Logo({
   /**
    * The wordmark size and gap are ratios of the mark size, not type-scale
    * steps, so the lockup's proportions hold at any size. The ratios live in
-   * `LOCKUP` (lib/mark.ts) so the masthead, which builds its own lockup for
-   * the morph, can't drift from this one. This is the one deliberate
+   * `LOCKUP` (lib/mark.ts) so CellarNav, which builds its own lockup, can't
+   * drift from this one. This is the one deliberate
    * off-scale font size in the app.
    */
   return (

@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { AROMA_FAMILIES } from '@/lib/aromas';
-import { useJournal } from '@/lib/storage';
+import { SCALES, useJournal } from '@/lib/storage';
 
 /**
  * The guided tasting tool.
@@ -16,21 +16,6 @@ import { useJournal } from '@/lib/storage';
  * tasting note is nothing more than their own structured observations
  * written out in order, which demystifies the whole exercise.
  */
-
-/* ------------------------------------------------------------------ *
- * Word scales
- *
- * Each slider maps a 0-4 integer onto a word. The vocabulary is drawn
- * from the conventional descriptors wherever there is a settled set - the
- * intensity scale and the tannin scale in particular.
- * ------------------------------------------------------------------ */
-const SCALES = {
-  intensity: ['Closed', 'Discreet', 'Open', 'Aromatic', 'Powerful'],
-  tannin: ['Silky', 'Rounded', 'Firm', 'Structured', 'Astringent'],
-  acidity: ['Soft', 'Rounded', 'Fresh', 'Crisp', 'Racy'],
-  body: ['Light', 'Medium-light', 'Medium', 'Medium-full', 'Full'],
-  sweetness: ['Bone dry', 'Dry', 'Off-dry', 'Medium sweet', 'Sweet'],
-} as const;
 
 /** Hue vocabulary, which depends on what kind of wine is in the glass. */
 const HUES: Record<string, string[]> = {

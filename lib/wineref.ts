@@ -308,107 +308,6 @@ export const APPELLATIONS: Appellation[] = [
 ];
 
 /* ===================================================================== *
- * Producers
- * ===================================================================== */
-
-/** A producer and the appellation it is filed under. */
-export type Producer = { name: string; appellation: string };
-
-/**
- * Producers for the old add-a-bottle form's autocomplete. That form is
- * gone (Cellarion holds the bottles now), and nothing in the site reads
- * this list or searchProducers any more.
- */
-export const PRODUCERS: Producer[] = [
-  /* New Zealand */
-  { name: 'Te Mata Estate', appellation: 'Hawke’s Bay' },
-  { name: 'Craggy Range', appellation: 'Hawke’s Bay' },
-  { name: 'Trinity Hill', appellation: 'Gimblett Gravels' },
-  { name: 'Elephant Hill', appellation: 'Hawke’s Bay' },
-  { name: 'Sacred Hill', appellation: 'Hawke’s Bay' },
-  { name: 'Cloudy Bay', appellation: 'Marlborough' },
-  { name: 'Greywacke', appellation: 'Marlborough' },
-  { name: 'Dog Point', appellation: 'Marlborough' },
-  { name: 'Seresin', appellation: 'Marlborough' },
-  { name: 'Framingham', appellation: 'Marlborough' },
-  { name: 'Villa Maria', appellation: 'Marlborough' },
-  { name: 'Astrolabe', appellation: 'Marlborough' },
-  { name: 'Felton Road', appellation: 'Bannockburn' },
-  { name: 'Rippon', appellation: 'Central Otago' },
-  { name: 'Mount Difficulty', appellation: 'Bannockburn' },
-  { name: 'Quartz Reef', appellation: 'Central Otago' },
-  { name: 'Amisfield', appellation: 'Central Otago' },
-  { name: 'Two Paddocks', appellation: 'Central Otago' },
-  { name: 'Burn Cottage', appellation: 'Central Otago' },
-  { name: 'Ata Rangi', appellation: 'Martinborough' },
-  { name: 'Dry River', appellation: 'Martinborough' },
-  { name: 'Kusuda', appellation: 'Martinborough' },
-  { name: 'Escarpment', appellation: 'Martinborough' },
-  { name: 'Kumeu River', appellation: 'Gisborne' },
-  { name: 'Neudorf', appellation: 'Nelson' },
-  { name: 'Pegasus Bay', appellation: 'Waipara' },
-  { name: 'Bell Hill', appellation: 'Canterbury' },
-  { name: 'Pyramid Valley', appellation: 'Canterbury' },
-  { name: 'Man O’ War', appellation: 'Waiheke Island' },
-  { name: 'Stonyridge', appellation: 'Waiheke Island' },
-  { name: 'Te Whare Ra', appellation: 'Marlborough' },
-
-  /* France */
-  { name: 'Château Margaux', appellation: 'Margaux' },
-  { name: 'Château Latour', appellation: 'Pauillac' },
-  { name: 'Château Lafite Rothschild', appellation: 'Pauillac' },
-  { name: 'Château Mouton Rothschild', appellation: 'Pauillac' },
-  { name: 'Château Pichon Baron', appellation: 'Pauillac' },
-  { name: 'Château Léoville Las Cases', appellation: 'Saint-Julien' },
-  { name: 'Château Cos d’Estournel', appellation: 'Saint-Estèphe' },
-  { name: 'Château Haut-Brion', appellation: 'Pessac-Léognan' },
-  { name: 'Château Cheval Blanc', appellation: 'Saint-Émilion' },
-  { name: 'Château Ausone', appellation: 'Saint-Émilion' },
-  { name: 'Pétrus', appellation: 'Pomerol' },
-  { name: 'Château d’Yquem', appellation: 'Sauternes' },
-  { name: 'Domaine de la Romanée-Conti', appellation: 'Vosne-Romanée' },
-  { name: 'Domaine Leflaive', appellation: 'Puligny-Montrachet' },
-  { name: 'Domaine Coche-Dury', appellation: 'Meursault' },
-  { name: 'Domaine Georges Roumier', appellation: 'Chambolle-Musigny' },
-  { name: 'Domaine Armand Rousseau', appellation: 'Gevrey-Chambertin' },
-  { name: 'Domaine William Fèvre', appellation: 'Chablis' },
-  { name: 'Domaine Jean-Louis Chave', appellation: 'Hermitage' },
-  { name: 'E. Guigal', appellation: 'Côte-Rôtie' },
-  { name: 'Château de Beaucastel', appellation: 'Châteauneuf-du-Pape' },
-  { name: 'Château Rayas', appellation: 'Châteauneuf-du-Pape' },
-  { name: 'Trimbach', appellation: 'Alsace' },
-  { name: 'Zind-Humbrecht', appellation: 'Alsace' },
-  { name: 'Hugel', appellation: 'Alsace' },
-  { name: 'Domaine Huet', appellation: 'Vouvray' },
-  { name: 'Krug', appellation: 'Champagne' },
-  { name: 'Bollinger', appellation: 'Champagne' },
-  { name: 'Pol Roger', appellation: 'Champagne' },
-  { name: 'Louis Roederer', appellation: 'Champagne' },
-  { name: 'Domaine Tempier', appellation: 'Bandol' },
-
-  /* Elsewhere */
-  { name: 'Giacomo Conterno', appellation: 'Barolo' },
-  { name: 'Gaja', appellation: 'Barbaresco' },
-  { name: 'Biondi-Santi', appellation: 'Brunello di Montalcino' },
-  { name: 'López de Heredia', appellation: 'Rioja' },
-  { name: 'Vega Sicilia', appellation: 'Ribera del Duero' },
-  { name: 'Taylor’s', appellation: 'Porto' },
-  { name: 'Graham’s', appellation: 'Porto' },
-  { name: 'Egon Müller', appellation: 'Mosel' },
-  { name: 'Dr. Loosen', appellation: 'Mosel' },
-  { name: 'Penfolds', appellation: 'Barossa Valley' },
-  { name: 'Henschke', appellation: 'Barossa Valley' },
-  { name: 'Cullen', appellation: 'Margaret River' },
-  { name: 'Leeuwin Estate', appellation: 'Margaret River' },
-  { name: 'Grosset', appellation: 'Clare Valley' },
-  { name: 'Ridge', appellation: 'Sonoma' },
-  { name: 'Opus One', appellation: 'Napa Valley' },
-  { name: 'Catena Zapata', appellation: 'Mendoza' },
-  { name: 'Concha y Toro', appellation: 'Maipo Valley' },
-  { name: 'Kanonkop', appellation: 'Stellenbosch' },
-];
-
-/* ===================================================================== *
  * Lookup
  * ===================================================================== */
 
@@ -420,29 +319,6 @@ function fold(s: string): string {
     .replace(/[’']/g, '')
     .toLowerCase()
     .trim();
-}
-
-/**
- * Matches on any word boundary rather than only the start, so "rothschild"
- * finds both Lafite and Mouton, and "otago" finds Central Otago.
- */
-function matches(haystack: string, q: string): boolean {
-  const h = fold(haystack);
-  const n = fold(q);
-  if (!n) return false;
-  return h.startsWith(n) || h.includes(` ${n}`) || h.includes(`-${n}`);
-}
-
-/** Producers whose name matches the query (at least two characters). */
-export function searchProducers(q: string, limit = 6): Producer[] {
-  if (fold(q).length < 2) return [];
-  return PRODUCERS.filter((p) => matches(p.name, q)).slice(0, limit);
-}
-
-/** Appellations whose name matches the query (at least two characters). */
-export function searchAppellations(q: string, limit = 6): Appellation[] {
-  if (fold(q).length < 2) return [];
-  return APPELLATIONS.filter((a) => matches(a.name, q)).slice(0, limit);
 }
 
 /** The appellation with exactly this name, ignoring accents and case. */

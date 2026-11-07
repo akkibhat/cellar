@@ -43,22 +43,6 @@ export const STATUS_LABEL: Record<DrinkStatus, string> = {
   unknown: 'No window',
 };
 
-/**
- * The same states, short enough for a pill.
- *
- * A card is read at a glance and has about two words of room; the panel
- * has a sentence. "Drinkable, still improving" is the right answer in the
- * panel and wraps to two lines on a card, which reads as a mistake.
- */
-export const STATUS_SHORT: Record<DrinkStatus, string> = {
-  young: 'Too young',
-  early: 'Drinkable now',
-  ready: 'At its best',
-  closing: 'Drink up',
-  past: 'Past it',
-  unknown: 'No window',
-};
-
 /** The colour for each status, mostly from the semantic tokens. */
 export const STATUS_COLOUR: Record<DrinkStatus, string> = {
   /* Blue says wait, green (--ok) says at its best. `early` is drinkable but
@@ -140,34 +124,6 @@ export function statusFor(w: CellarWine, year: number): DrinkStatus {
   return year > win.to - tail ? 'closing' : 'ready';
 }
 
-/** Urgency order for sorting. Lower comes first. */
-const URGENCY: Record<DrinkStatus, number> = {
-  closing: 0,
-  ready: 1,
-  early: 2,
-  unknown: 3,
-  young: 4,
-  past: 5,
-};
-
-/**
- * The cellar, sorted by what to open next rather than by name.
- *
- * A cellar sorted alphabetically is a spreadsheet; sorted by how close
- * each bottle is to the end of its window, it is a recommendation.
- */
-export function cellarByUrgency(year: number): CellarWine[] {
-  return [...CELLAR].sort((a, b) => {
-    const ua = URGENCY[statusFor(a, year)];
-    const ub = URGENCY[statusFor(b, year)];
-    if (ua !== ub) return ua - ub;
-    const ta = windowFor(a)?.to ?? Infinity;
-    const tb = windowFor(b)?.to ?? Infinity;
-    if (ta !== tb) return ta - tb;
-    return label(a).localeCompare(label(b));
-  });
-}
-
 /* ===================================================================== *
  * Display helpers
  * ===================================================================== */
@@ -198,18 +154,6 @@ export const TYPE_LABEL: Record<CellarWine['type'], string> = {
   dessert: 'Sweet',
   fortified: 'Fortified',
 };
-
-/** The line of detail under a wine's name. */
-export function detailLine(w: CellarWine): string {
-  return [
-    TYPE_LABEL[w.type],
-    w.appellation ?? w.region,
-    w.appellation && w.country !== 'France' ? w.country : undefined,
-    w.grapes?.length ? w.grapes.join(', ') : undefined,
-  ]
-    .filter(Boolean)
-    .join(' · ');
-}
 
 /**
  * Star rating as a string of filled and empty pips, for a 5 scale.
@@ -245,35 +189,6 @@ const NOT_A_PLACE = new Set(['Vin de France', 'Vino d’Italia', "Vino d'Italia"
 export function placeOf(w: CellarWine): string | undefined {
   if (w.appellation && !NOT_A_PLACE.has(w.appellation)) return w.appellation;
   return w.region;
-}
-
-/* ===================================================================== *
- * Summary
- * ===================================================================== */
-
-/** Headline numbers for the cellar as a whole. */
-export type Counts = {
-  cellar: number;
-  tasted: number;
-  countries: number;
-  rated: number;
-  byStatus: Record<DrinkStatus, number>;
-};
-
-/** Count bottles owned and tasted, countries, ratings, and owned bottles by status. */
-export function counts(year: number): Counts {
-  const byStatus: Record<DrinkStatus, number> = {
-    young: 0, early: 0, ready: 0, closing: 0, past: 0, unknown: 0,
-  };
-  CELLAR.forEach((w) => { byStatus[statusFor(w, year)] += 1; });
-
-  return {
-    cellar: CELLAR.length,
-    tasted: TASTED.length,
-    countries: new Set([...CELLAR, ...TASTED].map((w) => w.country)).size,
-    rated: TASTED.filter((w) => w.rating !== undefined).length,
-    byStatus,
-  };
 }
 
 /* ===================================================================== *
@@ -454,23 +369,6 @@ export function tastingNote(w: CellarWine): string | undefined {
   const n = w.drunkNote?.trim();
   if (!n || IMPORT_BREADCRUMBS.includes(n)) return undefined;
   return n;
-}
-
-/**
- * Whether there is enough here to be worth opening.
- *
- * Every wine has a grape and a region, so this is always true today. It
- * exists so the card can stop being clickable if that ever stops holding,
- * rather than opening an empty panel.
- */
-export function hasDetail(w: CellarWine): boolean {
-  return (
-    Boolean(profileFor(w)) ||
-    grapesFor(w).length > 0 ||
-    courseLinksFor(w).length > 0 ||
-    Boolean(labelNote(w)) ||
-    w.rating !== undefined
-  );
 }
 
 /**

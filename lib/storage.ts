@@ -20,6 +20,10 @@ import { useCallback, useSyncExternalStore } from 'react';
 const PROGRESS_KEY = 'wine.progress.v1';
 const JOURNAL_KEY = 'wine.journal.v1';
 
+/* sessionStorage key for the last chapter opened, written by ChapterRail
+   and read by Contents to mark that row. */
+export const LAST_CHAPTER_KEY = 'cellar.lastChapter';
+
 /**
  * Fired after any write so that separate components mounted at the same
  * time (the sidebar and the chapter body, say) stay in agreement without
@@ -175,7 +179,7 @@ export type TastingNote = {
   families: string[];
   /** Specific aroma descriptors chosen. */
   aromas: string[];
-  /** 0-4 indexes into the word scales in the tasting tool. */
+  /** 0-4 indexes into SCALES below. */
   intensity: number;
   tannin: number;
   acidity: number;
@@ -190,6 +194,20 @@ export type TastingNote = {
   /** Anything the taster typed themselves. */
   comment: string;
 };
+
+/**
+ * The words for a note's 0-4 scales, shared by the tasting tool (which
+ * writes them) and the journal (which shows them). The vocabulary follows
+ * the conventional descriptors where there is a settled set, the intensity
+ * and tannin scales in particular.
+ */
+export const SCALES = {
+  intensity: ['Closed', 'Discreet', 'Open', 'Aromatic', 'Powerful'],
+  tannin: ['Silky', 'Rounded', 'Firm', 'Structured', 'Astringent'],
+  acidity: ['Soft', 'Rounded', 'Fresh', 'Crisp', 'Racy'],
+  body: ['Light', 'Medium-light', 'Medium', 'Medium-full', 'Full'],
+  sweetness: ['Bone dry', 'Dry', 'Off-dry', 'Medium sweet', 'Sweet'],
+} as const;
 
 /** Chapter-level constant, for the same stability reason as EMPTY_PROGRESS. */
 const EMPTY_JOURNAL: TastingNote[] = [];

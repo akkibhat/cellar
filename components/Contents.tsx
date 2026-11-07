@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { PARTS } from '@/lib/content/parts';
 import { PART_COLOURS, FALLBACK } from '@/lib/content/partColours';
 import { CHAPTERS, CHAPTER_COUNT, chaptersInPart } from '@/lib/content/course';
-import { useProgress } from '@/lib/storage';
+import { LAST_CHAPTER_KEY, useProgress } from '@/lib/storage';
 import { PROGRESS_ENABLED } from '@/lib/config';
 
 /**
@@ -41,7 +41,7 @@ export default function Contents({
       const fromHash = window.location.hash.replace(/^#/, '');
       let last: string | null = null;
       try {
-        last = sessionStorage.getItem('cellar.lastChapter');
+        last = sessionStorage.getItem(LAST_CHAPTER_KEY);
       } catch {
         /* storage blocked: no highlight */
       }

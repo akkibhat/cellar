@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { useJournal, type TastingNote } from '@/lib/storage';
+import { SCALES, useJournal, type TastingNote } from '@/lib/storage';
 
 /**
  * The saved tasting journal.
@@ -18,15 +18,6 @@ const COLOUR_LABELS: Record<TastingNote['colour'], string> = {
   white: 'White',
   rose: 'Rosé',
   sparkling: 'Sparkling',
-};
-
-/** The word scales, mirrored from the tasting tool for display. */
-const SCALES = {
-  intensity: ['Closed', 'Discreet', 'Open', 'Aromatic', 'Powerful'],
-  tannin: ['Silky', 'Rounded', 'Firm', 'Structured', 'Astringent'],
-  acidity: ['Soft', 'Rounded', 'Fresh', 'Crisp', 'Racy'],
-  body: ['Light', 'Medium-light', 'Medium', 'Medium-full', 'Full'],
-  sweetness: ['Bone dry', 'Dry', 'Off-dry', 'Medium sweet', 'Sweet'],
 };
 
 /** The journal page: comparison table (when two or more are picked), then every note. */

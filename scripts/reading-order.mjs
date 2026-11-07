@@ -6,7 +6,9 @@
  * the scripts never keep their own copy that could drift when parts move.
  *
  * It also holds the shared chapter loader and the emitter that writes a
- * chapter file back out (used by merge-chapters and split-chapters).
+ * chapter file back out. Nothing calls `emit` today; it is kept for the
+ * next time chapters are merged or split (the one-off scripts that did the
+ * last restructure are in git history).
  */
 import fs from 'node:fs';
 import path from 'node:path';

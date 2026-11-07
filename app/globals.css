@@ -50,7 +50,6 @@
   --t-h2:       1.875rem;  /* 30.0px  section headings                  */
   --t-h1:       2.6rem;    /* 41.6px  chapter titles                     */
   --t-display:  3.4rem;    /* 54.4px  page titles                       */
-  --t-hero:     4.6rem;    /* 73.6px  landing only                      */
 
   /* Line heights, paired to the steps above. Tight for display, open
      for prose, middling for interface text. */
@@ -76,7 +75,6 @@
 .t-h2      { font-size: var(--t-h2);      line-height: var(--lh-heading); }
 .t-h1      { font-size: var(--t-h1);      line-height: var(--lh-tight); }
 .t-display { font-size: var(--t-display); line-height: var(--lh-tight); }
-.t-hero    { font-size: var(--t-hero);    line-height: var(--lh-tight); }
 
 /* ---------------------------------------------------------------------
    Tabular numerals.
@@ -412,16 +410,6 @@ body {
 }
 .prose-paper a:hover { background: var(--stain); }
 
-/* A drop cap in the heading face for a chapter's opening paragraph. */
-.dropcap::first-letter {
-  font-family: var(--font-hand);
-  font-size: 3.4em;
-  float: left;
-  line-height: 0.76;
-  padding: 0.12em 0.1em 0 0;
-  color: var(--wine);
-}
-
 /* ---------------------------------------------------------------------
    Paper surfaces
    --------------------------------------------------------------------- */
@@ -606,11 +594,6 @@ body {
   background: var(--rule);
 }
 .meter span.on { background: var(--wine); }
-
-/* ---------------------------------------------------------------------
-   Utility
-   --------------------------------------------------------------------- */
-.rule-h { border: 0; border-top: 1px solid var(--rule); margin: 2rem 0; }
 
 /* ---------------------------------------------------------------------
    The fermentation diagram's rising gas (components/Fermentation.tsx).
@@ -888,42 +871,6 @@ body {
 .poster-half--door .poster-bottle--rose { right: 28%; bottom: -10%; height: 56%; transform: rotate(-6deg); }
 .poster-half--door .poster-bottle--white { right: 6%; bottom: -8%; height: 68%; transform: rotate(5deg); }
 
-/* The figures. */
-.poster-stats {
-  background: var(--p-ink);
-  color: var(--p-chalk);
-  padding: 3.5rem clamp(1.25rem, 3vw, 3rem);
-}
-.poster-stats dl {
-  margin: 0;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.75rem;
-}
-.poster-stats dd {
-  margin: 0;
-  font-weight: 900;
-  font-size: clamp(3rem, 7vw, 7rem);
-  line-height: 0.9;
-  color: var(--p-straw);
-}
-.poster-stats dt { margin-top: 0.4rem; font-size: 1.15rem; }
-.poster-stats dl > div { display: flex; flex-direction: column-reverse; }
-
-/* The name, once more, as wide as the screen. */
-.poster-foot {
-  background: var(--p-garnet);
-  color: var(--p-straw);
-  padding: 3rem clamp(1.25rem, 3vw, 3rem) 1rem;
-  font-weight: 900;
-  font-size: 21.5vw;
-  line-height: 0.8;
-  letter-spacing: -0.04em;
-  text-transform: uppercase;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
 @media (max-width: 52rem) {
   .poster-halves { grid-template-columns: 1fr; }
   .poster-half { min-height: 36rem; }
@@ -935,7 +882,6 @@ body {
   .poster-bottle--1 { right: 36%; height: 38%; }
   .poster-bottle--2 { right: 18%; height: 50%; }
   .poster-bottle--3 { right: -4%; height: 42%; }
-  .poster-stats dl { grid-template-columns: 1fr; }
 }
 @media (max-width: 26rem) {
   .poster-name { font-size: 1.05rem; }
@@ -966,9 +912,7 @@ body {
 .poster-bottle--3 { animation-delay: 0.55s; }
 
 @supports (animation-timeline: view()) {
-  .poster-half > *,
-  .poster-stats dl > div,
-  .poster-foot {
+  .poster-half > * {
     animation: poster-rise linear both;
     animation-timeline: view();
     animation-range: entry 0% entry 60%;
@@ -976,8 +920,7 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .poster *,
-  .poster-foot {
+  .poster * {
     animation: none !important;
   }
   .poster-btn { transition: none; }
@@ -1023,39 +966,6 @@ body {
   }
 }
 
-
-/* The tools on the Cellarbook index: three plain rows, title large over a
-   sentence, with room between them instead of boxes around them. */
-.tool-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  margin-top: 1.4rem;
-}
-.tool-row {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  max-width: 36rem;
-  text-decoration: none;
-}
-.tool-row:hover .hand {
-  color: var(--wine);
-}
-
-/* Contents: one chapter per row, number and title, a tint behind the row
-   you are pointing at. */
-.chapter-row {
-  display: flex;
-  align-items: baseline;
-  gap: 0.9rem;
-  padding: 0.6rem 0.75rem;
-  margin-inline: -0.75rem;
-  text-decoration: none;
-}
-.chapter-row:hover {
-  background: var(--paper-sunk);
-}
 
 /* Options in the guided tasting tool. Plain words lost the look of a thing
    to press, and here there are many options per question, so they are set
@@ -1250,10 +1160,6 @@ body {
 }
 .index-intro p { font-size: 1.35rem; line-height: 1.4; max-width: 34ch; }
 .index-intro .index-sub { margin-top: 0.8rem; font-size: 1.05rem; color: var(--ink-soft); max-width: 40ch; }
-.index-actions {
-  margin-top: 1.5rem;
-  font-family: var(--font-archivo), system-ui, sans-serif;
-}
 /* The tools sit on their own row under the button, so the button never
    shares a line with them and wraps one of them off on its own. */
 .index-tools {

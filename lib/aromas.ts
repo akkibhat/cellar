@@ -135,8 +135,3 @@ export const AROMA_FAMILIES: AromaFamily[] = [
     ],
   },
 ];
-
-/** Look up one family by slug. */
-export function findFamily(slug: string): AromaFamily | undefined {
-  return AROMA_FAMILIES.find((f) => f.slug === slug);
-}

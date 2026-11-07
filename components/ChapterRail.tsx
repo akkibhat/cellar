@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import type { Heading } from '@/lib/headings';
+import { LAST_CHAPTER_KEY } from '@/lib/storage';
 
 /**
  * The left rail of a chapter: the sections of this chapter, the one you
@@ -32,7 +33,7 @@ export default function ChapterRail({
      sessionStorage: it is a note for this visit, not a preference. */
   useEffect(() => {
     try {
-      sessionStorage.setItem('cellar.lastChapter', currentSlug);
+      sessionStorage.setItem(LAST_CHAPTER_KEY, currentSlug);
     } catch {
       /* private mode or storage blocked: the highlight is a nicety */
     }

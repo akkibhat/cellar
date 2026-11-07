@@ -8,8 +8,8 @@
  *   the book   that arch split into halves that have swung apart
  *   the door   the arch whole, with bottles punched through
  *
- * so closing the book *is* the door, and a morph between them needs no
- * path-matching: both halves keep identical path commands.
+ * so closing the book *is* the door. Both halves keep identical path
+ * commands, which is what would let the two be animated into each other.
  */
 
 /* ===================================================================== *
@@ -137,68 +137,4 @@ export function doorHoles(size: number): string {
   if (size < 24) return bottle(60, 30);
   const w = size < 40 ? 23 : 20;
   return `${bottle(49.5, w)} ${bottle(74.5, w)}`;
-}
-
-/* ===================================================================== *
- * The morph
- * ===================================================================== */
-
-/**
- * Every state the mark can be in, as numbers. Both halves are rebuilt
- * from these on each frame, so the morph is plain arithmetic:
- *
- *   cover   M15,150  V cy  A cr,cr 0 0 1  cx,cty  V cbot Z
- *   page    M105,150 V py  A pr,pr 0 0 0  px,pty  V 150  Z
- *
- * In the book the cover stops short at x=56 and the page springs from a
- * shallower arc, leaving a gap. In the door both meet at the apex (60,20)
- * on one shared radius, closing into a single arch.
- */
-export type MarkState = {
-  cy: number; cr: number; cx: number; cty: number; cbot: number;
-  py: number; pr: number; px: number; pty: number;
-  /** Spine opacity: present in the book, gone once the book is shut. */
-  spine: number;
-  /** Bottle-hole opacity: absent in the book, punched through in the door. */
-  holes: number;
-};
-
-/** Matches the `full` tier exactly, so the morph settles on the real mark. */
-export const BOOK_STATE: MarkState = {
-  cy: 65, cr: 45, cx: 56, cty: 20.4, cbot: 143,
-  py: 72, pr: 38, px: 64, pty: 34,
-  spine: 1, holes: 0,
-};
-
-/** The closed door: one arch, bottles showing, no spine. */
-export const DOOR_STATE: MarkState = {
-  cy: 65, cr: 45, cx: 60, cty: 20, cbot: 150,
-  py: 65, pr: 45, px: 60, pty: 20,
-  spine: 0, holes: 1,
-};
-
-/** Build both halves from an interpolated state. */
-export function pathsFor(s: MarkState): { cover: string; page: string } {
-  return {
-    cover: `M15,150 V${s.cy} A${s.cr},${s.cr} 0 0 1 ${s.cx},${s.cty} V${s.cbot} Z`,
-    page: `M105,150 V${s.py} A${s.pr},${s.pr} 0 0 0 ${s.px},${s.pty} V150 Z`,
-  };
-}
-
-/**
- * Interpolate the whole state.
- *
- * Eased cubic-out: quick to leave, slow to arrive, so the book looks
- * like it is settling shut rather than being snapped.
- */
-export function interpolate(t: number): MarkState {
-  const e = 1 - Math.pow(1 - t, 3);
-  const out = {} as MarkState;
-  (Object.keys(BOOK_STATE) as (keyof MarkState)[]).forEach((k) => {
-    /* Rounded, because Math results differ in the last bits between Node
-       and the browser and an unrounded path string would produce a
-       hydration mismatch on the server-rendered first frame. */
-    out[k] = Math.round((BOOK_STATE[k] + (DOOR_STATE[k] - BOOK_STATE[k]) * e) * 1000) / 1000;
-  });
-  return out;
 }
