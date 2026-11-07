@@ -3,11 +3,10 @@
 None of these are bugs. They are the things that would make the site better
 than it is, roughly in the order I would do them.
 
-## Before it goes anywhere
+## Next
 
-**Deploy it.** The address is cellar.pi.co.nz and the build is static
-prerendered with no server-side work in it, so most hosts would take it as
-it stands. What is missing is the configuration that puts it there.
+It is live at cellar.pi.co.nz (Cloudflare Workers, static assets; a push to
+`main` deploys it in about a minute).
 
 **A read of the whole thing in its current order.** Tasting moved from the
 seventh part to the third and several chapters merged, so the book has not
@@ -33,8 +32,8 @@ until it is filled in.
 is not a 750. The buying chapter argues about where money goes; the cellar
 could show it.
 
-Two bottles have no photograph - François Chidaine's Le Chenin d'Ici and
-Maison Galhaud's Moulin-Galhaud. Not urgent.
+One bottle has no photograph - Maison Galhaud's Moulin-Galhaud (not to be
+confused with Manoir Galhaud, which has one). Not urgent.
 
 ## Interface
 

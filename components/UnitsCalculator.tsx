@@ -24,7 +24,7 @@ const STANDARDS = [
 
 /** Common pours, offered as shortcuts. */
 const PRESETS = [
-  { label: 'Exhibit reference', ml: 100, abv: 12 },
+  { label: 'Tasting pour', ml: 100, abv: 12 },
   { label: 'Small glass', ml: 125, abv: 13 },
   { label: 'Restaurant pour', ml: 175, abv: 14 },
   { label: 'Large glass', ml: 250, abv: 14 },

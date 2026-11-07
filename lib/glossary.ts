@@ -3,10 +3,9 @@ import type { GlossaryTerm } from './types';
 /**
  * The tasting vocabulary.
  *
- * The twelve terms marked `fromExhibit` are the ones recorded from the
- * the terms worth defining properly. The rest are the words you
- * need alongside them to actually describe a glass - added so the
- * glossary works as a reference rather than only as a souvenir.
+ * The core terms are the ones worth defining properly. The rest are the
+ * words you need alongside them to actually describe a glass, so the
+ * glossary works as a reference you can describe a wine from.
  *
  * Terms are stored unsorted and alphabetised at render time, so new
  * entries can be appended next to related ones without breaking order.
