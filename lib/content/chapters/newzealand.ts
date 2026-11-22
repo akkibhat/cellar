@@ -35,7 +35,7 @@ export const NEW_ZEALAND: Chapter[] = [
       { kind: 'h', text: 'The shape of the industry now' },
       {
         kind: 'p',
-        text: 'New Zealand makes a little over one percent of the world’s wine and is consistently among the highest earning per litre. That’s the whole strategy, stated plainly: it can’t compete on volume, so it doesn’t try.',
+        text: 'New Zealand makes about one and a half percent of the world’s wine and is consistently among the highest earning per litre. That’s the whole strategy, stated plainly: it can’t compete on volume, so it doesn’t try.',
       },
       {
         kind: 'table',
@@ -44,7 +44,7 @@ export const NEW_ZEALAND: Chapter[] = [
           ['Producing area', '43,322 ha in 2026, up 1.9% on the year before'],
           ['Produced', 'About 317 million litres from the 2026 harvest'],
           ['Marlborough’s share of it', '31,603 ha, or 73% of everything planted'],
-          ['Share of world production', 'Roughly 1%'],
+          ['Share of world production', 'About 1.6% in 2025'],
         ],
       },
       {
@@ -73,7 +73,7 @@ export const NEW_ZEALAND: Chapter[] = [
         kind: 'table',
         head: ['', 'New Zealand', 'France'],
         rows: [
-          ['Share of world production', '1.26%', 'Around 17%'],
+          ['Share of world production', 'About 1.6%', 'About 16%'],
           ['Labelling', 'By grape variety', 'By place'],
           ['Closure', 'Screwcap, over 90%', 'Cork, predominantly'],
           ['Oldest vines', 'Decades', 'Centuries'],
