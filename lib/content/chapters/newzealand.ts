@@ -41,9 +41,9 @@ export const NEW_ZEALAND: Chapter[] = [
         kind: 'table',
         head: ['', 'Figure'],
         rows: [
-          ['Area planted', '43,299 ha in 2026, up 1.8% on the year before'],
+          ['Producing area', '43,322 ha in 2026, up 1.9% on the year before'],
           ['Produced', 'About 317 million litres from the 2026 harvest'],
-          ['Marlborough’s share of it', '32,191 ha, or 74% of everything planted'],
+          ['Marlborough’s share of it', '31,603 ha, or 73% of everything planted'],
           ['Share of world production', 'Roughly 1%'],
         ],
       },
@@ -55,19 +55,19 @@ export const NEW_ZEALAND: Chapter[] = [
         kind: 'table',
         head: ['Variety', 'Hectares', 'Share of everything planted'],
         rows: [
-          ['Sauvignon Blanc', 'Over 25,000', 'About 58%'],
+          ['Sauvignon Blanc', 'Over 30,000', 'About 70%'],
           ['Pinot Noir', 'About 5,000', 'About 12%'],
           ['Chardonnay', 'About 3,000', 'About 7%'],
-          ['Pinot Gris', 'About 2,500', 'About 6%'],
-          ['Merlot', 'About 1,200', 'About 3%'],
-          ['Riesling', 'Under 1,000', 'About 2%'],
+          ['Pinot Gris', 'About 2,600', 'About 6%'],
+          ['Merlot', 'Under 800', 'About 2%'],
+          ['Riesling', 'About 500', 'About 1%'],
           ['Syrah', 'Under 500', 'About 1%'],
-          ['Gewürztraminer', 'A few hundred', 'Under 1%'],
+          ['Gewürztraminer', 'About 150', 'Under 1%'],
         ],
       },
       {
         kind: 'p',
-        text: 'Put another way: 82% of every white vine in the country is Sauvignon Blanc, and 75% of every red vine is Pinot Noir. Three quarters of the Sauvignon Blanc is in Marlborough alone. Syrah - the variety I would argue is New Zealand’s most underrated red - sits near the bottom on under 500 hectares. Only the first row is a figure the Register states directly; the rest are rounded, and the percentages are mine.',
+        text: 'Put another way: 82% of every white vine in the country is Sauvignon Blanc, and about 77% of every red vine is Pinot Noir. Three quarters of the Sauvignon Blanc is in Marlborough alone. Syrah - the variety I would argue is New Zealand’s most underrated red - sits near the bottom on under 500 hectares. The figures are rounded from New Zealand Winegrowers’ 2026 annual report, and the percentages are mine.',
       },
       {
         kind: 'table',
@@ -101,7 +101,7 @@ export const NEW_ZEALAND: Chapter[] = [
       {
         kind: 'note',
         title: 'The concentration risk',
-        text: 'Marlborough accounts for roughly two thirds of national production, and Sauvignon Blanc for the large majority of exports by volume. One region, one grape. It has made the country rich and it’s the industry’s most discussed structural vulnerability - a run of bad Marlborough vintages would be a national economic event.',
+        text: 'Marlborough accounts for roughly four fifths of national production, and Sauvignon Blanc for the large majority of exports by volume. One region, one grape. It has made the country rich and it’s the industry’s most discussed structural vulnerability - a run of bad Marlborough vintages would be a national economic event.',
       },
     ],
     quiz: [
