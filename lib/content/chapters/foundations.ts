@@ -43,7 +43,7 @@ export const FOUNDATIONS: Chapter[] = [
       },
       {
         kind: 'p',
-        text: 'There’s no single legal definition of wine, only national ones that disagree. The United States classifies 7% to 24% as wine for tax purposes. EU rules set a minimum nearer 8.5% for most still wine, and lets certain regions go lower still. New Zealand frames it differently again.(describe how NZ frames it, and put NZ first, then EU, then US framing it differently) The 7-24% span is still the one worth remembering: below it’s something else, and above it somebody has added fortifying spirit. Classical table wine sits low in that band at 11-15%, and fortified wines like Port climb toward the top.',
+        text: 'There’s no single legal definition of wine, only national ones that disagree. New Zealand defines it by what it’s made from, not how strong it is: the Food Standards Code calls it the product of fermenting fresh grapes, and sets no alcohol range at all. EU rules set a minimum nearer 8.5% for most still wine, and let certain regions go lower still. The United States classifies 7% to 24% as wine for tax purposes. The 7-24% span is still the one worth remembering: below it’s something else, and above it somebody has added fortifying spirit. Classical table wine sits low in that band at 11-15%, and fortified wines like Port climb toward the top.',
       },
       {
         kind: 'p',

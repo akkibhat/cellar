@@ -265,7 +265,6 @@ export const PRACTICE: Chapter[] = [
         title: 'Buying in a shop, quickly',
         text: 'Find the smallest named place you recognise, check the alcohol matches the style you want, prefer estate bottled, and ignore anything decorative. If the shop has staff who taste what they sell, tell them your budget and one wine you have enjoyed. That works better than everything else on this page.',
       },
-      { kind: 'h', text: 'Where the money goes' },
       { kind: 'h', text: 'Where your money goes' },
       {
         kind: 'p',

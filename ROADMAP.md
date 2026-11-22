@@ -8,10 +8,6 @@ than it is, roughly in the order I would do them.
 It is live at cellar.pi.co.nz (Cloudflare Workers, static assets; a push to
 `main` deploys it in about a minute).
 
-**A read of the whole thing in its current order.** Tasting moved from the
-seventh part to the third and several chapters merged, so the book has not
-been read end to end in the shape it is now in.
-
 ## The cellar data
 
 The snapshot in `lib/content/cellar-snapshot.ts` carries producer, wine,
@@ -64,7 +60,7 @@ Not urgent. The journal earns its place as it stands: it is the payoff of the
 guided tasting, and pinning two notes side by side is the one place the book's
 argument about method gets tested rather than asserted.
 
-**Decide about the quizzes and the progress checklist.** Both are written and
-both are switched off in `lib/config.ts`, on the grounds that this is meant to
-be read and consulted rather than completed. That is a choice worth making
-deliberately rather than leaving as a default.
+**The quizzes and the progress checklist stay off, on purpose.** Both are
+written and both are switched off in `lib/config.ts`. Cellar is read and
+consulted, not completed, so a quiz at the foot of every chapter and a tally
+of what you've finished don't belong. The code stays in case that changes.

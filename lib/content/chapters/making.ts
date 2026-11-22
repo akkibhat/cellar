@@ -29,7 +29,7 @@ export const MAKING: Chapter[] = [
           'Pick, usually at night in warm regions to keep the fruit cold and protect aromatics.',
           'Press immediately. The skins go straight out - this is the defining move.',
           'Settle the juice, then ferment cool (12–18°C) to preserve delicate aromas.',
-          'Decide on malolactic conversion: allow it for a creamy, buttery texture, block it for crisp and citric.',
+          'Decide on malolactic conversion, which softens sharp malic acid into milder lactic acid: allow it for a creamy, buttery texture, block it for crisp and citric.',
           'Decide how long to leave the wine on the lees - the spent yeast that settles out after fermentation. Stirring it back through builds body and a savoury, bready depth.',
           'Decide on oak: barrel for texture and spice, or stainless steel for purity.',
         ],
@@ -114,7 +114,7 @@ export const MAKING: Chapter[] = [
     title: 'Bubbles, fortified and sweet',
     minutes: 2,
     standfirst:
-      'Sparkling, fortified and sweet: three ways of interrupting a fermentation.',
+      'Sparkling, fortified and sweet: three things you can do to a fermentation.',
     body: [
       { kind: 'h', text: 'Making bubbles' },
       {

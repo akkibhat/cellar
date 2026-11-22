@@ -66,7 +66,7 @@ export const TASTING: Chapter[] = [
       },
       {
         kind: 'p',
-        text: 'Then swallow or spit, and **count**. The number of seconds the flavour survives has a name and a unit, and measuring it’s the single fastest way to train your attention.',
+        text: 'Then swallow or spit, and **count**. The number of seconds the flavour survives has a name and a unit, and measuring it is the single fastest way to train your attention.',
       },
       {
         kind: 'note',
@@ -92,7 +92,7 @@ export const TASTING: Chapter[] = [
           'Lower your head over the spittoon and let gravity do most of the work.',
           'Suck your cheeks in. Not hard - just enough to aim.',
           'Wipe your mouth.',
-          'Do not be shy about it. Everyone in the room has done it badly.',
+          'Don’t be shy about it. Everyone in the room has done it badly.',
         ],
       },
       {
@@ -192,16 +192,13 @@ export const TASTING: Chapter[] = [
       { kind: 'h', text: 'What each family tells you' },
       {
         kind: 'table',
-        head: [
-          'Family',
-          'Usually indicates',
-        ],
+        head: ['Family', 'Usually indicates'],
         rows: [
           ['Fruity', 'The grape and the climate. Red fruit means cooler, black fruit means warmer, tropical means warmer still.'],
           ['Vegetal / herbal', 'Cooler climate or earlier picking. Capsicum in Cabernet Franc and Sauvignon Blanc is methoxypyrazines.'],
           ['Woody', 'Oak. Vanilla, coconut, clove, toast, smoke - winemaking, not the vineyard.'],
           ['Mineral', 'A real sensation of wet stone, flint or salt, with no agreed explanation for where it comes from.'],
-          ['Smoky', 'Oak toast, or a volcanic site. If it smells of a struck match it is reduction instead, which is a fault - see chapter 8.'],
+          ['Smoky', 'Oak toast, or a volcanic site. If it smells of a struck match it is reduction instead, which is a fault - see chapter eight.'],
           ['Balsamic', 'Age and warmth - resin, pine, dried herb, sometimes eucalyptus.'],
         ],
       },
@@ -214,7 +211,7 @@ export const TASTING: Chapter[] = [
         kind: 'list',
         items: [
           '**Primary** - from the grape. Fruit, flowers, herbs, pepper. Dominates young wine.',
-          '**Secondary** - from fermentation and its handling. Yeasty and bready from lees, buttery from malolactic conversion, vanilla and toast from oak.',
+          '**Secondary** - from fermentation and its handling. Yeasty and bready from lees (the spent yeast), buttery from malolactic conversion, vanilla and toast from oak.',
           '**Tertiary** - from ageing. Leather, mushroom, forest floor, dried fig, tobacco, petrol in Riesling.',
         ],
       },
@@ -241,7 +238,7 @@ export const TASTING: Chapter[] = [
         kind: 'list',
         items: [
           '**Balance** - whether any single component stands out ahead of the others. The most useful judgement available, and the hardest to fake.',
-          '**Length** - how long the flavour lasts after you swallow, counted in seconds. It tracks quality more reliably than anything else you can measure.',
+          '**Length** - how long the flavour lasts after you swallow or spit, counted in seconds. It tracks quality more reliably than anything else you can measure.',
           '**Tannin** - the drying grip, from skins, pips, stems or oak. A texture, not a taste.',
           '**Acidity** - the freshness that makes your mouth water. Predicts both food friendliness and ageing potential.',
         ],
@@ -363,7 +360,7 @@ export const TASTING: Chapter[] = [
       },
       {
         kind: 'p',
-        text: 'It affects a low single digit percentage of cork sealed bottles, and it’s the entire reason New Zealand moved to screwcaps.',
+        text: 'It affects a low single digit percentage of cork sealed bottles, and it’s the main reason New Zealand moved to screwcaps.',
       },
       { kind: 'h', text: 'Oxidation' },
       {

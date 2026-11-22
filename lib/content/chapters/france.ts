@@ -161,11 +161,11 @@ export const FRANCE: Chapter[] = [
       { kind: 'h', text: 'The 1855 classification' },
       {
         kind: 'p',
-        text: 'Napoleon III wanted a ranking of Bordeaux for the Paris Exposition Universelle. The brokers produced one in a matter of weeks, and rather than tasting anything they simply sorted the châteaux by the prices their wines had been fetching. 61 estates were sorted into five growths, from **Premier Cru Classé** down to **Cinquième**.',
+        text: 'Napoleon III wanted a ranking of Bordeaux for the Paris Exposition Universelle. The brokers produced one in a matter of weeks, and rather than tasting anything they simply sorted the châteaux by the prices their wines had been fetching. 58 estates (61 today, after splits) were sorted into five growths, from **Premier Cru Classé** down to **Cinquième**.',
       },
       {
         kind: 'p',
-        text: 'It has been amended exactly once in nearly two centuries: Mouton Rothschild was promoted from second to first growth in 1973, after decades of lobbying and an order signed by the agriculture minister of the day, Jacques Chirac. Its motto had been, wonderfully, "First I cannot be, second I do not deign to be, Mouton I am." Afterwards it became "First I am, second I was, Mouton does not change."',
+        text: 'It has been amended twice in nearly two centuries: Cantemerle was added a year later, and Mouton Rothschild was promoted from second to first growth in 1973, after decades of lobbying and an order signed by the agriculture minister of the day, Jacques Chirac. Its motto had been, wonderfully, "First I cannot be, second I do not deign to be, Mouton I am." Afterwards it became "First I am, second I was, Mouton does not change."',
       },
       {
         kind: 'note',
@@ -174,12 +174,12 @@ export const FRANCE: Chapter[] = [
       },
       {
         kind: 'p',
-        text: 'Note also what it excludes. The 1855 list covers only the Médoc, with a single exception. Haut-Brion, which is in Graves rather than the Médoc, went in anyway because its name and its prices were already long established - Samuel Pepys was drinking it, and writing the name in his diary, in 1663. The entire Right Bank is absent, which is why Pomerol - home to Pétrus, one of the most expensive wines on earth - has no classification at all. Saint-Émilion runs its own classification, revised roughly every decade, and the revisions keep going badly. Estates demoted in the 2012 ranking took it to court. In 2021 the owner of Château Angélus was convicted of unlawful interference in that same ranking: he had chaired both the regional appellation body overseeing it and the growers’ organisation, while consulting for châteaux that were promoted - his own among them, to the top tier. By 2022 two of the four estates at that tier, Cheval Blanc and Ausone, had withdrawn from the classification altogether.',
+        text: 'Note also what it excludes. The 1855 list covers only the Médoc, with a single exception. Haut-Brion, which is in Graves rather than the Médoc, went in anyway because its name and its prices were already long established - Samuel Pepys was drinking it, and writing the name in his diary, in 1663. The entire Right Bank is absent, which is why Pomerol - home to Pétrus, one of the most expensive wines on earth - has no classification at all. Saint-Émilion runs its own classification, and the revisions keep going badly. Estates demoted in the 2012 ranking took it to court. In 2021 the owner of Château Angélus was convicted of unlawful interference in that same ranking: he had chaired both the regional appellation body overseeing it and the growers’ organisation, while consulting for châteaux that were promoted - his own among them, to the top tier. By 2022 three of the four estates at that tier, Cheval Blanc, Ausone and Angélus itself, had withdrawn from the classification altogether.',
       },
       {
         kind: 'note',
         title: 'A rabbit hole, if you have the time',
-        text: 'Saint-Émilion’s classification is the most entertaining mess in wine, and worth an evening of reading on its own. Three attempts at it this century, litigation after them, a criminal conviction over the 2012 ranking, and by 2022 two of the four estates at the top had walked out rather than take part in the next one. It’s the clearest illustration I have found of what happens when a ranking becomes valuable enough to be worth rigging.',
+        text: 'Saint-Émilion’s classification is the most entertaining mess in wine, and worth an evening of reading on its own. It’s the clearest illustration I have found of what happens when a ranking becomes valuable enough to be worth rigging.',
       },
       { kind: 'h', text: 'The whites, and the sweet wines' },
       {
@@ -192,7 +192,7 @@ export const FRANCE: Chapter[] = [
       },
       {
         kind: 'p',
-        text: 'The name I kept running into here is Émile Peynaud. Working at the University of Bordeaux from the 1940s, he reshaped modern winemaking practice - harvesting later, strict selection, control of malolactic conversion - and is, as far as I can tell, the single person most responsible for how a good red wine tastes today.',
+        text: 'The name I kept running into here is Émile Peynaud, the same Peynaud quoted on spitting in chapter six. Working at the University of Bordeaux from the 1940s, he reshaped modern winemaking practice - harvesting later, strict selection, control of malolactic conversion - and is, as far as I can tell, the single person most responsible for how a good red wine tastes today.',
       },
     ],
     quiz: [
@@ -312,7 +312,7 @@ export const FRANCE: Chapter[] = [
     slug: 'rhone-loire-south',
     n: 15,
     part: 'france',
-    title: 'The Rhône, the Loire and the South',
+    title: 'The Rhône, the Loire, Alsace and the South',
     minutes: 5,
     standfirst:
       'One river with two unrelated halves, a thousand kilometres of Loire, and the parts of France that are still cheap.',

@@ -45,7 +45,7 @@ export const PARTS: Part[] = [
     slug: 'france',
     title: 'France',
     blurb:
-      'The country that decided wine should be named after places rather than grapes, and the five regions that argue the case.',
+      'The country that decided wine should be named after places rather than grapes, and the regions that argue the case.',
   },
   {
     numeral: 'VI',
@@ -59,14 +59,14 @@ export const PARTS: Part[] = [
     slug: 'world',
     title: 'The wider world',
     blurb:
-      'Nine countries in one chapter, at the length I can honestly write about them.',
+      'Fourteen countries in one chapter, at the length I can honestly write about them.',
   },
   {
     numeral: 'VIII',
     slug: 'practice',
     title: 'In practice',
     blurb:
-      'Serving, pairing, reading a label, and buying wine without being talked into anything.',
+      'Serving, pairing, reading a label, buying wine without being talked into anything, and what alcohol does to you.',
   },
 ];
 

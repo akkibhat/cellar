@@ -43,7 +43,7 @@ export const NEW_ZEALAND: Chapter[] = [
         rows: [
           ['Area planted', '43,299 ha in 2026, up 1.8% on the year before'],
           ['Produced', 'About 285 million litres from the 2019 harvest'],
-          ['Marlborough’s share of it', '32,191 ha, or 73% of everything planted'],
+          ['Marlborough’s share of it', '32,191 ha, or 74% of everything planted'],
           ['Share of world production', 'Roughly 1%'],
         ],
       },
@@ -288,12 +288,12 @@ export const NEW_ZEALAND: Chapter[] = [
           '**Bannockburn** - the warmest and most concentrated. Dense, structured, dark fruited Pinot. Felton Road is here.',
           '**Gibbston** - the coolest and highest, near Queenstown. Lighter, more floral, higher acid, and the last to ripen.',
           '**Bendigo** - north facing schist slopes, very warm by local standards. Powerful and ripe.',
-          '**Wanaka and Alexandra** - the outer edges. Alexandra is the driest and coldest, giving tight, high acid, red fruited wines.',
+          '**Wanaka and Alexandra** - the outer edges. Alexandra is the driest, with the widest swings, giving tight, high acid, red fruited wines.',
         ],
       },
       {
         kind: 'p',
-        text: 'The unifying soil is **schist**, a hard glittering metamorphic rock, often with wind blown loess - a fine pale silt - over it. Water runs straight through it, which is part of why you can’t grow grapes here without irrigation in a way it’s nowhere else in New Zealand.',
+        text: 'The unifying soil is **schist**, a hard glittering metamorphic rock, often with wind blown loess - a fine pale silt - over it. Water runs straight through it, which is part of why grapes here need irrigation in a way they don’t anywhere else in New Zealand.',
       },
       { kind: 'h', text: 'The other Pinot regions' },
       {
@@ -317,7 +317,7 @@ export const NEW_ZEALAND: Chapter[] = [
       {
         kind: 'note',
         title: 'Producers worth knowing',
-        text: '**Felton Road** at Bannockburn is the benchmark, and the wine usually produced when somebody argues Central Otago belongs in the same conversation as Burgundy. **Rippon**, on its slope above Lake Wanaka, planted early and makes the most singular wine in the region. **Valli** works several sub-regions separately and bottles them apart, which makes it the most useful producer to buy if you want to taste what the sub-regions actually do. **Burn Cottage**, **Quartz Reef**, **Prophet’s Rock**, **Two Paddocks** and **Mt Difficulty** are the others worth seeking out. Four of them - Felton Road, Rippon, Quartz Reef and Burn Cottage - are certified biodynamic, which is a striking concentration for a region this small.',
+        text: '**Felton Road** at Bannockburn is the benchmark, and the wine usually produced when somebody argues Central Otago belongs in the same conversation as Burgundy. **Rippon**, on its slope above Lake Wanaka, planted early and makes the most singular wine in the region. **Burn Cottage**, **Quartz Reef**, **Prophet’s Rock**, **Two Paddocks** and **Mt Difficulty** are the others worth seeking out. Four of them - Felton Road, Rippon, Quartz Reef and Burn Cottage - are certified biodynamic, which is a striking concentration for a region this small.',
       },
     ],
     quiz: [
@@ -363,7 +363,7 @@ export const NEW_ZEALAND: Chapter[] = [
     title: 'Hawke’s Bay and the North Island reds',
     minutes: 3,
     standfirst:
-      'New Zealand’s oldest wine region, and warm enough for Bordeaux blends and Syrah.',
+      'New Zealand’s oldest continuously producing wine region, and warm enough for Bordeaux blends and Syrah.',
     body: [
       {
         kind: 'p',
@@ -393,7 +393,7 @@ export const NEW_ZEALAND: Chapter[] = [
       },
       {
         kind: 'p',
-        text: 'The Syrah deserves emphasis. Cool climate Syrah retains rotundone, the peppery compound, which warm regions burn off. Hawke’s Bay makes it at a fraction of Côte-Rôtie prices, and and it holds up to the comparison.',
+        text: 'The Syrah deserves emphasis. Cool climate Syrah retains rotundone, the peppery compound, which warm regions burn off. Hawke’s Bay makes it at a fraction of Côte-Rôtie prices, and it holds up to the comparison.',
       },
       { kind: 'h', text: 'The rest of the North Island' },
       {

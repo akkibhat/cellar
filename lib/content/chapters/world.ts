@@ -10,7 +10,7 @@ export const WORLD: Chapter[] = [
     title: 'Everywhere else',
     minutes: 4,
     standfirst:
-      'Nine countries at the length I can honestly write about them. Short, because I am still working through it.',
+      'Fourteen countries at the length I can honestly write about them. Short, because I am still working through it.',
     body: [
       {
         kind: 'note',
@@ -76,7 +76,7 @@ export const WORLD: Chapter[] = [
       { kind: 'h', text: 'Australia' },
       {
         kind: 'p',
-        text: 'Home to some of the oldest producing vines anywhere. Because phylloxera never reached South Australia, Barossa vineyards planted in the 1840s are still cropping on their original roots, which barely exists in Europe.',
+        text: 'Home to some of the oldest producing vines anywhere. Because phylloxera never reached South Australia, Barossa vineyards planted in the 1840s are still cropping on their original roots, something that barely exists in Europe.',
       },
       {
         kind: 'list',
