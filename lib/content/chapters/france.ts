@@ -336,7 +336,7 @@ export const FRANCE: Chapter[] = [
       },
       {
         kind: 'p',
-        text: 'Châteauneuf’s vineyards are covered in *galets* - large smooth stones deposited by an ancient glacier - which store the day’s heat and radiate it back overnight. It’s also the birthplace of the AOC system: Baron Le Roy drew up its rules in 1923, and they became the template France adopted nationally 12 years later.',
+        text: 'Châteauneuf’s vineyards are covered in *galets* - large stones from the Alps, rolled smooth and carried down by the Rhône - which store the day’s heat and radiate it back overnight. It’s also the birthplace of the AOC system: Baron Le Roy drew up its rules in 1923, and they became the template France adopted nationally 12 years later.',
       },
       {
         kind: 'p',
@@ -345,7 +345,7 @@ export const FRANCE: Chapter[] = [
       {
         kind: 'note',
         title: 'The mistral',
-        text: 'A cold dry wind that funnels down the valley for around 100 days a year, hard enough to bend trees permanently. It’s a nuisance to work in and a genuine asset: it dries the vines after rain, suppressing rot, and lets growers farm organically far more easily than the damp Atlantic regions can.',
+        text: 'A cold dry wind that funnels down the valley for well over 100 days a year, hard enough to bend trees permanently. It’s a nuisance to work in and a genuine asset: it dries the vines after rain, suppressing rot, and lets growers farm organically far more easily than the damp Atlantic regions can.',
       },
       { kind: 'h', text: 'The Loire' },
       {

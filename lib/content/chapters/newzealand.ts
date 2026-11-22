@@ -67,7 +67,7 @@ export const NEW_ZEALAND: Chapter[] = [
       },
       {
         kind: 'p',
-        text: 'Put another way: 82% of every white vine in the country is Sauvignon Blanc, and about 77% of every red vine is Pinot Noir. Three quarters of the Sauvignon Blanc is in Marlborough alone. Syrah - the variety I would argue is New Zealand’s most underrated red - sits near the bottom on under 500 hectares. The figures are rounded from New Zealand Winegrowers’ 2026 annual report, and the percentages are mine.',
+        text: 'Put another way: 82% of every white vine in the country is Sauvignon Blanc, and about 77% of every red vine is Pinot Noir. Nearly nine tenths of the Sauvignon Blanc is in Marlborough alone. Syrah - the variety I would argue is New Zealand’s most underrated red - sits near the bottom on under 500 hectares. The figures are rounded from New Zealand Winegrowers’ 2026 annual report, and the percentages are mine.',
       },
       {
         kind: 'table',
