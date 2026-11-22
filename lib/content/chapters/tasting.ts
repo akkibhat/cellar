@@ -87,7 +87,7 @@ export const TASTING: Chapter[] = [
       {
         kind: 'steps',
         items: [
-          'Dress like you might be photographed - you won’t be, but you commit harder when you aren’t worried about your shirt.',
+          'Wear something you don’t mind getting splashed - you commit harder when you aren’t worried about your shirt.',
           'Hold the glass properly, and taste the wine.',
           'Lower your head over the spittoon and let gravity do most of the work.',
           'Suck your cheeks in. Not hard - just enough to aim.',

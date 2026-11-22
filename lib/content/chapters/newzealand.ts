@@ -42,7 +42,7 @@ export const NEW_ZEALAND: Chapter[] = [
         head: ['', 'Figure'],
         rows: [
           ['Area planted', '43,299 ha in 2026, up 1.8% on the year before'],
-          ['Produced', 'About 285 million litres from the 2019 harvest'],
+          ['Produced', 'About 317 million litres from the 2026 harvest'],
           ['Marlborough’s share of it', '32,191 ha, or 74% of everything planted'],
           ['Share of world production', 'Roughly 1%'],
         ],
